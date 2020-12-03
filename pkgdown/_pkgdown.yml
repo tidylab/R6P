@@ -24,10 +24,10 @@ authors:
 #
 # # Functions ---------------------------------------------------------------
 # reference:
-# - title: Deploy ddd Classes and Types
-#   desc: Call `use_ddd` at the project outset. Only use once per project.
+# - title: Deploy R6P Classes and Types
+#   desc: Call `use_R6P` at the project outset. Only use once per project.
 #   contents:
-#   - 'use_ddd'
+#   - 'use_R6P'
 # - title: Add Domain Objects
 #   contents:
 #   - 'add_entity'

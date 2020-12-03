@@ -5,7 +5,6 @@ suppressPackageStartupMessages(
         pkgload::load_all(export_all = !FALSE, helpers = FALSE, quiet = TRUE, warn_conflicts = FALSE)
     )
 )
-filename <- ddd:::filename
 
 # global options ----------------------------------------------------------
 options(tidyverse.quiet = TRUE)
