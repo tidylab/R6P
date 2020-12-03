@@ -28,3 +28,6 @@
 ^R6P\.Rproj$
 ^vignettes/articles$
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

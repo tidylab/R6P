@@ -1,0 +1,39 @@
+url: https://tidylab.github.io/R6P/
+
+# template:
+#   params:
+#     docsearch:
+#       api_key: 1cd55a1cf3bcf6d0b863fee2aedf4112
+#       index_name: domain-driven-design
+#
+title: "Design Patterns in R"
+authors:
+  Harel Lustiger:
+    href: https://github.com/harell
+#
+# # Articles ----------------------------------------------------------------
+# articles:
+# # - title: Domain Driven Design Philosophy
+# #   contents:
+# #   - articles/what-is-domain-driven-design
+# - title: Domain Driven Design Patterns
+#   contents:
+#   - '`articles/add_entity`'
+#   - '`articles/add_value_object`'
+#   - '`articles/add_domain_service`'
+#
+# # Functions ---------------------------------------------------------------
+# reference:
+# - title: Deploy ddd Classes and Types
+#   desc: Call `use_ddd` at the project outset. Only use once per project.
+#   contents:
+#   - 'use_ddd'
+# - title: Add Domain Objects
+#   contents:
+#   - 'add_entity'
+#   - 'add_value_object'
+#   - 'add_domain_service'
+# - title: Software Design Patterns
+#   contents:
+#   - 'Singleton'
+#   - starts_with("Abstract")

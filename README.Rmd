@@ -15,11 +15,11 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 [![R build status](https://github.com/tidylab/R6P/workflows/R-CMD-check/badge.svg)](https://github.com/tidylab/R6P/actions)
 <!-- badges: end -->
 
-Design patterns solve the preceding problems in the most elegant way. Design
-patterns abstract and present in neat, well-defined components and interfaces
-the experience of many software designers and architects over many years of
-solving similar problems. These are solutions that have withstood the test of
-time with respect to reusability, flexibility, scalability, and maintainability.
+Design patterns abstract and present in neat, well-defined components and
+interfaces the experience of many software designers and architects over many
+years of solving similar problems. These are solutions that have withstood the
+test of time with respect to reusability, flexibility, scalability, and
+maintainability.
 
 ## Installation
 
