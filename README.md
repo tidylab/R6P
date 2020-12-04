@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-`R6P` <img src="https://github.com/tidylab/R6P/blob/master/pkgdown/logo.png" align="right" height="75"/>
-========================================================================================================
+`R6P` <img src="https://raw.githubusercontent.com/tidylab/R6P/master/pkgdown/logo.png" align="right" height="75"/>
+==================================================================================================================
 
 <!-- badges: start -->
 
