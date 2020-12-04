@@ -4,19 +4,28 @@
 #' @references \href{Wikipedia}{https://en.wikipedia.org/wiki/Singleton_pattern}
 #' @family creational design patterns
 #' @export
-Singleton <- R6::R6Class("Singleton", public = list(
+Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
     #' @description Create or retrieve an object
     initialize = function(){
-        classname  <- gsub("\\$new\\(.*\\)", "", deparse(sys.calls()[[sys.nframe()-1]]))
+        classname <- gsub("\\$new\\(.*\\)", "", deparse(sys.calls()[[sys.nframe()-1]]))
+        if(classname == "Singleton") stop(paste(classname, "is an abstract base class and therefore cannot be instantiated directly"))
+        if(is.null(private$public_bind_env)){
+            classname <- gsub("\\$new\\(.*\\)", "", deparse(sys.calls()[[sys.nframe()-1]]))
+            Class <- base::get(classname)
 
-        if(is.null(private$instance)){
-            command <- paste0(classname, "$set('private', 'instance', self, overwrite = TRUE)")
-            eval(parse(text = command))
-            private$instance <- self
-        } else {
+            private$public_bind_env <- base::get("public_bind_env", envir = parent.frame(1))
+            private$private_bind_env <- base::get("private_bind_env", envir = parent.frame(1))
+
+            Class$set('private', 'public_bind_env', private$public_bind_env, overwrite = TRUE)
+            Class$set('private', 'private_bind_env', private$private_bind_env, overwrite = TRUE)
+
+            } else {
             self <- private$instance
+            assign("public_bind_env", private$public_bind_env, envir = parent.frame(1))
+            assign("private_bind_env", private$private_bind_env, envir = parent.frame(1))
         }
     }
 ), private = list(
-    instance = NULL
+    public_bind_env = NULL,
+    private_bind_env = NULL
 ))

@@ -6,26 +6,23 @@ testthat::setup({
 })
 
 # General -----------------------------------------------------------------
-test_that("calling Singleton$new instantiates identical objects", {
-    attach(test_env)
-    expect_is(singleton1 <- Singleton$new(), "Singleton")
-    expect_is(singleton2 <- Singleton$new(), "Singleton")
-    expect_equal(singleton1, singleton2)
+test_that("calling Singleton$new fails because it cannot be instantiated directly", {
+    expect_error(Singleton$new())
 })
 
-#' @examples
-#' # Example: A Counter Implementation
-#' Counter <- R6::R6Class(inherit = Singleton, public = list(
-#'     count = 0,
-#'     add_1 = function(){self$count = self$count + 1; invisible(self)}
-#' ))
-#'
-#' counter <- Counter$new()
-#' counter$count
-#' counter$add_1()$count
-#' counter$add_1()$count
-#'
-#' retrieved_conter <- Counter$new()
-#' retrieved_conter$count
-#'
-#' rm(retrieved_conter)
+
+# Implementation ----------------------------------------------------------
+test_that("instantiating of multiple objects of the same Singleton are identical", {
+    attach(test_env)
+    Counter <<- R6::R6Class(classname = "Counter", inherit = Singleton, public = list(
+        count = 0,
+        add_1 = function(){self$count = self$count + 1; invisible(self)}
+    ))
+
+    expect_is(counter_1 <- Counter$new(), "Singleton")
+    expect_is(counter_2 <- Counter$new(), "Counter")
+    expect_identical(counter_1, counter_2)
+
+    counter_1$add_1()
+    expect_equal(counter_1$count, counter_2$count)
+})
