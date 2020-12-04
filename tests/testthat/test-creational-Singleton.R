@@ -7,9 +7,9 @@ testthat::setup({
 
 # General -----------------------------------------------------------------
 test_that("calling Singleton$new fails because it cannot be instantiated directly", {
+    attach(test_env)
     expect_error(Singleton$new())
 })
-
 
 # Implementation ----------------------------------------------------------
 test_that("instantiating of multiple objects of the same Singleton are identical", {
@@ -25,4 +25,15 @@ test_that("instantiating of multiple objects of the same Singleton are identical
 
     counter_1$add_1()
     expect_equal(counter_1$count, counter_2$count)
+})
+
+# Implementation ----------------------------------------------------------
+test_that("instantiating of multiple objects of the different Singleton are not identical", {
+    attach(test_env)
+    SingletonA <<- R6::R6Class(classname = "SingletonA", inherit = Singleton, public = list(uid = "A"))
+    SingletonB <<- R6::R6Class(classname = "SingletonB", inherit = Singleton, public = list(uid = "B"))
+
+    expect_is(singleton_A <- SingletonA$new(), "Singleton")
+    expect_is(singleton_B <- SingletonB$new(), "Singleton")
+    expect_false(identical(singleton_A, singleton_B))
 })
