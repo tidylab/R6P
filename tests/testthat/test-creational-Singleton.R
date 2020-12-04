@@ -6,8 +6,9 @@ testthat::setup({
 })
 
 # General -----------------------------------------------------------------
-test_that("calling Singleton$new instantiates an object", {
+test_that("calling Singleton$new instantiates identical objects", {
     attach(test_env)
-    expect_is(obj <- Singleton$new(), "Singleton")
-    test_env$obj <- obj
+    expect_is(singleton1 <- Singleton$new(), "Singleton")
+    expect_is(singleton2 <- Singleton$new(), "Singleton")
+    expect_equal(singleton1, singleton2)
 })
