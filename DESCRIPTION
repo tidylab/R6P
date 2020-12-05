@@ -22,7 +22,8 @@ Depends:
     R (>= 3.5)
 Suggests: 
     rmarkdown,
-    testthat
+    testthat,
+    covr
 Imports: 
     R6,
     purrr,
