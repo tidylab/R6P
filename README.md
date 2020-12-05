@@ -9,6 +9,7 @@
 status](https://www.r-pkg.org/badges/version/R6P)](https://CRAN.R-project.org/package=R6P)
 [![R build
 status](https://github.com/tidylab/R6P/workflows/R-CMD-check/badge.svg)](https://github.com/tidylab/R6P/actions)
+[![codecov](https://codecov.io/gh/tidylab/R6P/branch/master/graph/badge.svg?token=U6FL5N32FL)](https://codecov.io/gh/tidylab/R6P)
 <!-- badges: end -->
 
 Design patterns abstract and present in neat, well-defined components

@@ -1,6 +1,8 @@
 #' @title Singleton Pattern
 #' @description Ensure a class only has one instance, and provide a global point
 #'   of access to it.
+#' @references \href{Wikipedia}{https://en.wikipedia.org/wiki/Singleton_pattern}
+#' @family creational design patterns
 #' @examples
 #' # Example: A Counter Implementation
 #' Counter <- R6::R6Class(inherit = Singleton, public = list(
@@ -16,20 +18,29 @@
 #' retrieved_conter <- Counter$new()
 #' retrieved_conter$count
 #'
-#' rm(retrieved_conter)
-#' @references \href{Wikipedia}{https://en.wikipedia.org/wiki/Singleton_pattern}
-#' @family creational design patterns
 #' @export
-Singleton <- R6::R6Class("Singleton", public = list(
+Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
     #' @description Create or retrieve an object
     initialize = function(){
-        if(is.null(private$instance)){
-            Singleton$set("private", "instance", self, overwrite = TRUE)
-            private$instance <- self
-        } else {
+        classname <- get_classname()
+        if(classname == "Singleton") stop(paste(classname, "is an abstract base class and therefore cannot be instantiated directly"))
+        if(is.null(private$public_bind_env)){
+            Class <- base::get(classname)
+
+            private$public_bind_env <- base::dynGet("public_bind_env")
+            private$private_bind_env <- base::dynGet("private_bind_env")
+
+            Class$set('private', 'public_bind_env', private$public_bind_env, overwrite = TRUE)
+            Class$set('private', 'private_bind_env', private$private_bind_env, overwrite = TRUE)
+
+            } else {
             self <- private$instance
+            dynSet("public_bind_env", private$public_bind_env)
+            dynSet("private_bind_env", private$private_bind_env)
         }
     }
 ), private = list(
-    instance = NULL
+    public_bind_env = NULL,
+    private_bind_env = NULL
 ))
+

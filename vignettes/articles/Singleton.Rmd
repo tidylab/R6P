@@ -1,0 +1,66 @@
+---
+title: "The Singleton Pattern"
+bibliography: [../references.bib]
+biblio-style: apalike
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+```
+
+## Intent
+
+## Motivation
+
+## Examples
+
+### Counter
+
+```{r Singleton-Counter-implementation, echo=TRUE, results='hold'}
+Counter <- R6::R6Class(inherit = Singleton, public = list(
+    count = 0,
+    add_1 = function(){self$count = self$count + 1; invisible(self)}
+))
+```
+
+```{r Singleton-Counter-instantiation, echo=TRUE, results='markup'}
+counter_A <- Counter$new()
+counter_A$count
+counter_A$add_1()$count
+
+counter_B <- Counter$new()
+counter_B$count
+
+identical(counter_A, counter_B)
+```
+
+### Data Transfer Object (DTO)
+
+```{r Singleton-DTO-implementation, echo=TRUE, results='hold', eval=FALSE}
+# Implementation ----------------------------------------------------------
+DTO <- R6::R6Class(classname = "DTO", inherit = Singleton, public = list(
+    con = NULL,
+    initialize = function(){
+        super$initialize()
+        self$establish_connection()
+    },
+    establish_connection = function(){
+        self$con <- DBI::dbConnect(RSQLite::SQLite(), dbname = ":memory:")
+        return(self)
+    },
+    dbSendQuery = function(statement){
+        res <- DBI::dbSendQuery(self$con, statement)
+        return(res)
+    }
+))
+```
+
+```{r Singleton-DTO-instantiation, echo=TRUE, results='markup', eval=FALSE}
+database_A <- DTO$new()
+database_B <- DTO$new()
+identical(database_A, database_B)
+```

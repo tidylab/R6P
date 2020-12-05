@@ -11,6 +11,7 @@
 \.gitkeep
 ^data-raw/
 ^docs/
+^inst/snippets/
 ^renv/
 ^pkgdown/
 ^vignettes/articles/
@@ -26,7 +27,6 @@
 ^vignettes/_common.R$
 ^vignettes/references.bib$
 ^R6P\.Rproj$
-^vignettes/articles$
 ^\.github$
 ^_pkgdown\.yml$
 ^docs$
