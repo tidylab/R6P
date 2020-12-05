@@ -17,4 +17,12 @@ reference:
     Creational design patterns abstract the instantiation process.
   contents:
   - 'Singleton'
+- title: Object-Relational Metadata Mapping Patterns
+  desc: >
+    Simplify access to data stored in persistent storage of some kind.
+  contents:
+  - 'AbstractRepository'
+- title: Object-Relational Behavioral Patterns
+  contents:
+  # - 'AbstractUnitOfWork'
 
