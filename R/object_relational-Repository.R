@@ -1,13 +1,21 @@
 #' @title Repository Pattern
 #' @description Mediates between the domain and data mapping layers using a
 #'   collection-like interface for accessing domain objects.
+#' @param key (`character`) Name of the element.
+#' @param value (`?`) Value of the element. Note: The values in the
+#'   \code{Repository} are not necessarily of the same type. That depends on the
+#'   implementation of \code{AbstractRepository}.
 #' @references \url{https://martinfowler.com/eaaCatalog/repository.html}
 #' @family object-relational patterns
 #' @export
 AbstractRepository <- R6::R6Class("Repository", cloneable = FALSE, public = list(
-    #' @description Create or retrieve an object
-    initialize = function(){
-        stop()
-    }
+    #' @description Instantiate an object
+    initialize = function() stop("NotImplementedError"),
+    #' @description Add an element to the Repository.
+    add = function(key, value) stop("NotImplementedError"),
+    #' @description Delete an element from the Repository.
+    del = function(key) stop("NotImplementedError"),
+    #' @description Retrieve an element from the Repository.
+    get = function(key) stop("NotImplementedError")
 ))
 
