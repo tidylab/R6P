@@ -22,14 +22,13 @@
 Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
     #' @description Create or retrieve an object
     initialize = function(){
-        classname <- gsub("\\$new\\(.*\\)", "", deparse(sys.calls()[[sys.nframe()-1]]))
+        classname <- get_classname()
         if(classname == "Singleton") stop(paste(classname, "is an abstract base class and therefore cannot be instantiated directly"))
         if(is.null(private$public_bind_env)){
-            classname <- gsub("\\$new\\(.*\\)", "", deparse(sys.calls()[[sys.nframe()-1]]))
             Class <- base::get(classname)
 
-            private$public_bind_env <- base::get("public_bind_env", envir = parent.frame(1))
-            private$private_bind_env <- base::get("private_bind_env", envir = parent.frame(1))
+            private$public_bind_env <- base::dynGet("public_bind_env")
+            private$private_bind_env <- base::dynGet("private_bind_env")
 
             Class$set('private', 'public_bind_env', private$public_bind_env, overwrite = TRUE)
             Class$set('private', 'private_bind_env', private$private_bind_env, overwrite = TRUE)
