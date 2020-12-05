@@ -20,7 +20,7 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 ### Counter
 
-```{r Singleton-Counter-implementation, echo=TRUE, results='hold'}
+```{r Singleton-Counter-implementation, echo=TRUE, results='markup'}
 Counter <- R6::R6Class(inherit = Singleton, public = list(
     count = 0,
     add_1 = function(){self$count = self$count + 1; invisible(self)}
@@ -41,7 +41,6 @@ identical(counter_A, counter_B)
 ### Data Transfer Object (DTO)
 
 ```{r Singleton-DTO-implementation, echo=TRUE, results='hold', eval=FALSE}
-# Implementation ----------------------------------------------------------
 DTO <- R6::R6Class(classname = "DTO", inherit = Singleton, public = list(
     con = NULL,
     initialize = function(){
