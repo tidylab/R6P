@@ -1,7 +1,7 @@
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `R6P` <img src="https://raw.githubusercontent.com/tidylab/R6P/master/pkgdown/logo.png" align="right" height="75"/>
+`R6P` <img src="https://raw.githubusercontent.com/tidylab/R6P/master/pkgdown/logo.png" align="right" height="75"/>
+==================================================================================================================
 
 <!-- badges: start -->
 
@@ -18,18 +18,15 @@ over many years of solving similar problems. These are solutions that
 have withstood the test of time with respect to reusability,
 flexibility, scalability, and maintainability.
 
-## Installation
+Installation
+------------
 
 You can install the released version of R6P from
 [CRAN](https://CRAN.R-project.org) with:
 
-``` r
-install.packages("R6P")
-```
+    install.packages("R6P")
 
 And the development version from [GitHub](https://github.com/) with:
 
-``` r
-# install.packages("devtools")
-devtools::install_github("tidylab/R6P")
-```
+    # install.packages("devtools")
+    devtools::install_github("tidylab/R6P")

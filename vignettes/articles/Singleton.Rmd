@@ -12,5 +12,29 @@ editor_options:
 source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ```
 
-## Singleton?
+## Intent
+
+## Motivation
+
+## Examples
+
+### Counter
+
+```{r Singleton-Counter-implementation, echo=TRUE, results='hold'}
+Counter <- R6::R6Class(inherit = Singleton, public = list(
+    count = 0,
+    add_1 = function(){self$count = self$count + 1; invisible(self)}
+))
+```
+
+```{r Singleton-Counter-instantiation, echo=TRUE, results='markup'}
+counter_A <- Counter$new()
+counter_A$count
+counter_A$add_1()$count
+
+counter_B <- Counter$new()
+counter_B$count
+
+identical(counter_A, counter_B)
+```
 
