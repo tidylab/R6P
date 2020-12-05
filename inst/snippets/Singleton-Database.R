@@ -8,8 +8,8 @@ pkgload::load_all()
 DTO <- R6::R6Class(classname = "DTO", inherit = Singleton, public = list(
     con = NULL,
     initialize = function(){
-        self$establish_connection()
         super$initialize()
+    #     self$establish_connection()
     },
     establish_connection = function(){
         self$con <- DBI::dbConnect(RSQLite::SQLite(), dbname = ":memory:")
@@ -27,3 +27,9 @@ database_A <- DTO$new()
 database_B <- DTO$new()
 
 identical(database_A, database_B)
+
+
+database_A$establish_connection()
+database_B$con
+
+database_A$con

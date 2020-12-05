@@ -25,7 +25,22 @@ test_that("instantiating of multiple objects of the same Singleton are identical
     expect_equal(counter_1$count, counter_2$count)
 })
 
-# Implementation ----------------------------------------------------------
+test_that("instantiating of multiple objects of the same Singleton with superclass", {
+    attach(test_env)
+    SuperCounter <<- R6::R6Class(classname = "SuperCounter", inherit = Singleton, public = list(
+        count = 0,
+        add_1 = function(){self$count = self$count + 1; invisible(self)},
+        initialize = function(){super$initialize()}
+    ))
+
+    expect_is(counter_1 <- SuperCounter$new(), "Singleton")
+    expect_is(counter_2 <- SuperCounter$new(), "SuperCounter")
+    expect_identical(counter_1, counter_2)
+
+    counter_1$add_1()
+    expect_equal(counter_1$count, counter_2$count)
+})
+
 test_that("instantiating of multiple objects of the different Singleton are not identical", {
     attach(test_env)
     SingletonA <<- R6::R6Class(classname = "SingletonA", inherit = Singleton, public = list(uid = "A"))
@@ -35,3 +50,5 @@ test_that("instantiating of multiple objects of the different Singleton are not 
     expect_is(singleton_B <- SingletonB$new(), "Singleton")
     expect_false(identical(singleton_A, singleton_B))
 })
+
+

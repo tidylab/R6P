@@ -35,11 +35,12 @@ Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
 
             } else {
             self <- private$instance
-            assign("public_bind_env", private$public_bind_env, envir = parent.frame(1))
-            assign("private_bind_env", private$private_bind_env, envir = parent.frame(1))
+            dynSet("public_bind_env", private$public_bind_env)
+            dynSet("private_bind_env", private$private_bind_env)
         }
     }
 ), private = list(
     public_bind_env = NULL,
     private_bind_env = NULL
 ))
+
