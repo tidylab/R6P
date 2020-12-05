@@ -1,0 +1,41 @@
+---
+title: "The Repository Pattern"
+bibliography: [../references.bib]
+biblio-style: apalike
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+```
+
+## Examples
+
+### Fake Repository
+
+```{r Repository-Fake-implementation, echo=TRUE, results='markup'}
+FakeRepository <- R6::R6Class(
+  classname = "Repository", inherit = AbstractRepository, public = list(
+    initialize = function() private$cars <- collections::dict(),
+    add = function(key, value){private$cars$set(key, value); return(self)},
+    del = function(key){private$cars$remove(key); return(self)},
+    get = function(key){return(private$cars$get(key, default = NULL))}
+  ), private = list(
+    cars = NULL)
+)
+```
+
+```{r Repository-Fake-instantiation, echo=TRUE, results='markup'}
+repository <- FakeRepository$new()
+
+repository$add(key = rownames(mtcars[1,]), value = mtcars[1,])
+
+repository$get(key = rownames(mtcars[1,]))
+
+repository$del(key = rownames(mtcars[1,]))
+
+repository$get(key = rownames(mtcars[1,]))
+```

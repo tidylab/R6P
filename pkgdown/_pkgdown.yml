@@ -9,6 +9,9 @@ articles:
 - title: Creational Patterns
   contents:
   - '`articles/Singleton`'
+- title: Object-Relational Patterns
+  contents:
+  - '`articles/Repository`'
 
 # Functions ---------------------------------------------------------------
 reference:
@@ -22,7 +25,7 @@ reference:
     Simplify access to data stored in persistent storage of some kind.
   contents:
   - 'AbstractRepository'
-- title: Object-Relational Behavioral Patterns
-  contents:
-  # - 'AbstractUnitOfWork'
+# - title: Object-Relational Behavioral Patterns
+#   contents:
+#   - 'AbstractUnitOfWork'
 
