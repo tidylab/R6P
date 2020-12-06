@@ -1,3 +1,4 @@
+# Helper Functions --------------------------------------------------------
 get_classname <- function(){
     calls <- as.character(sys.calls())
     calls <- calls[max(which(stringr::str_detect(calls, "\\$new\\(.*\\)")))]
@@ -14,5 +15,16 @@ dynSet <- function(key, value){
             assign(key, value, envir = parent.frame(i))
 
     return()
+}
+
+# Exception Handling ------------------------------------------------------
+#' @title Exception Handling
+#' @keywords internal
+#' @noRd
+exceptions <- new.env()
+
+exceptions$not_implemented_error <- function() {
+    caller_name <- deparse(sys.calls()[[sys.nframe()-2]])
+    stop(paste(caller_name, "is not implmented"))
 }
 

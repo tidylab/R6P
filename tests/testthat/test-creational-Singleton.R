@@ -51,4 +51,15 @@ test_that("instantiating of multiple objects of the different Singleton are not 
     expect_false(identical(singleton_A, singleton_B))
 })
 
+# test_that("inheriting Singleton takes the last class name", {
+#     attach(test_env)
+#     Level1Class <<- R6::R6Class(classname = "Level1", inherit = Singleton, public = list(uid = "A"))
+#     expect_is(level1 <- Level1Class$new(), "Level1")
+#
+#     Level2Class <<- R6::R6Class(classname = "Level2", inherit = Level1Class, public = list(uid = "A"))
+#     expect_is(level2 <- Level2Class$new(), "Level2")
+#
+#     expect_false(identical(level1, level2))
+# })
+
 

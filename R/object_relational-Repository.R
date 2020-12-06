@@ -10,12 +10,12 @@
 #' @export
 AbstractRepository <- R6::R6Class("Repository", cloneable = FALSE, public = list(
     #' @description Instantiate an object
-    initialize = function() stop("NotImplementedError"),
+    initialize = function() exceptions$not_implemented_error(),
     #' @description Add an element to the Repository.
-    add = function(key, value) stop("NotImplementedError"),
+    add = function(key, value) exceptions$not_implemented_error(),
     #' @description Delete an element from the Repository.
-    del = function(key) stop("NotImplementedError"),
+    del = function(key) exceptions$not_implemented_error(),
     #' @description Retrieve an element from the Repository.
-    get = function(key) stop("NotImplementedError")
+    get = function(key) exceptions$not_implemented_error()
 ))
 
