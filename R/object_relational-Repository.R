@@ -8,6 +8,7 @@
 #' @references \url{https://martinfowler.com/eaaCatalog/repository.html}
 #' @family object-relational patterns
 #' @export
+# nocov start
 AbstractRepository <- R6::R6Class("Repository", cloneable = FALSE, public = list(
     #' @description Instantiate an object
     initialize = function() exceptions$not_implemented_error(),
@@ -18,4 +19,5 @@ AbstractRepository <- R6::R6Class("Repository", cloneable = FALSE, public = list
     #' @description Retrieve an element from the Repository.
     get = function(key) exceptions$not_implemented_error()
 ))
+# nocov end
 
