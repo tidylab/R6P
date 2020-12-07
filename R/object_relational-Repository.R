@@ -6,9 +6,7 @@
 #' @param value (`?`) Value of the element. Note: The values in the
 #'   \code{Repository} are not necessarily of the same type. That depends on the
 #'   implementation of \code{AbstractRepository}.
-#' @references {
-#' \insertAllCited{}
-#' }
+#' @references {\insertAllCited{}}
 #' @family object-relational patterns
 #' @export
 # nocov start

@@ -1,8 +1,6 @@
 #' @title Unit Of Work Pattern
 #' @description \insertCite{Fowler2002;textual}{R6P}, p. 184.
-#' @references {
-#' \insertAllCited{}
-#' }
+#' @references {\insertAllCited{}}
 #' @family object-relational patterns
 #' @export
 # nocov start
