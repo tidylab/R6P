@@ -1,7 +1,7 @@
 Version: 1.0
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
+RestoreWorkspace: No
+SaveWorkspace: No
 AlwaysSaveHistory: Default
 
 EnableCodeIndexing: Yes
@@ -9,7 +9,7 @@ UseSpacesForTab: Yes
 NumSpacesForTab: 4
 Encoding: UTF-8
 
-RnwWeave: Sweave
+RnwWeave: knitr
 LaTeX: pdfLaTeX
 
 AutoAppendNewline: Yes
@@ -18,4 +18,10 @@ StripTrailingWhitespace: Yes
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
-PackageRoxygenize: rd,collate,namespace
+PackageCheckArgs: --as-cran
+PackageRoxygenize: rd,collate,namespace,vignette
+
+MarkdownReferences: Section
+MarkdownCanonical: No
+
+SpellingDictionary: en_AU

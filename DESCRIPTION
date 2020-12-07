@@ -3,7 +3,7 @@ Type: Package
 Title: Design Patterns in R
 URL: https://tidylab.github.io/R6P/, https://github.com/tidylab/R6P
 BugReports: https://github.com/tidylab/R6P/issues
-Version: 0.0.1
+Version: 0.0.2
 Date: 2020-07-25
 Authors@R: c(
     person("Harel", "Lustiger", email = "tidylab@gmail.com", role = c("aut", "cre"),
@@ -18,7 +18,17 @@ LazyData: true
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 Language: en-GB
+RdMacros: Rdpack
 Depends: 
     R (>= 3.5)
 Suggests: 
-    rmarkdown
+    rmarkdown,
+    testthat,
+    covr,
+    collections
+Imports: 
+    R6,
+    purrr,
+    stringr,
+    fs,
+    Rdpack

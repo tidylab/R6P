@@ -1,0 +1,47 @@
+---
+title: "The Repository Pattern"
+bibliography: [../../inst/REFERENCES.bib]
+biblio-style: apalike
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+```
+
+## Examples
+
+### Fake Repository
+
+```{r Repository-Fake-implementation, echo=TRUE, results='markup'}
+FakeRepository <- R6::R6Class(
+  classname = "Repository", inherit = AbstractRepository, public = list(
+    initialize = function() private$cars <- collections::dict(),
+    add = function(key, value){private$cars$set(key, value); invisible(self)},
+    del = function(key){private$cars$remove(key); invisible(self)},
+    get = function(key){return(private$cars$get(key, default = NULL))}
+  ), private = list(
+    cars = NULL)
+)
+
+FakeRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
+  private$cars$values() %>% dplyr::bind_rows()
+})
+```
+
+```{r Repository-Fake-instantiation, echo=TRUE, results='markup'}
+repository <- FakeRepository$new()
+
+repository$add(key = rownames(mtcars[1,]), value = mtcars[1,])
+repository$add(key = rownames(mtcars[2,]), value = mtcars[2,])
+
+repository$get(key = rownames(mtcars[1,]))
+
+repository$get_all_cars()
+
+repository$del(key = rownames(mtcars[1,]))
+repository$get(key = rownames(mtcars[1,]))
+```
