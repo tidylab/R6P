@@ -41,6 +41,7 @@ jobs:
       - name: Install dependencies
         run: |
           # To get links for homepage
+          remotes::install_cran(c("tidyverse"))
           remotes::install_cran(c("devtools", "pkgdown", "covr"))
           remotes::update_packages("pkgdown")
           remotes::install_deps(dependencies = TRUE)
