@@ -3,4 +3,25 @@
   <url>
     <loc>https://tidylab.github.io/R6P//index.html</loc>
   </url>
+  <url>
+    <loc>https://tidylab.github.io/R6P//reference/AbstractRepository.html</loc>
+  </url>
+  <url>
+    <loc>https://tidylab.github.io/R6P//reference/AbstractUnitOfWork.html</loc>
+  </url>
+  <url>
+    <loc>https://tidylab.github.io/R6P//reference/R6P-package.html</loc>
+  </url>
+  <url>
+    <loc>https://tidylab.github.io/R6P//reference/Singleton.html</loc>
+  </url>
+  <url>
+    <loc>https://tidylab.github.io/R6P//reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://tidylab.github.io/R6P//articles/articles/Repository.html</loc>
+  </url>
+  <url>
+    <loc>https://tidylab.github.io/R6P//articles/articles/Singleton.html</loc>
+  </url>
 </urlset>

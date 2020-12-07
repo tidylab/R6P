@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • Design Patterns in R</title>
+<title>Repository Pattern — AbstractRepository • Design Patterns in R</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,11 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Repository Pattern — AbstractRepository" />
+<meta property="og:description" content="Mediates between the domain and data mapping layers using a
+collection-like interface for accessing domain objects.
+See Fowler (2002)
+, p. 322." />
 
 
 
@@ -65,7 +69,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -115,67 +119,94 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Repository Pattern</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidylab/R6P/blob/master/R/object_relational-Repository.R'><code>R/object_relational-Repository.R</code></a></small>
+    <div class="hidden name"><code>AbstractRepository.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Mediates between the domain and data mapping layers using a
+collection-like interface for accessing domain objects.
+See Fowler (2002)
+, p. 322.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-creational-patterns" class="hasAnchor"><a href="#section-creational-patterns" class="anchor"></a>Creational Patterns</h2>
-          <p class="section-desc"><p>Creational design patterns abstract the instantiation process.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="Singleton.html">Singleton</a></code> </p>
-        </td>
-        <td><p>Singleton Pattern</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-object-relational-patterns" class="hasAnchor"><a href="#section-object-relational-patterns" class="anchor"></a>Object-Relational Patterns</h2>
-          <p class="section-desc"><p>Simplify access to data stored in persistent storage of some kind.</p></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="AbstractRepository.html">AbstractRepository</a></code> </p>
-        </td>
-        <td><p>Repository Pattern</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="AbstractUnitOfWork.html">AbstractUnitOfWork</a></code> </p>
-        </td>
-        <td><p>Unit Of Work Pattern</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Fowler M (2002).
+<em>Patterns of enterprise application architecture</em>.
+Addison-Wesley Longman Publishing Co., Inc.
+ISBN 0321127420.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other object-relational patterns: 
+<code><a href='AbstractUnitOfWork.html'>AbstractUnitOfWork</a></code></p></div>
+    <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
+
+    <p><code><a href='Singleton.html'>R6P::Singleton</a></code> -&gt; <code>Repository</code></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>AbstractRepository$new()</code></a></p></li>
+<li><p><a href='#method-add'><code>AbstractRepository$add()</code></a></p></li>
+<li><p><a href='#method-del'><code>AbstractRepository$del()</code></a></p></li>
+<li><p><a href='#method-get'><code>AbstractRepository$get()</code></a></p></li>
+</ul>
+<p><details open ><summary>Inherited methods</summary>
+<ul>
+</ul>
+</details>
+
+<hr>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+<p>Instantiate an object</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>AbstractRepository</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<p><hr>
+<a id="method-add"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>add()</code></h3>
+<p>Add an element to the Repository.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>AbstractRepository</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>value</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>key</code></dt><dd><p>(<code>character</code>) Name of the element.</p></dd>
+
+<dt><code>value</code></dt><dd><p>(<code>?</code>) Value of the element. Note: The values in the
+<code>Repository</code> are not necessarily of the same type. That depends on the
+implementation of <code>AbstractRepository</code>.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-del"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>del()</code></h3>
+<p>Delete an element from the Repository.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>AbstractRepository</span><span class='op'>$</span><span class='fu'>del</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>key</code></dt><dd><p>(<code>character</code>) Name of the element.</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-get"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/get.html'>get()</a></code></h3>
+<p>Retrieve an element from the Repository.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>AbstractRepository</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>key</code></dt><dd><p>(<code>character</code>) Name of the element.</p></dd>
+
+</dl><p></div></p>
+
+
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
