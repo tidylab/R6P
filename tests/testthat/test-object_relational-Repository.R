@@ -13,14 +13,7 @@ test_that("calling AbstractRepository$new fails because it cannot be instantiate
 # Implementation ----------------------------------------------------------
 test_that("implementing AbstractRepository returns Repository", {
     attach(test_env)
-    FakeRepository <- R6::R6Class(classname = "Repository", inherit = AbstractRepository, public = list(
-        initialize = function() private$cars <- collections::dict(),
-        add = function(key, value){private$cars$set(key, value); return(self)},
-        del = function(key){private$cars$remove(key); return(self)},
-        get = function(key){return(private$cars$get(key, default = NULL))}
-    ), private = list(cars = NULL))
-
-    expect_is(repository <- FakeRepository$new(), "Repository")
+    expect_is(repository <- DummyRepository$new(), "Repository")
     expect_is(repository$add(key = rownames(mtcars[1,]), value = mtcars[1,]), "Repository")
     expect_identical(repository$get(key = rownames(mtcars[1,])), mtcars[1,])
     expect_is(repository$del(key = rownames(mtcars[1,])), "Repository")
