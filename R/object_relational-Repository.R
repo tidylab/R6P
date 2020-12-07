@@ -10,7 +10,7 @@
 #' @family object-relational patterns
 #' @export
 # nocov start
-AbstractRepository <- R6::R6Class("Repository", cloneable = FALSE, public = list(
+AbstractRepository <- R6::R6Class("Repository", inherit = Singleton, cloneable = FALSE, public = list(
     #' @description Instantiate an object
     initialize = function() exceptions$not_implemented_error(),
     #' @description Add an element to the Repository.
