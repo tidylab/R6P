@@ -18,6 +18,7 @@ LazyData: true
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 Language: en-GB
+RdMacros: Rdpack
 Depends: 
     R (>= 3.5)
 Suggests: 
@@ -29,5 +30,5 @@ Imports:
     R6,
     purrr,
     stringr,
-    fs
-    
+    fs,
+    Rdpack
