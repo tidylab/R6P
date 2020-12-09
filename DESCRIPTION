@@ -32,3 +32,4 @@ Imports:
     stringr,
     fs,
     Rdpack
+Config/testthat/edition: 3

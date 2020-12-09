@@ -17,8 +17,8 @@ test_that("instantiating of multiple objects of the same Singleton are identical
         add_1 = function(){self$count = self$count + 1; invisible(self)}
     ))
 
-    expect_is(counter_1 <- Counter$new(), "Singleton")
-    expect_is(counter_2 <- Counter$new(), "Counter")
+    expect_s3_class(counter_1 <- Counter$new(), "Singleton")
+    expect_s3_class(counter_2 <- Counter$new(), "Counter")
     expect_identical(counter_1, counter_2)
 
     counter_1$add_1()
@@ -33,8 +33,8 @@ test_that("instantiating of multiple objects of the same Singleton with supercla
         initialize = function(){super$initialize()}
     ))
 
-    expect_is(counter_1 <- SuperCounter$new(), "Singleton")
-    expect_is(counter_2 <- SuperCounter$new(), "SuperCounter")
+    expect_s3_class(counter_1 <- SuperCounter$new(), "Singleton")
+    expect_s3_class(counter_2 <- SuperCounter$new(), "SuperCounter")
     expect_identical(counter_1, counter_2)
 
     counter_1$add_1()
@@ -46,18 +46,18 @@ test_that("instantiating of multiple objects of the different Singleton are not 
     SingletonA <<- R6::R6Class(classname = "SingletonA", inherit = Singleton, public = list(uid = "A"))
     SingletonB <<- R6::R6Class(classname = "SingletonB", inherit = Singleton, public = list(uid = "B"))
 
-    expect_is(singleton_A <- SingletonA$new(), "Singleton")
-    expect_is(singleton_B <- SingletonB$new(), "Singleton")
+    expect_s3_class(singleton_A <- SingletonA$new(), "Singleton")
+    expect_s3_class(singleton_B <- SingletonB$new(), "Singleton")
     expect_false(identical(singleton_A, singleton_B))
 })
 
 # test_that("inheriting Singleton takes the last class name", {
 #     attach(test_env)
 #     Level1Class <<- R6::R6Class(classname = "Level1", inherit = Singleton, public = list(uid = "A"))
-#     expect_is(level1 <- Level1Class$new(), "Level1")
+#     expect_s3_class(level1 <- Level1Class$new(), "Level1")
 #
 #     Level2Class <<- R6::R6Class(classname = "Level2", inherit = Level1Class, public = list(uid = "A"))
-#     expect_is(level2 <- Level2Class$new(), "Level2")
+#     expect_s3_class(level2 <- Level2Class$new(), "Level2")
 #
 #     expect_false(identical(level1, level2))
 # })
