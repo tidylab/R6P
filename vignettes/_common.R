@@ -33,7 +33,8 @@ knitr::knit_hooks$set(
     error = function(x, options) {
         paste('\n\n<div class="alert alert-danger">',
               x %>%
-                  stringr::str_replace_all('^#>\ Error in eval\\(expr, envir, enclos\\):', '**Caution:**'),
+                  stringr::str_replace_all('^#>\ Error in eval\\(expr, envir, enclos\\):', '**Caution:**') %>%
+                  stringr::str_replace_all('#> ', '\n'),
               '</div>', sep = '\n')
     },
     warning = function(x, options) {

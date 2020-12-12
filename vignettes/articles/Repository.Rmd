@@ -12,6 +12,36 @@ editor_options:
 source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ```
 
+## How It Works
+
+See [@Fowler2002, p. 322]
+
+## Implementations
+
+### In-Memory Storage with [`collections`](https://github.com/randy3k/collections)
+
+```{r, message=TRUE}
+message("In-Memory implementations are a temporal solution that is good for testing and rapid prototyping.")
+```
+
+1.  In-Memory implementations contribute to rapid development because:
+
+-   They can be used before you establish/get access to a real database.
+-   They are fast to establish in comparison to DBMS
+
+2.  In-Memory implementations are useful during testing because they are
+    independent of the real database (if any), that means:
+
+-   They start as empty storage allowing the programmer to test specific
+    behaviour of the caller.
+-   They don't make unintended changes in the real database
+
+```{r, error=TRUE}
+stop("In-Memory implementations are not recommended during the production stage. In-Memory storage are lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.")
+```
+
+### Persistent Storage with [DBI](https://github.com/r-dbi/DBI)
+
 ## Examples
 
 ### Fake Repository
@@ -45,3 +75,5 @@ repository$get_all_cars()
 repository$del(key = rownames(mtcars[1,]))
 repository$get(key = rownames(mtcars[1,]))
 ```
+
+## References
