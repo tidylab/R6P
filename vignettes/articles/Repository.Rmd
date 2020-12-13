@@ -16,7 +16,23 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 See [@Fowler2002, p. 322]
 
+```{r}
+path_snippet <- usethis::proj_path("R", "object_relational-Repository.R")
+snippet <- readLines(path_snippet)
+snippet <- snippet[!snippet %>% stringr::str_detect("^(#'|#) ")]
+```
+
+```{r, code = snippet, eval = FALSE, echo = TRUE}
+```
+
 ## Implementations
+
+The minimal implementing of `AbstractRepository` requires you to define four
+functions: (1) `initialize`, (2) `add`, (3) `del`, and (4) `get`.
+<!-- In addition, there are context depended function you may want to ad -->
+
+Importantly, any Repository implementation happens in context. The following
+implementations consider a repostory of car models with their specifications. 
 
 ### In-Memory Storage with [`collections`](https://github.com/randy3k/collections)
 
@@ -40,7 +56,24 @@ message("In-Memory implementations are a temporal solution that is good for test
 stop("In-Memory implementations are not recommended during the production stage. In-Memory storage are lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.")
 ```
 
-### Persistent Storage with [DBI](https://github.com/r-dbi/DBI)
+-   See more information about `collections::dict` in [appendix](#appendix-dict).
+
+```{r Repository-In-Memory-implementation, echo=TRUE, results='markup'}
+InMemoryRepository <- R6::R6Class(
+  classname = "Repository", inherit = AbstractRepository, public = list(
+    initialize = function() private$cars <- collections::dict(),
+    add = function(key, value){private$cars$set(key, value); invisible(self)},
+    del = function(key){private$cars$remove(key); invisible(self)},
+    get = function(key){return(private$cars$get(key, default = NULL))}
+  ), private = list(
+    cars = NULL)
+)
+```
+
+* Talk about each line
+* Talk about additional functions
+
+### Persistent Storage with [`DBI`](https://github.com/r-dbi/DBI)
 
 ## Examples
 
@@ -75,5 +108,7 @@ repository$get_all_cars()
 repository$del(key = rownames(mtcars[1,]))
 repository$get(key = rownames(mtcars[1,]))
 ```
+
+## `Appendix A - collections::dict`{#appendix-dict}
 
 ## References

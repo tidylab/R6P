@@ -10,6 +10,10 @@ suppressPackageStartupMessages(
 options(tidyverse.quiet = TRUE)
 
 # knitr -------------------------------------------------------------------
+knitr::opts_knit$set(
+    root.dir = usethis::proj_get()
+)
+
 knitr::opts_chunk$set(
     collapse = TRUE,
     out.width = '100%',
