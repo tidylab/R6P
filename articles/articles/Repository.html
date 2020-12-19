@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">Design Patterns in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -45,7 +45,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -59,7 +59,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/tidylab/R6P/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -73,8 +73,7 @@
 
       
 
-      </header><script src="Repository_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="Repository_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="Repository_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="Repository_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>The Repository Pattern</h1>
@@ -87,14 +86,66 @@
 
     
     
-<div id="examples" class="section level2">
+<div id="how-it-works" class="section level2">
 <h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
-<div id="fake-repository" class="section level3">
-<h3 class="hasAnchor">
-<a href="#fake-repository" class="anchor"></a>Fake Repository</h3>
+<a href="#how-it-works" class="anchor"></a>How It Works</h2>
+<p>See <span class="citation">(Fowler <a href="#ref-Fowler2002" role="doc-biblioref">2002</a>, 322)</span></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">FakeRepository</span> <span class="op">&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">AbstractRepository</span> <span class="op">&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span><span class="st">"Repository"</span>, inherit <span class="op">=</span> <span class="va">Singleton</span>, cloneable <span class="op">=</span> <span class="cn">FALSE</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+    <span class="co">#' @description Instantiate an object</span>
+    initialize <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="va">exceptions</span><span class="op">$</span><span class="fu">not_implemented_error</span><span class="op">(</span><span class="op">)</span>,
+    <span class="co">#' @description Add an element to the Repository.</span>
+    add <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">key</span>, <span class="va">value</span><span class="op">)</span> <span class="va">exceptions</span><span class="op">$</span><span class="fu">not_implemented_error</span><span class="op">(</span><span class="op">)</span>,
+    <span class="co">#' @description Delete an element from the Repository.</span>
+    del <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">key</span><span class="op">)</span> <span class="va">exceptions</span><span class="op">$</span><span class="fu">not_implemented_error</span><span class="op">(</span><span class="op">)</span>,
+    <span class="co">#' @description Retrieve an element from the Repository.</span>
+    get <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">key</span><span class="op">)</span> <span class="va">exceptions</span><span class="op">$</span><span class="fu">not_implemented_error</span><span class="op">(</span><span class="op">)</span>
+<span class="op">)</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="implementations" class="section level2">
+<h2 class="hasAnchor">
+<a href="#implementations" class="anchor"></a>Implementations</h2>
+<p>The minimal implementing of <code>AbstractRepository</code> requires you to define four functions:</p>
+<ol style="list-style-type: decimal">
+<li>
+<code>initialize</code>,</li>
+<li>
+<code>add</code>,</li>
+<li>
+<code>del</code>, and</li>
+<li>
+<code>get</code>.</li>
+</ol>
+<!-- In addition, there are context depended function you may want to ad --><p>Importantly, any Repository implementation happens in context. The following implementations consider a repostory of car models with their specifications.</p>
+<div id="in-memory-storage-with-collections" class="section level3">
+<h3 class="hasAnchor">
+<a href="#in-memory-storage-with-collections" class="anchor"></a>In-Memory Storage with <a href="https://github.com/randy3k/collections"><code>collections</code></a>
+</h3>
+<div class="alert alert-info">
+<p><strong>Tip:</strong> In-Memory implementations are a temporal solution that is good for testing and rapid prototyping.</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>In-Memory implementations contribute to rapid development because:</li>
+</ol>
+<ul>
+<li>They can be used before you establish/get access to a real database.</li>
+<li>They are fast to establish in comparison to DBMS</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>In-Memory implementations are useful during testing because they are independent of the real database (if any), that means:</li>
+</ol>
+<ul>
+<li>They start as empty storage allowing the programmer to test specific behaviour of the caller.</li>
+<li>They don’t make unintended changes in the real database</li>
+</ul>
+<div class="alert alert-danger">
+<p><strong>Caution:</strong> In-Memory implementations are not recommended during the production stage. In-Memory storage are lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.</p>
+</div>
+<ul>
+<li>See more information about <code><a href="https://rdrr.io/pkg/collections/man/dict.html">collections::dict</a></code> in <a href="#appendix-dict">appendix</a>.</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">InMemoryRepository</span> <span class="op">&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span>
   classname <span class="op">=</span> <span class="st">"Repository"</span>, inherit <span class="op">=</span> <span class="va">AbstractRepository</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     initialize <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="va">private</span><span class="op">$</span><span class="va">cars</span> <span class="op">&lt;-</span> <span class="fu">collections</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/collections/man/dict.html">dict</a></span><span class="op">(</span><span class="op">)</span>,
     add <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">key</span>, <span class="va">value</span><span class="op">)</span><span class="op">{</span><span class="va">private</span><span class="op">$</span><span class="va">cars</span><span class="op">$</span><span class="fu">set</span><span class="op">(</span><span class="va">key</span>, <span class="va">value</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span><span class="op">(</span><span class="va">self</span><span class="op">)</span><span class="op">}</span>,
@@ -102,13 +153,14 @@
     get <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">key</span><span class="op">)</span><span class="op">{</span><span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">private</span><span class="op">$</span><span class="va">cars</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="va">key</span>, default <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span><span class="op">}</span>
   <span class="op">)</span>, private <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     cars <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="va">FakeRepository</span><span class="op">$</span><span class="fu">set</span><span class="op">(</span><span class="st">"public"</span>, <span class="st">"get_all_cars"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
+<span class="op">)</span></code></pre></div>
+<p>Adding customised operations</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">InMemoryRepository</span><span class="op">$</span><span class="fu">set</span><span class="op">(</span><span class="st">"public"</span>, <span class="st">"get_all_cars"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
   <span class="va">private</span><span class="op">$</span><span class="va">cars</span><span class="op">$</span><span class="fu">values</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">repository</span> <span class="op">&lt;-</span> <span class="va">FakeRepository</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">repository</span> <span class="op">&lt;-</span> <span class="va">InMemoryRepository</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>
 
 <span class="va">repository</span><span class="op">$</span><span class="fu">add</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span>, value <span class="op">=</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span>
 <span class="va">repository</span><span class="op">$</span><span class="fu">add</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span><span class="op">)</span>, value <span class="op">=</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span><span class="op">)</span>
@@ -125,6 +177,87 @@
 <span class="va">repository</span><span class="op">$</span><span class="fu">del</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span><span class="op">)</span>
 <span class="va">repository</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; NULL</span></code></pre></div>
+<ul>
+<li>Talk about each line</li>
+<li>Talk about additional functions</li>
+</ul>
+</div>
+<div id="persistent-storage-with-dbi" class="section level3">
+<h3 class="hasAnchor">
+<a href="#persistent-storage-with-dbi" class="anchor"></a>Persistent Storage with <a href="https://dbi.r-dbi.org/"><code>DBI</code></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">PersistentRepository</span> <span class="op">&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span>
+    classname <span class="op">=</span> <span class="st">"Repository"</span>, inherit <span class="op">=</span> <span class="va">AbstractRepository</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+        <span class="co">#' @param immediate (`logical`) Should queries be committed immediately?</span>
+        initialize <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">immediate</span> <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">{</span>
+            <span class="va">private</span><span class="op">$</span><span class="va">immediate</span> <span class="op">&lt;-</span> <span class="va">immediate</span>
+            <span class="va">private</span><span class="op">$</span><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html">dbConnect</a></span><span class="op">(</span><span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html">SQLite</a></span><span class="op">(</span><span class="op">)</span>, dbname <span class="op">=</span> <span class="st">":memory:"</span><span class="op">)</span>
+            <span class="va">private</span><span class="op">$</span><span class="va">NULL_car</span> <span class="op">&lt;-</span>
+                <span class="fu">datasets</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/datasets/mtcars.html">mtcars</a></span><span class="op">[</span><span class="fl">0</span>,<span class="op">]</span> <span class="op">%&gt;%</span>
+                <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/add_column.html">add_column</a></span><span class="op">(</span>uid <span class="op">=</span> <span class="cn">NA_character_</span>, .before <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+            <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbCreateTable.html">dbCreateTable</a></span><span class="op">(</span><span class="va">private</span><span class="op">$</span><span class="va">conn</span>, <span class="st">"mtcars"</span>, <span class="va">private</span><span class="op">$</span><span class="va">NULL_car</span><span class="op">)</span>
+        <span class="op">}</span>,
+        add <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">key</span>, <span class="va">value</span><span class="op">)</span><span class="op">{</span>
+            <span class="va">value</span> <span class="op">&lt;-</span> <span class="va">private</span><span class="op">$</span><span class="va">NULL_car</span> <span class="op">%&gt;%</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/add_row.html">add_row</a></span><span class="op">(</span>uid <span class="op">=</span> <span class="va">key</span>, <span class="va">value</span><span class="op">)</span>
+            <span class="va">self</span><span class="op">$</span><span class="fu">del</span><span class="op">(</span>key <span class="op">=</span> <span class="va">key</span><span class="op">)</span>
+            <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbAppendTable.html">dbAppendTable</a></span><span class="op">(</span><span class="va">private</span><span class="op">$</span><span class="va">conn</span>, <span class="st">"mtcars"</span>, <span class="va">value</span><span class="op">)</span>
+            <span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span><span class="op">(</span><span class="va">self</span><span class="op">)</span>
+        <span class="op">}</span>,
+        del <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">key</span><span class="op">)</span><span class="op">{</span>
+            <span class="va">statement</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"DELETE FROM mtcars WHERE uid = '"</span>, <span class="va">key</span>, <span class="st">"'"</span><span class="op">)</span>
+            <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbExecute.html">dbExecute</a></span><span class="op">(</span><span class="va">private</span><span class="op">$</span><span class="va">conn</span>, <span class="va">statement</span>, immediate <span class="op">=</span> <span class="va">private</span><span class="op">$</span><span class="va">immediate</span><span class="op">)</span>
+            <span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span><span class="op">(</span><span class="va">self</span><span class="op">)</span>
+        <span class="op">}</span>,
+        get <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">key</span><span class="op">)</span><span class="op">{</span>
+            <span class="va">statement</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"SELECT * FROM mtcars WHERE uid = '"</span>, <span class="va">key</span>, <span class="st">"'"</span><span class="op">)</span>
+            <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html">dbGetQuery</a></span><span class="op">(</span><span class="va">private</span><span class="op">$</span><span class="va">conn</span>, <span class="va">statement</span><span class="op">)</span>
+            <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span> <span class="kw">else</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
+        <span class="op">}</span>
+    <span class="op">)</span>, private <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+        immediate <span class="op">=</span> <span class="cn">NULL</span>,
+        NULL_car <span class="op">=</span> <span class="cn">NULL</span>,
+        conn <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<p>Adding customised operations</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">PersistentRepository</span><span class="op">$</span><span class="fu">set</span><span class="op">(</span><span class="st">"public"</span>, <span class="st">"get_all_cars"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
+    <span class="va">statement</span> <span class="op">&lt;-</span> <span class="st">"SELECT * FROM mtcars"</span>
+    <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html">dbGetQuery</a></span><span class="op">(</span><span class="va">private</span><span class="op">$</span><span class="va">conn</span>, <span class="va">statement</span><span class="op">)</span>
+    <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span> <span class="kw">else</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
+<span class="op">}</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">repository</span> <span class="op">&lt;-</span> <span class="va">PersistentRepository</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">repository</span><span class="op">$</span><span class="fu">add</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span>, value <span class="op">=</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span>
+<span class="va">repository</span><span class="op">$</span><span class="fu">add</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span><span class="op">)</span>, value <span class="op">=</span> <span class="va">mtcars</span><span class="op">[</span><span class="fl">2</span>,<span class="op">]</span><span class="op">)</span>
+
+<span class="va">repository</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt;         uid mpg cyl disp  hp drat   wt  qsec vs am gear carb</span>
+<span class="co">#&gt; 1 Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</span>
+
+<span class="va">repository</span><span class="op">$</span><span class="fu">get_all_cars</span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt;             uid mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="co">#&gt; 1     Mazda RX4  21   6  160 110  3.9 2.620 16.46  0  1    4    4</span>
+<span class="co">#&gt; 2 Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</span>
+
+<span class="va">repository</span><span class="op">$</span><span class="fu">del</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span><span class="op">)</span>
+<span class="va">repository</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; NULL</span></code></pre></div>
+</div>
+</div>
+<div id="appendix-a---collectionsdict" class="section level2">
+<h2 class="hasAnchor">
+<a href="#appendix-a---collectionsdict" class="anchor"></a><code id="appendix-dict">Appendix A - collections::dict</code>
+</h2>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
+<div id="refs" class="references">
+<div id="ref-Fowler2002">
+<p>Fowler, Martin. 2002. <em>Patterns of enterprise application architecture</em>. Addison-Wesley Longman Publishing Co., Inc.</p>
+</div>
 </div>
 </div>
   </div>
