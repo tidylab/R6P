@@ -28,11 +28,17 @@ snippet <- snippet[!snippet %>% stringr::str_detect("^(#'|#) ")]
 ## Implementations
 
 The minimal implementing of `AbstractRepository` requires you to define four
-functions: (1) `initialize`, (2) `add`, (3) `del`, and (4) `get`.
+functions:
+
+(1) `initialize`,
+(2) `add`,
+(3) `del`, and
+(4) `get`.
+
 <!-- In addition, there are context depended function you may want to ad -->
 
 Importantly, any Repository implementation happens in context. The following
-implementations consider a repostory of car models with their specifications. 
+implementations consider a repostory of car models with their specifications.
 
 ### In-Memory Storage with [`collections`](https://github.com/randy3k/collections)
 
@@ -56,7 +62,8 @@ message("In-Memory implementations are a temporal solution that is good for test
 stop("In-Memory implementations are not recommended during the production stage. In-Memory storage are lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.")
 ```
 
--   See more information about `collections::dict` in [appendix](#appendix-dict).
+-   See more information about `collections::dict` in
+    [appendix](#appendix-dict).
 
 ```{r Repository-In-Memory-implementation, echo=TRUE, results='markup'}
 InMemoryRepository <- R6::R6Class(
@@ -70,10 +77,63 @@ InMemoryRepository <- R6::R6Class(
 )
 ```
 
-* Talk about each line
-* Talk about additional functions
+Adding customised operations
 
-### Persistent Storage with [`DBI`](https://github.com/r-dbi/DBI)
+```{r Repository-In-Memory-implementation-addon, echo=TRUE, results='markup'}
+InMemoryRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
+  private$cars$values() %>% dplyr::bind_rows()
+})
+```
+
+-   Talk about each line
+-   Talk about additional functions
+
+### Persistent Storage with [`DBI`](https://dbi.r-dbi.org/) 
+
+```{r Repository-Persistent-implementation, echo=TRUE, results='markup'}
+PersistentRepository <- R6::R6Class(
+    classname = "Repository", inherit = AbstractRepository, public = list(
+        #' @param immediate (`logical`) Should queries be committed immediately?
+        initialize = function(immediate = TRUE){
+            private$immediate <- immediate
+            private$conn <- DBI::dbConnect(RSQLite::SQLite(), dbname = ":memory:")
+            private$NULL_car <-
+                datasets::mtcars[0,] %>%
+                tibble::add_column(uid = NA_character_, .before = 0)
+            DBI::dbCreateTable(private$conn, "mtcars", private$NULL_car)
+        },
+        add = function(key, value){
+            value <- private$NULL_car %>% tibble::add_row(uid = key, value)
+            self$del(key = key)
+            DBI::dbAppendTable(private$conn, "mtcars", value)
+            invisible(self)
+        },
+        del = function(key){
+            statement <- paste0("DELETE FROM mtcars WHERE uid = '", key, "'")
+            DBI::dbExecute(private$conn, statement, immediate = private$immediate)
+            invisible(self)
+        },
+        get = function(key){
+            statement <- paste0("SELECT * FROM mtcars WHERE uid = '", key, "'")
+            result <- DBI::dbGetQuery(private$conn, statement)
+            if(nrow(result) == 0) return(NULL) else return(result)
+        }
+    ), private = list(
+        immediate = NULL,
+        NULL_car = NULL,
+        conn = NULL)
+)
+```
+
+Adding customised operations
+
+```{r Repository-Persistent-implementation-addon, echo=TRUE, results='markup'}
+PersistentRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
+    statement <- "SELECT * FROM mtcars"
+    result <- DBI::dbGetQuery(private$conn, statement)
+    if(nrow(result) == 0) return(NULL) else return(result)
+})
+```
 
 ## Examples
 
