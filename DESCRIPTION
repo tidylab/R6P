@@ -25,7 +25,9 @@ Suggests:
     rmarkdown,
     testthat,
     covr,
-    collections
+    collections,
+    DBI,
+    RSQLite
 Imports: 
     R6,
     purrr,
