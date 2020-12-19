@@ -85,12 +85,26 @@ InMemoryRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
 })
 ```
 
+```{r, echo=TRUE, results='markup'}
+repository <- InMemoryRepository$new()
+
+repository$add(key = rownames(mtcars[1,]), value = mtcars[1,])
+repository$add(key = rownames(mtcars[2,]), value = mtcars[2,])
+
+repository$get(key = rownames(mtcars[1,]))
+
+repository$get_all_cars()
+
+repository$del(key = rownames(mtcars[1,]))
+repository$get(key = rownames(mtcars[1,]))
+```
+
 -   Talk about each line
 -   Talk about additional functions
 
 ### Persistent Storage with [`DBI`](https://dbi.r-dbi.org/) 
 
-```{r Repository-Persistent-implementation, echo=TRUE, results='markup'}
+```{r Repository-Persistent-implementation, echo=TRUE}
 PersistentRepository <- R6::R6Class(
     classname = "Repository", inherit = AbstractRepository, public = list(
         #' @param immediate (`logical`) Should queries be committed immediately?
@@ -127,7 +141,7 @@ PersistentRepository <- R6::R6Class(
 
 Adding customised operations
 
-```{r Repository-Persistent-implementation-addon, echo=TRUE, results='markup'}
+```{r Repository-Persistent-implementation-addon, echo=TRUE}
 PersistentRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
     statement <- "SELECT * FROM mtcars"
     result <- DBI::dbGetQuery(private$conn, statement)
@@ -135,28 +149,8 @@ PersistentRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
 })
 ```
 
-## Examples
-
-### Fake Repository
-
-```{r Repository-Fake-implementation, echo=TRUE, results='markup'}
-FakeRepository <- R6::R6Class(
-  classname = "Repository", inherit = AbstractRepository, public = list(
-    initialize = function() private$cars <- collections::dict(),
-    add = function(key, value){private$cars$set(key, value); invisible(self)},
-    del = function(key){private$cars$remove(key); invisible(self)},
-    get = function(key){return(private$cars$get(key, default = NULL))}
-  ), private = list(
-    cars = NULL)
-)
-
-FakeRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
-  private$cars$values() %>% dplyr::bind_rows()
-})
-```
-
-```{r Repository-Fake-instantiation, echo=TRUE, results='markup'}
-repository <- FakeRepository$new()
+```{r, echo=TRUE, results='markup'}
+repository <- PersistentRepository$new()
 
 repository$add(key = rownames(mtcars[1,]), value = mtcars[1,])
 repository$add(key = rownames(mtcars[2,]), value = mtcars[2,])
