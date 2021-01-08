@@ -1,5 +1,6 @@
 # Folders
 ^\..*/
+^\.Rproj\.user$
 .*_cache/
 ^data-raw/
 ^inst/snippets/
@@ -22,3 +23,4 @@
 # pkgdown$
 ^docs$
 ^pkgdown$
+
