@@ -1,33 +1,24 @@
-# Docker
-^\.dockerignore$
-^docker-compose\.yml$
-^R/docker-DockerCompose\.R$
-
 # Folders
+^\..*/
 .*_cache/
-^\.dev/
-^\.ccache$
-^\.github
-\.gitkeep
 ^data-raw/
-^docs/
 ^inst/snippets/
 ^renv/
-^pkgdown/
 ^vignettes/articles/
 
 # Files
+^\..*
 ^.*\.Rproj$
-^\.Rproj\.user$
 ^codecov\.yml$
-^renv\.lock$
-^tic\.R$
 ^README\.Rmd$
 ^LICENSE\.md$
 ^vignettes/_common.R$
 ^vignettes/references.bib$
-^R6P\.Rproj$
-^\.github$
-^_pkgdown\.yml$
+
+# Docker
+^docker-compose\.yml$
+^R/utils-DockerCompose\.R$
+
+# pkgdown$
 ^docs$
 ^pkgdown$
