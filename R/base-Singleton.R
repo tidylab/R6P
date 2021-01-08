@@ -2,7 +2,7 @@
 #' @description Ensure a class only has one instance, and provide a global point
 #'   of access to it.
 #' @references \href{Wikipedia}{https://en.wikipedia.org/wiki/Singleton_pattern}
-#' @family creational design patterns
+#' @family base design patterns
 #' @examples
 #' # Example: A Counter Implementation
 #' Counter <- R6::R6Class(inherit = Singleton, public = list(

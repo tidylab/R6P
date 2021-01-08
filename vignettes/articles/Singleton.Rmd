@@ -2,6 +2,8 @@
 title: "The Singleton Pattern"
 bibliography: [../../inst/REFERENCES.bib]
 biblio-style: apalike
+nocite: | 
+  @Gamma1995 
 link-citations: yes
 editor_options: 
   markdown: 
@@ -12,7 +14,16 @@ editor_options:
 source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ```
 
+
 ## Intent
+
+```{r, error=TRUE}
+stop("Singletons can be a problem in multi-threaded applications, especially when they manipulate mutable data.")
+```
+
+```{r, message=TRUE}
+message("Singletons work well for immutable data, such as reading from some data source, since anything that can’t change isn’t going to run into thread clash problems.")
+```
 
 ## Motivation
 
@@ -63,3 +74,5 @@ database_A <- DTO$new()
 database_B <- DTO$new()
 identical(database_A, database_B)
 ```
+
+## References

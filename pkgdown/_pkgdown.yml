@@ -6,7 +6,7 @@ authors:
 
 # Articles ----------------------------------------------------------------
 articles:
-- title: Creational Patterns
+- title: Base Pattern
   contents:
   - '`articles/Singleton`'
 - title: Object-Relational Patterns
@@ -15,9 +15,7 @@ articles:
 
 # Functions ---------------------------------------------------------------
 reference:
-- title: Creational Patterns
-  desc: >
-    Creational design patterns abstract the instantiation process.
+- title: Base Patterns
   contents:
   - 'Singleton'
 - title: Object-Relational Patterns
@@ -25,5 +23,3 @@ reference:
     Simplify access to data stored in persistent storage of some kind.
   contents:
   - 'AbstractRepository'
-  - 'AbstractUnitOfWork'
-
