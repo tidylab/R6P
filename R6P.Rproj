@@ -22,6 +22,5 @@ PackageCheckArgs: --as-cran
 PackageRoxygenize: rd,collate,namespace,vignette
 
 MarkdownReferences: Section
-MarkdownCanonical: No
 
 SpellingDictionary: en_AU

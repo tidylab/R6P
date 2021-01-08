@@ -3,5 +3,4 @@
 export("%>%")
 export(AbstractRepository)
 export(Singleton)
-importFrom(Rdpack,reprompt)
 importFrom(purrr,"%>%")
