@@ -4,13 +4,7 @@
     <loc>https://tidylab.github.io/R6P//index.html</loc>
   </url>
   <url>
-    <loc>https://tidylab.github.io/R6P//reference/AbstractRepository.html</loc>
-  </url>
-  <url>
-    <loc>https://tidylab.github.io/R6P//reference/DockerCompose.html</loc>
-  </url>
-  <url>
-    <loc>https://tidylab.github.io/R6P//reference/R6P-package.html</loc>
+    <loc>https://tidylab.github.io/R6P//reference/Repository.html</loc>
   </url>
   <url>
     <loc>https://tidylab.github.io/R6P//reference/Singleton.html</loc>
