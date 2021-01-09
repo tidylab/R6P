@@ -3,6 +3,8 @@ title: "The Repository Pattern"
 bibliography: [../../inst/REFERENCES.bib]
 biblio-style: apalike
 link-citations: yes
+nocite: | 
+  @Fowler2002
 editor_options: 
   markdown: 
     wrap: 80
@@ -12,35 +14,77 @@ editor_options:
 source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ```
 
+With ***Repository***, in-memory objects do not need to know whether there is a
+database present or absent, they need no SQL interface code, and certainly no
+knowledge of the database schema.
+
 ## How It Works
 
-See [@Fowler2002, p. 322]
+-   **Repository** isolates domain objects from details of the database access
+    code
+-   **Repository** concentrates code of query construction
+-   **Repository** helps to minimize duplicate query logic
+
+In R, the simplest form of **Repository** encapsulates `data.frame` entries
+persisted in a data store and the operations performed over them, providing a
+more object-oriented view of the persistence layer. From the caller point of
+view, the location (locally or remotely), the technology and the interface of
+the data store are obscured.
+
+## When to Use It
+
+-   In situations with multiple data sources.
+
+-   In situations where the real data store, the one that is used in production,
+    is remote. This allows you to implement a **Repository** mock with identical
+    queries that runs locally. Then, the mock could be used during development
+    and testing. The mock itself may comprise a sample of the real data store or
+    just fake data.
+
+-   In situations where the real data store doesn't exist. Implementing a mock
+    **Repository** allows you to defer immature decisions about the database
+    technology and/or defer its deployment. In this way, the temporary solution
+    allows you to focus the development effort on the core functionality of the
+    application.
+
+-   In situations where using SQL queries can be represented by meaningful
+    names. For example
+    `Repository$get_efficient_cars() = SELECT * FROM mtcars WHERE mpg > 20`
+
+-   When building [stateless
+    microservices](https://www.oreilly.com/library/view/software-architects-handbook/9781788624060/c47a09b6-91f9-4322-a6d4-9bc1604b1bdf.xhtml).
+
+## Implementations
+
+The code of the abstract base class of **Repository** is
 
 ```{r}
 path_snippet <- usethis::proj_path("R", "object_relational-Repository.R")
 snippet <- readLines(path_snippet)
-snippet <- snippet[!snippet %>% stringr::str_detect("^(#'|#) ")]
+snippet <- snippet %>% discard_comments() %>% discard_null() %>% discard_empty_lines()
 ```
 
 ```{r, code = snippet, eval = FALSE, echo = TRUE}
 ```
 
-## Implementations
-
 The minimal implementing of `AbstractRepository` requires you to define four
 functions:
 
-(1) `initialize`,
-(2) `add`,
-(3) `del`, and
-(4) `get`.
+(1) `initialize` establishes a database connection of some sort;
+(2) `add` adds one or more domain objects into the database;
+(3) `del` deletes one or more domain objects from the database; and
+(4) `get` retrieve one or more domain objects from the database.
 
 <!-- In addition, there are context depended function you may want to ad -->
 
 Importantly, any Repository implementation happens in context. The following
 implementations consider a repostory of car models with their specifications.
 
-### In-Memory Storage with [`collections`](https://github.com/randy3k/collections)
+From the caller perspective, both implementation behave identically -- they have
+the same queries. Under the hood, the two implementations employ different
+storage approaches.
+
+### Example: In-Memory Storage Implementation with [`collections`](https://github.com/randy3k/collections)
 
 ```{r, message=TRUE}
 message("In-Memory implementations are a temporal solution that is good for testing and rapid prototyping.")
@@ -59,7 +103,7 @@ message("In-Memory implementations are a temporal solution that is good for test
 -   They don't make unintended changes in the real database
 
 ```{r, error=TRUE}
-stop("In-Memory implementations are not recommended during the production stage. In-Memory storage are lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.")
+stop("In-Memory implementations are not recommended during the production stage. In-Memory storage is lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.")
 ```
 
 -   See more information about `collections::dict` in
@@ -68,13 +112,14 @@ stop("In-Memory implementations are not recommended during the production stage.
 ```{r Repository-In-Memory-implementation, echo=TRUE, results='markup'}
 InMemoryRepository <- R6::R6Class(
   classname = "Repository", inherit = AbstractRepository, public = list(
-    initialize = function() private$cars <- collections::dict(),
+    initialize = function() {private$cars <- collections::dict()},
     add = function(key, value){private$cars$set(key, value); invisible(self)},
     del = function(key){private$cars$remove(key); invisible(self)},
-    get = function(key){return(private$cars$get(key, default = NULL))}
+    get = function(key){return(private$cars$get(key, default = private$NULL_car))}
   ), private = list(
-    cars = NULL)
-)
+    NULL_car = cbind(uid  = NA_character_, datasets::mtcars)[0,],
+    cars = NULL
+  ))
 ```
 
 Adding customised operations
@@ -86,56 +131,58 @@ InMemoryRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
 ```
 
 ```{r, echo=TRUE, results='markup'}
+mtcars <- datasets::mtcars %>% tibble::rownames_to_column("uid")
+head(mtcars, 2)
+```
+
+```{r, echo=TRUE, results='markup'}
 repository <- InMemoryRepository$new()
 
-repository$add(key = rownames(mtcars[1,]), value = mtcars[1,])
-repository$add(key = rownames(mtcars[2,]), value = mtcars[2,])
+repository$add(key = mtcars[1, "uid"], value = mtcars[1,])
+repository$add(key = mtcars[2, "uid"], value = mtcars[2,])
 
-repository$get(key = rownames(mtcars[1,]))
+repository$get(key = "Mazda RX4")
 
 repository$get_all_cars()
 
-repository$del(key = rownames(mtcars[1,]))
-repository$get(key = rownames(mtcars[1,]))
+repository$del(key = "Mazda RX4")
+repository$get(key = "Mazda RX4")
 ```
 
 -   Talk about each line
 -   Talk about additional functions
 
-### Persistent Storage with [`DBI`](https://dbi.r-dbi.org/) 
+### Example: Persistent Storage Implementation with [`DBI`](https://dbi.r-dbi.org/)
 
 ```{r Repository-Persistent-implementation, echo=TRUE}
 PersistentRepository <- R6::R6Class(
-    classname = "Repository", inherit = AbstractRepository, public = list(
-        #' @param immediate (`logical`) Should queries be committed immediately?
-        initialize = function(immediate = TRUE){
-            private$immediate <- immediate
-            private$conn <- DBI::dbConnect(RSQLite::SQLite(), dbname = ":memory:")
-            private$NULL_car <-
-                datasets::mtcars[0,] %>%
-                tibble::add_column(uid = NA_character_, .before = 0)
-            DBI::dbCreateTable(private$conn, "mtcars", private$NULL_car)
-        },
-        add = function(key, value){
-            value <- private$NULL_car %>% tibble::add_row(uid = key, value)
-            self$del(key = key)
-            DBI::dbAppendTable(private$conn, "mtcars", value)
-            invisible(self)
-        },
-        del = function(key){
-            statement <- paste0("DELETE FROM mtcars WHERE uid = '", key, "'")
-            DBI::dbExecute(private$conn, statement, immediate = private$immediate)
-            invisible(self)
-        },
-        get = function(key){
-            statement <- paste0("SELECT * FROM mtcars WHERE uid = '", key, "'")
-            result <- DBI::dbGetQuery(private$conn, statement)
-            if(nrow(result) == 0) return(NULL) else return(result)
-        }
-    ), private = list(
-        immediate = NULL,
-        NULL_car = NULL,
-        conn = NULL)
+  classname = "Repository", inherit = AbstractRepository, public = list(
+    #' @param immediate (`logical`) Should queries be committed immediately?
+    initialize = function(immediate = TRUE){
+      private$immediate <- immediate
+      private$conn <- DBI::dbConnect(RSQLite::SQLite(), dbname = ":memory:")
+      DBI::dbCreateTable(private$conn, "mtcars", private$NULL_car)
+    },
+    add = function(key, value){
+      car <- private$NULL_car %>% tibble::add_row(value)
+      self$del(key = key)
+      DBI::dbAppendTable(private$conn, "mtcars", car)
+      invisible(self)
+    },
+    del = function(key){
+      statement <- paste0("DELETE FROM mtcars WHERE uid = '", key, "'")
+      DBI::dbExecute(private$conn, statement, immediate = private$immediate)
+      invisible(self)
+    },
+    get = function(key){
+      statement <- paste0("SELECT * FROM mtcars WHERE uid = '", key, "'")
+      result <- DBI::dbGetQuery(private$conn, statement)
+      if(nrow(result) == 0) return(private$NULL_car) else return(result)
+    }
+  ), private = list(
+    NULL_car = cbind(uid  = NA_character_, datasets::mtcars)[0,],
+    immediate = NULL,
+    conn = NULL)
 )
 ```
 
@@ -143,26 +190,32 @@ Adding customised operations
 
 ```{r Repository-Persistent-implementation-addon, echo=TRUE}
 PersistentRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
-    statement <- "SELECT * FROM mtcars"
-    result <- DBI::dbGetQuery(private$conn, statement)
-    if(nrow(result) == 0) return(NULL) else return(result)
+  statement <- "SELECT * FROM mtcars"
+  result <- DBI::dbGetQuery(private$conn, statement)
+  if(nrow(result) == 0) return(NULL) else return(result)
 })
+```
+
+```{r, echo=TRUE, results='markup'}
+mtcars <- datasets::mtcars %>% tibble::rownames_to_column("uid")
+head(mtcars, 2)
 ```
 
 ```{r, echo=TRUE, results='markup'}
 repository <- PersistentRepository$new()
 
-repository$add(key = rownames(mtcars[1,]), value = mtcars[1,])
-repository$add(key = rownames(mtcars[2,]), value = mtcars[2,])
+repository$add(key = mtcars[1, "uid"], value = mtcars[1,])
+repository$add(key = mtcars[2, "uid"], value = mtcars[2,])
 
-repository$get(key = rownames(mtcars[1,]))
+repository$get(key = "Mazda RX4")
 
 repository$get_all_cars()
 
-repository$del(key = rownames(mtcars[1,]))
-repository$get(key = rownames(mtcars[1,]))
+repository$del(key = "Mazda RX4")
+repository$get(key = "Mazda RX4")
 ```
 
+## Further Reading
 
-
-<!-- ## References -->
+[Repository at Martin Fowler
+Blog](https://martinfowler.com/eaaCatalog/repository.html)

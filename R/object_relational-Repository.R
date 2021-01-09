@@ -11,7 +11,6 @@ NULL
 #'   \code{Repository} are not necessarily of the same type. That depends on the
 #'   implementation of \code{AbstractRepository}.
 #' @family object-relational patterns
-#' @references \href{Martin Fowler Blogpost}{https://martinfowler.com/eaaCatalog/repository.html}
 #' @export
 # nocov start
 AbstractRepository <- R6::R6Class("Repository", inherit = Singleton, cloneable = FALSE, public = list(

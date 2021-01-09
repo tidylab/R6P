@@ -80,4 +80,6 @@ database_B <- DTO$new()
 identical(database_A, database_B)
 ```
 
-<!-- ## Further Reading -->
+## Further Reading
+
+[Singleton at Wikipedia](https://en.wikipedia.org/wiki/Singleton_pattern)

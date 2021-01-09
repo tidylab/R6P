@@ -7,7 +7,6 @@ NULL
 #' @description Ensure a class only has one instance, and provide a global point
 #'   of access to it.
 #' @family base design patterns
-#' @references \href{Wikipedia}{https://en.wikipedia.org/wiki/Singleton_pattern}
 #' @export
 Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
     #' @description Create or retrieve an object
