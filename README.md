@@ -26,8 +26,7 @@ were selected by their applicability to analytic projects in R. Using
 these patterns in R projects have proven effective in dealing with the
 complexity that data-driven applications posses.
 
-This package is based on the work of \[@Gamma1995\], and
-\[@Fowler2002\].
+This package is based on the work of Gamma1995, and Fowler2002.
 
 Installation
 ------------
@@ -44,3 +43,10 @@ And the development version from [GitHub](https://github.com/) with:
 
 References
 ----------
+
+Fowler, Martin. 2002. *Patterns of enterprise application architecture*.
+Addison-Wesley Longman Publishing Co., Inc.
+
+Gamma, Erich, Richard Helm, Ralph Johnson, and John Vlissides. 1995.
+*Design patterns: elements of reusable object-oriented software*.
+Pearson Education India.

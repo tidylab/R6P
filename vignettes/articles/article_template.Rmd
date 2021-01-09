@@ -3,6 +3,9 @@ title: "Article Template"
 bibliography: [../../inst/REFERENCES.bib]
 biblio-style: apalike
 link-citations: yes
+nocite: | 
+  @Gamma1995
+  @Fowler2002
 editor_options: 
   markdown: 
     wrap: 80

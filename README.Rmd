@@ -3,6 +3,9 @@ output: github_document
 bibliography: [./inst/REFERENCES.bib]
 biblio-style: apalike
 link-citations: yes
+nocite: | 
+  @Gamma1995
+  @Fowler2002
 editor_options: 
   canonical: true
   markdown: 
@@ -37,7 +40,7 @@ status](https://github.com/tidylab/R6P/workflows/R-CMD-check/badge.svg)](https:/
 
 `r read.dcf("DESCRIPTION", "Description")[[1]]`
 
-This package is based on the work of [\@Gamma1995], and [\@Fowler2002]. 
+This package is based on the work of Gamma1995, and Fowler2002.
 
 ## Installation
 

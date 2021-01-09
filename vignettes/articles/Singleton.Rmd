@@ -14,8 +14,16 @@ editor_options:
 source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ```
 
+<!-- One line about what the function does -->
 
-## Intent
+Mediates between the domain and data mapping layers using a collection-like
+interface for accessing domain objects.
+
+## How It Works
+
+text
+
+## When to Use It
 
 ```{r, error=TRUE}
 stop("Singletons can be a problem in multi-threaded applications, especially when they manipulate mutable data.")
@@ -25,13 +33,8 @@ stop("Singletons can be a problem in multi-threaded applications, especially whe
 message("Singletons work well for immutable data, such as reading from some data source, since anything that can’t change isn’t going to run into thread clash problems.")
 ```
 
-## Motivation
 
-place holder
-
-## Examples
-
-### Counter
+## Example: Counter
 
 ```{r Singleton-Counter-implementation, echo=TRUE, results='markup'}
 Counter <<- R6::R6Class(inherit = Singleton, public = list(
@@ -51,7 +54,7 @@ counter_B$count
 identical(counter_A, counter_B)
 ```
 
-### Data Transfer Object (DTO)
+## Example: Data Transfer Object (DTO)
 
 ```{r Singleton-DTO-implementation, echo=TRUE, results='hold', eval=FALSE}
 DTO <- R6::R6Class(classname = "DTO", inherit = Singleton, public = list(
@@ -77,4 +80,4 @@ database_B <- DTO$new()
 identical(database_A, database_B)
 ```
 
-## References
+<!-- ## Further Reading -->
