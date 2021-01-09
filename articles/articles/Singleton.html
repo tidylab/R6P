@@ -86,9 +86,16 @@
 
     
     
-<div id="intent" class="section level2">
+<!-- One line about what the function does -->
+<p>Mediates between the domain and data mapping layers using a collection-like interface for accessing domain objects.</p>
+<div id="how-it-works" class="section level2">
 <h2 class="hasAnchor">
-<a href="#intent" class="anchor"></a>Intent</h2>
+<a href="#how-it-works" class="anchor"></a>How It Works</h2>
+<p>text</p>
+</div>
+<div id="when-to-use-it" class="section level2">
+<h2 class="hasAnchor">
+<a href="#when-to-use-it" class="anchor"></a>When to Use It</h2>
 <div class="alert alert-danger">
 <p><strong>Caution:</strong> Singletons can be a problem in multi-threaded applications, especially when they manipulate mutable data.</p>
 </div>
@@ -96,17 +103,9 @@
 <p><strong>Tip:</strong> Singletons work well for immutable data, such as reading from some data source, since anything that can’t change isn’t going to run into thread clash problems.</p>
 </div>
 </div>
-<div id="motivation" class="section level2">
+<div id="example-counter" class="section level2">
 <h2 class="hasAnchor">
-<a href="#motivation" class="anchor"></a>Motivation</h2>
-<p>place holder</p>
-</div>
-<div id="examples" class="section level2">
-<h2 class="hasAnchor">
-<a href="#examples" class="anchor"></a>Examples</h2>
-<div id="counter" class="section level3">
-<h3 class="hasAnchor">
-<a href="#counter" class="anchor"></a>Counter</h3>
+<a href="#example-counter" class="anchor"></a>Example: Counter</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Counter</span> <span class="op">&lt;&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span>inherit <span class="op">=</span> <span class="va">Singleton</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     count <span class="op">=</span> <span class="fl">0</span>,
@@ -126,9 +125,9 @@
 <span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">counter_A</span>, <span class="va">counter_B</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
-<div id="data-transfer-object-dto" class="section level3">
-<h3 class="hasAnchor">
-<a href="#data-transfer-object-dto" class="anchor"></a>Data Transfer Object (DTO)</h3>
+<div id="example-data-transfer-object-dto" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example-data-transfer-object-dto" class="anchor"></a>Example: Data Transfer Object (DTO)</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">DTO</span> <span class="op">&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span>classname <span class="op">=</span> <span class="st">"DTO"</span>, inherit <span class="op">=</span> <span class="va">Singleton</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     con <span class="op">=</span> <span class="cn">NULL</span>,
@@ -149,11 +148,7 @@
 <code class="sourceCode R"><span class="va">database_A</span> <span class="op">&lt;-</span> <span class="va">DTO</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>
 <span class="va">database_B</span> <span class="op">&lt;-</span> <span class="va">DTO</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">database_A</span>, <span class="va">database_B</span><span class="op">)</span></code></pre></div>
-</div>
-</div>
-<div id="references" class="section level2 unnumbered">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
+<!-- ## Further Reading -->
 <div id="refs" class="references">
 <div id="ref-Gamma1995">
 <p>Gamma, Erich, Richard Helm, Ralph Johnson, and John Vlissides. 1995. <em>Design patterns: elements of reusable object-oriented software</em>. Pearson Education India.</p>

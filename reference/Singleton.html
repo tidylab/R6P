@@ -133,8 +133,15 @@ of access to it.</p>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Intent</h3>
+    <p><!-- One line about what the function does --></p>
+
+<p>Mediates between the domain and data mapping layers using a
+collection-like interface for accessing domain objects.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>How It Works</h3>
+
+
+<p>text</p>
+
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>When to Use It</h3>
 <p><div class="alert alert-danger"></p>
 
 <p><strong>Caution:</strong> Singletons can be a problem in multi-threaded applications,
@@ -149,14 +156,7 @@ some data source, since anything that can’t change isn’t going to run
 into thread clash problems.
 </div></p>
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Motivation</h3>
-
-
-<p>place holder</p>
-
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Examples</h3>
-
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Counter</h4>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Example: Counter</h3>
 <p><div class="r"></p><pre><span class='va'>Counter</span> <span class='op'>&lt;&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>inherit <span class='op'>=</span> <span class='va'>Singleton</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
     count <span class='op'>=</span> <span class='fl'>0</span>,
     add_1 <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span><span class='va'>self</span><span class='op'>$</span><span class='va'>count</span> <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>count</span> <span class='op'>+</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span><span class='op'>}</span>
@@ -175,7 +175,7 @@ into thread clash problems.
 <span class='co'>#&gt; [1] TRUE</span>
 </pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Data Transfer Object (DTO)</h4>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Example: Data Transfer Object (DTO)</h3>
 <p><div class="r"></p><pre><span class='va'>DTO</span> <span class='op'>&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>classname <span class='op'>=</span> <span class='st'>"DTO"</span>, inherit <span class='op'>=</span> <span class='va'>Singleton</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
     con <span class='op'>=</span> <span class='cn'>NULL</span>,
     initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
@@ -194,13 +194,8 @@ into thread clash problems.
 </pre><p></div><div class="r"></p><pre><span class='va'>database_A</span> <span class='op'>&lt;-</span> <span class='va'>DTO</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>database_B</span> <span class='op'>&lt;-</span> <span class='va'>DTO</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>database_A</span>, <span class='va'>database_B</span><span class='op'>)</span>
-</pre><p></div></p>
-
-
-
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>References</h3>
-
-
+</pre><p></div>
+<!-- ## Further Reading --></p>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
