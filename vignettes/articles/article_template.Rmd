@@ -23,14 +23,21 @@ interface for accessing domain objects.
 
 ## How It Works
 
+text
+
 ## When to Use It
+
+text
 
 ## Example: Name of Example 1
 
+text
+
 ## Example: Name of Example 2
 
-## Further Reading
+text
 
+## Further Reading
 
 ```{r, message=TRUE}
 message("Signifies a tip or suggestion")

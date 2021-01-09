@@ -10,8 +10,14 @@ Authors@R: c(
     comment = c(ORCID = "0000-0003-2953-9598"))
     )
 Maintainer: Harel Lustiger <tidylab@gmail.com>
-Description: Leverage the power of R design patterns to solve real-world 
-    problems in software architecture and design.
+Description: Design patterns abstract and present in neat, well-defined components and
+    interfaces the experience of many software designers and architects over many
+    years of solving similar problems. These are solutions that have withstood the
+    test of time with respect to reusability, flexibility, scalability, and
+    maintainability. R6P provides abstract base classes with examples for a few
+    known design patterns. The patterns were selected by their applicability to
+    analytic projects in R. Using these patterns in R projects have proven effective
+    in dealing with the complexity that data-driven applications posses.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

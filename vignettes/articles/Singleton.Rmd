@@ -27,6 +27,8 @@ message("Singletons work well for immutable data, such as reading from some data
 
 ## Motivation
 
+place holder
+
 ## Examples
 
 ### Counter

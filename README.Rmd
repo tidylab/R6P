@@ -33,15 +33,11 @@ status](https://github.com/tidylab/R6P/workflows/R-CMD-check/badge.svg)](https:/
 # knitr::include_graphics("https://i.imgur.com/q8GRJll.png")
 ```
 
-Design patterns abstract and present in neat, well-defined components and
-interfaces the experience of many software designers and architects over many
-years of solving similar problems. These are solutions that have withstood the
-test of time with respect to reusability, flexibility, scalability, and
-maintainability.
-
 ## Introduction
 
-This package is based on the work of [@Gamma1995], and [@Fowler2002].
+`r read.dcf("DESCRIPTION", "Description")[[1]]`
+
+This package is based on the work of [\@Gamma1995], and [\@Fowler2002]. 
 
 ## Installation
 

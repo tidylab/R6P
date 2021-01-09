@@ -13,17 +13,21 @@ status](https://github.com/tidylab/R6P/workflows/R-CMD-check/badge.svg)](https:/
 
 <!-- badges: end -->
 
+Introduction
+------------
+
 Design patterns abstract and present in neat, well-defined components
 and interfaces the experience of many software designers and architects
 over many years of solving similar problems. These are solutions that
 have withstood the test of time with respect to reusability,
-flexibility, scalability, and maintainability.
+flexibility, scalability, and maintainability. R6P provides abstract
+base classes with examples for a few known design patterns. The patterns
+were selected by their applicability to analytic projects in R. Using
+these patterns in R projects have proven effective in dealing with the
+complexity that data-driven applications posses.
 
-Introduction
-------------
-
-This package is based on the work of (Gamma et al.
-[1995](#ref-Gamma1995)), and (Fowler [2002](#ref-Fowler2002)).
+This package is based on the work of \[@Gamma1995\], and
+\[@Fowler2002\].
 
 Installation
 ------------
@@ -40,10 +44,3 @@ And the development version from [GitHub](https://github.com/) with:
 
 References
 ----------
-
-Fowler, Martin. 2002. *Patterns of enterprise application architecture*.
-Addison-Wesley Longman Publishing Co., Inc.
-
-Gamma, Erich, Richard Helm, Ralph Johnson, and John Vlissides. 1995.
-*Design patterns: elements of reusable object-oriented software*.
-Pearson Education India.
