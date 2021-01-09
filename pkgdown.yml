@@ -2,10 +2,11 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  articles/Dictionary: Dictionary.html
   articles/Repository: Repository.html
   articles/Singleton: Singleton.html
   articles/article_template: article_template.html
-last_built: 2021-01-09T00:01Z
+last_built: 2021-01-09T00:17Z
 urls:
   reference: https://tidylab.github.io/R6P//reference
   article: https://tidylab.github.io/R6P//articles
