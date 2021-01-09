@@ -6,12 +6,15 @@ authors:
 
 # Articles ----------------------------------------------------------------
 articles:
-- title: Base Pattern
+- title: Base Patterns
   contents:
   - '`articles/Singleton`'
 - title: Object-Relational Patterns
   contents:
   - '`articles/Repository`'
+- title: Appendix
+  contents:
+  - '`articles/Dictionary`'
 
 # Functions ---------------------------------------------------------------
 reference:

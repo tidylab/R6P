@@ -163,6 +163,6 @@ repository$del(key = rownames(mtcars[1,]))
 repository$get(key = rownames(mtcars[1,]))
 ```
 
-## `Appendix A - collections::dict`{#appendix-dict}
+
 
 ## References
