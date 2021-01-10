@@ -80,7 +80,7 @@ of access to it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Design Patterns in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
       </span>
     </div>
 
@@ -135,14 +135,29 @@ of access to it.</p>
 
     <p><!-- One line about what the function does --></p>
 
-<p>Mediates between the domain and data mapping layers using a
-collection-like interface for accessing domain objects.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>How It Works</h3>
+<p><em><strong>Singleton</strong></em> ensures a class only has one instance, and provide a
+global point of access to it.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>How It Works</h3>
 
+<ol>
+<li><p>Create only one instance of the <strong>Singleton</strong> class; and</p></li>
+<li><p>If an instance exists, then serve the same object again.</p></li>
+</ol>
 
-<p>text</p>
+<p>The main features of <strong>Singleton</strong> are:</p><ul>
+<li><p>Ensuring that one and only one object of the class gets created;</p></li>
+<li><p>Providing an access point for an object that is global to the
+program; and</p></li>
+<li><p>Controlling concurrent access to resources that are shared.</p></li>
+</ul>
+
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>When to Use It</h3>
-<p><div class="alert alert-danger"></p>
+
+<ul>
+<li><p>In situations that require exactly one instance of a class, that
+must be accessible to clients from a well-known access point. See
+the <a href='#example-1'><code>Counter</code> example</a>.</p></li>
+</ul><p><div class="alert alert-danger"></p>
 
 <p><strong>Caution:</strong> Singletons can be a problem in multi-threaded applications,
 especially when they manipulate mutable data.
@@ -157,26 +172,50 @@ into thread clash problems.
 </div></p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Example: Counter</h3>
-<p><div class="r"></p><pre><span class='va'>Counter</span> <span class='op'>&lt;&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>inherit <span class='op'>=</span> <span class='va'>Singleton</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+
+
+<p>In this example we implement a <code>Counter</code> that inherits the qualities of
+<strong>Singleton</strong>.<div class="r"></p><pre><span class='va'>Counter</span> <span class='op'>&lt;&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>inherit <span class='op'>=</span> <span class='va'>Singleton</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
     count <span class='op'>=</span> <span class='fl'>0</span>,
     add_1 <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span><span class='va'>self</span><span class='op'>$</span><span class='va'>count</span> <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>count</span> <span class='op'>+</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span><span class='op'>}</span>
 <span class='op'>)</span><span class='op'>)</span>
-</pre><p></div><div class="r"></p><pre><span class='va'>counter_A</span> <span class='op'>&lt;-</span> <span class='va'>Counter</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>counter_A</span><span class='op'>$</span><span class='va'>count</span>
-<span class='co'>#&gt; [1] 0</span>
-<span class='va'>counter_A</span><span class='op'>$</span><span class='fu'>add_1</span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>count</span>
-<span class='co'>#&gt; [1] 1</span>
-
+</pre><p></div></p>
+<p>Whenever we call the constructor on <code>Counter</code>, we always get the exact
+same instance:<div class="r"></p><pre><span class='va'>counter_A</span> <span class='op'>&lt;-</span> <span class='va'>Counter</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>counter_B</span> <span class='op'>&lt;-</span> <span class='va'>Counter</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>counter_B</span><span class='op'>$</span><span class='va'>count</span>
-<span class='co'>#&gt; [1] 1</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"counter_A was crated at %s"</span>, <span class='fu'>pryr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pryr/man/inspect.html'>address</a></span><span class='op'>(</span><span class='va'>counter_A</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'>#&gt; [1] "counter_A was crated at 0x7f8f27fad2c0"</span>
+<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"counter_B was crated at %s"</span>, <span class='fu'>pryr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pryr/man/inspect.html'>address</a></span><span class='op'>(</span><span class='va'>counter_B</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'>#&gt; [1] "counter_B was crated at 0x7f8f27fad2c0"</span>
 
 <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>counter_A</span>, <span class='va'>counter_B</span><span class='op'>)</span>
 <span class='co'>#&gt; [1] TRUE</span>
 </pre><p></div></p>
+<p>The two objects are equal and located at the same address; thus, they
+are the same object.</p>
+<p>When we make a change in any of the class instances, the rest of the
+instances are changed as well.<div class="r"></p><pre><span class='co'># How many times has the counter been increased?</span>
+<span class='va'>counter_A</span><span class='op'>$</span><span class='va'>count</span>
+<span class='co'>#&gt; [1] 0</span>
+
+<span class='co'># Add the counter by 1</span>
+<span class='va'>counter_A</span><span class='op'>$</span><span class='fu'>add_1</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># How many times has the counter been increased?</span>
+<span class='va'>counter_A</span><span class='op'>$</span><span class='va'>count</span>
+<span class='co'>#&gt; [1] 1</span>
+<span class='va'>counter_B</span><span class='op'>$</span><span class='va'>count</span> 
+<span class='co'>#&gt; [1] 1</span>
+</pre><p></div></p>
 
 <h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Example: Data Transfer Object (DTO)</h3>
-<p><div class="r"></p><pre><span class='va'>DTO</span> <span class='op'>&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>classname <span class='op'>=</span> <span class='st'>"DTO"</span>, inherit <span class='op'>=</span> <span class='va'>Singleton</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+
+
+<p>In this example, we crate access to a database that only establishes one
+connection per session.</p>
+<p>Notice how the <code>initialize</code> public method first calls the <code>initialize</code>
+of the <strong>Singleton</strong>, and then appends its own initialisation routine.<div class="r"></p><pre><span class='va'>DTO</span> <span class='op'>&lt;&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>classname <span class='op'>=</span> <span class='st'>"DTO"</span>, inherit <span class='op'>=</span> <span class='va'>Singleton</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
     con <span class='op'>=</span> <span class='cn'>NULL</span>,
     initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
         <span class='va'>super</span><span class='op'>$</span><span class='fu'>initialize</span><span class='op'>(</span><span class='op'>)</span>
@@ -191,15 +230,20 @@ into thread clash problems.
         <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
     <span class='op'>}</span>
 <span class='op'>)</span><span class='op'>)</span>
-</pre><p></div><div class="r"></p><pre><span class='va'>database_A</span> <span class='op'>&lt;-</span> <span class='va'>DTO</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div></p>
+<p>Once a database connection has established during the session, other
+calls to <code>DTO</code> instantiate objects that use the same database
+connection.<div class="r"></p><pre><span class='va'>database_A</span> <span class='op'>&lt;-</span> <span class='va'>DTO</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>database_B</span> <span class='op'>&lt;-</span> <span class='va'>DTO</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>database_A</span>, <span class='va'>database_B</span><span class='op'>)</span>
-</pre><p></div>
-<!-- ## Further Reading --></p>
+<span class='co'>#&gt; [1] TRUE</span>
+</pre><p></div></p>
 
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Further Reading</h3>
 
-    <p><a href='Wikipedia'>https://en.wikipedia.org/wiki/Singleton_pattern</a></p>
+
+<p><a href='https://en.wikipedia.org/wiki/Singleton_pattern'>Singleton at Wikipedia</a></p>
+
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
