@@ -1,6 +1,6 @@
 ---
 title: "The Repository Pattern"
-bibliography: [../../inst/REFERENCES.bib]
+bibliography: [../inst/REFERENCES.bib]
 biblio-style: apalike
 link-citations: yes
 nocite: | 
@@ -68,7 +68,7 @@ snippet <- snippet %>% discard_comments() %>% discard_null() %>% discard_empty_l
 ```
 
 ```{r, message=TRUE}
-message("**Repository** can benefit form the qualities of the [**Singleton** pattern](./articles/Singleton.html). This is why Using `inherit = Singleton` the **Repository** is ")
+message("**Repository** can benefit form the qualities of the [**Singleton** pattern](./Singleton.html). This is why Using `inherit = Singleton` the **Repository** is ")
 ```
 
 

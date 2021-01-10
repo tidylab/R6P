@@ -8,13 +8,13 @@ authors:
 articles:
 - title: Base Patterns
   contents:
-  - '`articles/Singleton`'
+  - '`Singleton`'
 - title: Object-Relational Patterns
   contents:
-  - '`articles/Repository`'
+  - '`Repository`'
 - title: Appendix
   contents:
-  - '`articles/Dictionary`'
+  - '`Dictionary`'
 
 # Functions ---------------------------------------------------------------
 reference:

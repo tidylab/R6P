@@ -1,6 +1,6 @@
 ---
 title: "Article Template"
-bibliography: [../../inst/REFERENCES.bib]
+bibliography: [../inst/REFERENCES.bib]
 biblio-style: apalike
 link-citations: yes
 nocite: | 

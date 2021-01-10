@@ -1,6 +1,6 @@
 ---
 title: "The Dictionary Data Structure"
-bibliography: [../../inst/REFERENCES.bib]
+bibliography: [../inst/REFERENCES.bib]
 biblio-style: apalike
 link-citations: yes
 editor_options: 

@@ -1,6 +1,6 @@
 #' @title Singleton Pattern
 #' @name Singleton
-#' @includeRmd vignettes/articles/Singleton.Rmd
+#' @includeRmd vignettes/Singleton.Rmd
 NULL
 
 #' @rdname Singleton
