@@ -21,9 +21,9 @@ knowledge of the database schema.
 ## How It Works
 
 -   **Repository** isolates domain objects from details of the database access
-    code
--   **Repository** concentrates code of query construction
--   **Repository** helps to minimize duplicate query logic
+    code;
+-   **Repository** concentrates code of query construction; and
+-   **Repository** helps to minimize duplicate query logic.
 
 In R, the simplest form of **Repository** encapsulates `data.frame` entries
 persisted in a data store and the operations performed over them, providing a
@@ -67,7 +67,12 @@ snippet <- snippet %>% discard_comments() %>% discard_null() %>% discard_empty_l
 ```{r, code = snippet, eval = FALSE, echo = TRUE}
 ```
 
-The minimal implementing of `AbstractRepository` requires you to define four
+```{r, message=TRUE}
+message("**Repository** can benefit form the qualities of the [**Singleton** pattern](./articles/Singleton.html). This is why Using `inherit = Singleton` the **Repository** is ")
+```
+
+
+The given implementing of `AbstractRepository` requires you to define four
 functions:
 
 (1) `initialize` establishes a database connection of some sort;
@@ -77,25 +82,33 @@ functions:
 
 <!-- In addition, there are context depended function you may want to ad -->
 
-Importantly, any Repository implementation happens in context. The following
-implementations consider a repostory of car models with their specifications.
-
-From the caller perspective, both implementation behave identically -- they have
-the same queries. Under the hood, the two implementations employ different
-storage approaches.
-
-### Example: In-Memory Storage Implementation with [`collections`](https://github.com/randy3k/collections)
-
 ```{r, message=TRUE}
-message("In-Memory implementations are a temporal solution that is good for testing and rapid prototyping.")
+message("In general, the **Repository** patterns requires at least the `add` and `get` operations. However, you may rename those operations to fit your context. For example, if you use **Repository** to access various tables in a database, `write_table` and `read_table` might be better names.")
 ```
 
-1.  In-Memory implementations contribute to rapid development because:
+```{r, warning=TRUE}
+warning("It is up to you to devise a policy that defines (A) what to do when the same entity is added to the Repository; and (B) what to do when a query matches no results.")
+```
+
+Repository implementation are project specific. The following implementations
+consider a **Repository** of car models with their specifications.
+
+From the caller perspective, both implementation behave identically -- they have
+the same queries. Nevertheless, Under the hood the two implementations employ
+different storage approaches.
+
+### Example: Transient Storage Implementation with [`collections`](https://github.com/randy3k/collections)
+
+```{r, message=TRUE}
+message("Transient implementations are a temporal solution that is good for testing and rapid prototyping.")
+```
+
+1.  Transient implementations contribute to rapid development because:
 
 -   They can be used before you establish/get access to a real database.
 -   They are fast to establish in comparison to DBMS
 
-2.  In-Memory implementations are useful during testing because they are
+2.  Transient implementations are useful during testing because they are
     independent of the real database (if any), that means:
 
 -   They start as empty storage allowing the programmer to test specific
@@ -103,14 +116,13 @@ message("In-Memory implementations are a temporal solution that is good for test
 -   They don't make unintended changes in the real database
 
 ```{r, error=TRUE}
-stop("In-Memory implementations are not recommended during the production stage. In-Memory storage is lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.")
+stop("Transient implementations are not recommended during the production stage. Transient storage is lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.")
 ```
 
--   See more information about `collections::dict` in
-    [appendix](#appendix-dict).
+First we define `initialize` (class constructor). When the caller instantiate a new `TransientRepository` object, 
 
 ```{r Repository-In-Memory-implementation, echo=TRUE, results='markup'}
-InMemoryRepository <- R6::R6Class(
+TransientRepository <- R6::R6Class(
   classname = "Repository", inherit = AbstractRepository, public = list(
     initialize = function() {private$cars <- collections::dict()},
     add = function(key, value){private$cars$set(key, value); invisible(self)},
@@ -125,7 +137,7 @@ InMemoryRepository <- R6::R6Class(
 Adding customised operations
 
 ```{r Repository-In-Memory-implementation-addon, echo=TRUE, results='markup'}
-InMemoryRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
+TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
   private$cars$values() %>% dplyr::bind_rows()
 })
 ```
@@ -136,7 +148,7 @@ head(mtcars, 2)
 ```
 
 ```{r, echo=TRUE, results='markup'}
-repository <- InMemoryRepository$new()
+repository <- TransientRepository$new()
 
 repository$add(key = mtcars[1, "uid"], value = mtcars[1,])
 repository$add(key = mtcars[2, "uid"], value = mtcars[2,])
