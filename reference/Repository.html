@@ -139,9 +139,9 @@ and certainly no knowledge of the database schema.</p><h3 class='hasAnchor' id='
 
 <ul>
 <li><p><strong>Repository</strong> isolates domain objects from details of the database
-access code</p></li>
-<li><p><strong>Repository</strong> concentrates code of query construction</p></li>
-<li><p><strong>Repository</strong> helps to minimize duplicate query logic</p></li>
+access code;</p></li>
+<li><p><strong>Repository</strong> concentrates code of query construction; and</p></li>
+<li><p><strong>Repository</strong> helps to minimize duplicate query logic.</p></li>
 </ul>
 
 <p>In R, the simplest form of <strong>Repository</strong> encapsulates <code>data.frame</code>
@@ -183,35 +183,59 @@ meaningful names. For example <code>Repository$get_efficient_cars() = SELECT * F
     <span class='co'>#' @description Retrieve an element from the Repository.</span>
     get <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span> <span class='va'>exceptions</span><span class='op'>$</span><span class='fu'>not_implemented_error</span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>)</span><span class='op'>)</span>
-</pre><p></div></p>
-<p>The minimal implementing of <code>AbstractRepository</code> requires you to define
+</pre><p></div>
+<div class="alert alert-info"></p>
+
+<p><strong>Tip:</strong> <strong>Repository</strong> can benefit form the qualities of the
+<a href='./Singleton.html'><strong>Singleton</strong> pattern</a>. This is why Using <code>inherit = Singleton</code> the <strong>Repository</strong> is
+</div></p>
+
+<p>The given implementing of <code>AbstractRepository</code> requires you to define
 four functions:</p><ol>
 <li><p><code>initialize</code> establishes a database connection of some sort;</p></li>
 <li><p><code>add</code> adds one or more domain objects into the database;</p></li>
 <li><p><code>del</code> deletes one or more domain objects from the database; and</p></li>
 <li><p><code>get</code> retrieve one or more domain objects from the database.</p></li>
-</ol><p><!-- In addition, there are context depended function you may want to ad --></p>
+</ol><p><!-- In addition, there are context depended function you may want to ad -->
 
-<p>Importantly, any Repository implementation happens in context. The
-following implementations consider a repostory of car models with their
+
+<div class="alert alert-info"></p>
+
+<p><strong>Tip:</strong> In general, the <strong>Repository</strong> patterns requires at least the
+<code>add</code> and <code>get</code> operations. However, you may rename those operations to
+fit your context. For example, if you use <strong>Repository</strong> to access
+various tables in a database, <code>write_table</code> and <code>read_table</code> might be
+better names.
+</div>
+
+
+<div class="alert alert-warning"></p>
+
+<p><strong>Note:</strong> It is up to you to devise a policy that defines (A) what to do
+when the same entity is added to the Repository; and (B) what to do when
+a query matches no results.
+</div></p>
+
+<p>Repository implementation are project specific. The following
+implementations consider a <strong>Repository</strong> of car models with their
 specifications.</p>
 <p>From the caller perspective, both implementation behave identically –
-they have the same queries. Under the hood, the two implementations
-employ different storage approaches.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Example: In-Memory Storage Implementation with <a href='https://github.com/randy3k/collections'><code>collections</code></a></h4>
+they have the same queries. Nevertheless, Under the hood the two
+implementations employ different storage approaches.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Example: Transient Storage Implementation with <a href='https://github.com/randy3k/collections'><code>collections</code></a></h4>
 <p><div class="alert alert-info"></p>
 
-<p><strong>Tip:</strong> In-Memory implementations are a temporal solution that is good
+<p><strong>Tip:</strong> Transient implementations are a temporal solution that is good
 for testing and rapid prototyping.
 </div></p>
 <ol>
-<li><p>In-Memory implementations contribute to rapid development because:</p></li>
+<li><p>Transient implementations contribute to rapid development because:</p></li>
 </ol><p><!-- end list --></p>
 <ul>
 <li><p>They can be used before you establish/get access to a real database.</p></li>
 <li><p>They are fast to establish in comparison to DBMS</p></li>
 </ul><p><!-- end list --></p>
 <ol>
-<li><p>In-Memory implementations are useful during testing because they are
+<li><p>Transient implementations are useful during testing because they are
 independent of the real database (if any), that means:</p></li>
 </ol><p><!-- end list --></p>
 <ul>
@@ -220,17 +244,14 @@ behaviour of the caller.</p></li>
 <li><p>They don’t make unintended changes in the real database</p></li>
 </ul><p><div class="alert alert-danger"></p>
 
-<p><strong>Caution:</strong> In-Memory implementations are not recommended during the
-production stage. In-Memory storage is lost when a session is rebooted.
+<p><strong>Caution:</strong> Transient implementations are not recommended during the
+production stage. Transient storage is lost when a session is rebooted.
 You should think about what are the ramifications of losing all the data
 put into storage.
 </div></p>
-<ul>
-<li><p>See more information about <code><a href='https://rdrr.io/pkg/collections/man/dict.html'>collections::dict</a></code> in
-<a href='#appendix-dict'>appendix</a>.</p></li>
-</ul><p><!-- end list -->
 
-<div class="r"></p><pre><span class='va'>InMemoryRepository</span> <span class='op'>&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>
+<p>First we define <code>initialize</code> (class constructor). When the caller
+instantiate a new <code>TransientRepository</code> object,<div class="r"></p><pre><span class='va'>TransientRepository</span> <span class='op'>&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>
   classname <span class='op'>=</span> <span class='st'>"Repository"</span>, inherit <span class='op'>=</span> <span class='va'>AbstractRepository</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
     initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span><span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span> <span class='op'>&lt;-</span> <span class='fu'>collections</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/collections/man/dict.html'>dict</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>}</span>,
     add <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>value</span><span class='op'>)</span><span class='op'>{</span><span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>value</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span><span class='op'>}</span>,
@@ -241,7 +262,7 @@ put into storage.
     cars <span class='op'>=</span> <span class='cn'>NULL</span>
   <span class='op'>)</span><span class='op'>)</span>
 </pre><p></div></p>
-<p>Adding customised operations<div class="r"></p><pre><span class='va'>InMemoryRepository</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span><span class='st'>"public"</span>, <span class='st'>"get_all_cars"</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
+<p>Adding customised operations<div class="r"></p><pre><span class='va'>TransientRepository</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span><span class='st'>"public"</span>, <span class='st'>"get_all_cars"</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
   <span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span><span class='op'>$</span><span class='fu'>values</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span><span class='op'>)</span>
 </pre><p></div><div class="r"></p><pre><span class='va'>mtcars</span> <span class='op'>&lt;-</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/rownames.html'>rownames_to_column</a></span><span class='op'>(</span><span class='st'>"uid"</span><span class='op'>)</span>
@@ -249,7 +270,7 @@ put into storage.
 <span class='co'>#&gt;             uid mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
 <span class='co'>#&gt; 1     Mazda RX4  21   6  160 110  3.9 2.620 16.46  0  1    4    4</span>
 <span class='co'>#&gt; 2 Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</span>
-</pre><p></div><div class="r"></p><pre><span class='va'>repository</span> <span class='op'>&lt;-</span> <span class='va'>InMemoryRepository</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
+</pre><p></div><div class="r"></p><pre><span class='va'>repository</span> <span class='op'>&lt;-</span> <span class='va'>TransientRepository</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='va'>repository</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span>key <span class='op'>=</span> <span class='va'>mtcars</span><span class='op'>[</span><span class='fl'>1</span>, <span class='st'>"uid"</span><span class='op'>]</span>, value <span class='op'>=</span> <span class='va'>mtcars</span><span class='op'>[</span><span class='fl'>1</span>,<span class='op'>]</span><span class='op'>)</span>
 <span class='va'>repository</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span>key <span class='op'>=</span> <span class='va'>mtcars</span><span class='op'>[</span><span class='fl'>2</span>, <span class='st'>"uid"</span><span class='op'>]</span>, value <span class='op'>=</span> <span class='va'>mtcars</span><span class='op'>[</span><span class='fl'>2</span>,<span class='op'>]</span><span class='op'>)</span>
