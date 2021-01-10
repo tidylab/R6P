@@ -16,20 +16,22 @@ Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
         if(is.null(private$public_bind_env)){
             Class <- base::get(classname)
 
-            private$public_bind_env <- base::dynGet("public_bind_env")
-            private$private_bind_env <- base::dynGet("private_bind_env")
+            private$public_bind_env <- private$dynGet("public_bind_env")
+            private$private_bind_env <- private$dynGet("private_bind_env")
 
             Class$set('private', 'public_bind_env', private$public_bind_env, overwrite = TRUE)
             Class$set('private', 'private_bind_env', private$private_bind_env, overwrite = TRUE)
 
             } else {
             self <- private$instance
-            dynSet("public_bind_env", private$public_bind_env)
-            dynSet("private_bind_env", private$private_bind_env)
+            private$dynSet("public_bind_env", private$public_bind_env)
+            private$dynSet("private_bind_env", private$private_bind_env)
         }
     }
 ), private = list(
     public_bind_env = NULL,
-    private_bind_env = NULL
+    private_bind_env = NULL,
+    dynGet = base::dynGet,
+    dynSet = dynSet
 ))
 

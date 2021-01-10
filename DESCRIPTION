@@ -32,7 +32,8 @@ Suggests:
     covr,
     collections,
     DBI,
-    RSQLite
+    RSQLite,
+    pryr
 Imports: 
     R6,
     purrr,
