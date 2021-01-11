@@ -68,7 +68,7 @@ snippet <- snippet %>% discard_comments() %>% discard_null() %>% discard_empty_l
 ```
 
 ```{r, message=TRUE}
-message("By passing the input argument `inherit = Singleton`, the `AbstractRepository` inherits the qualities of the [**Singleton** pattern](./Singleton.html).")
+message("By passing the input argument `inherit = Singleton`, the `AbstractRepository` inherits the qualities of the [**Singleton** pattern](https://tidylab.github.io/R6P/articles/patterns/Singleton.html).")
 ```
 
 

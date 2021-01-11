@@ -19,12 +19,12 @@ Introduction
 Design patterns abstract and present in neat, well-defined components
 and interfaces the experience of many software designers and architects
 over many years of solving similar problems. These are solutions that
-have withstood the test of time with respect to reusability,
-flexibility, scalability, and maintainability. R6P provides abstract
-base classes with examples for a few known design patterns. The patterns
-were selected by their applicability to analytic projects in R. Using
-these patterns in R projects have proven effective in dealing with the
-complexity that data-driven applications posses.
+have withstood the test of time with respect to re-usability,
+flexibility, and maintainability. R6P provides abstract base classes
+with examples for a few known design patterns. The patterns were
+selected by their applicability to analytic projects in R. Using these
+patterns in R projects have proven effective in dealing with the
+complexity that data-driven applications possess.
 
 This package is based on the work of Gamma1995, and Fowler2002.
 

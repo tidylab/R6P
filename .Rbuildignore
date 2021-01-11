@@ -5,12 +5,13 @@
 ^data-raw/
 ^inst/snippets/
 ^renv/
-^vignettes/articles/
+^vignettes/
 
 # Files
 ^\..*
 ^.*\.Rproj$
 ^codecov\.yml$
+^cran-comments\.md$
 ^README\.Rmd$
 ^LICENSE\.md$
 ^vignettes/_common.R$
@@ -23,4 +24,5 @@
 # pkgdown$
 ^docs$
 ^pkgdown$
+
 
