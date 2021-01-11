@@ -1,6 +1,6 @@
 ---
 title: "The Singleton Pattern"
-bibliography: [../inst/REFERENCES.bib]
+bibliography: [../../inst/REFERENCES.bib]
 biblio-style: apalike
 nocite: | 
   @Gamma1995 

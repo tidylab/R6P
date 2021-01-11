@@ -1,6 +1,6 @@
 #' @title Repository Pattern
 #' @name Repository
-#' @includeRmd vignettes/Repository.Rmd
+#' @includeRmd vignettes/patterns/Repository.Rmd
 NULL
 
 #' @rdname Repository
