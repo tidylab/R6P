@@ -1,13 +1,3 @@
-#' @title Dummy Unit Of Work
-#' @keywords internal
-#' @noRd
-DummyUnitOfWork <- R6::R6Class(classname = "UnitOfWork", inherit = AbstractUnitOfWork, public = list(
-    initialize = function(){private$cars <- DummyRepository$new(); invisible(self)},
-    enter = function(){NULL; invisible(self)},
-    commit = function(){NULL; invisible(self)},
-    rollback = function(){NULL; invisible(self)}
-), private = list(cars = NULL))
-
 #' @title Dummy Repository
 #' @keywords internal
 #' @noRd
