@@ -1,6 +1,42 @@
 #' @title Singleton Pattern
 #' @name Singleton
 #' @includeRmd vignettes/details/Singleton.Rmd
+#' @examples
+#' # See more examples at <https://tidylab.github.io/R6P/articles>
+#' address <- pryr::address
+#'
+#' # In this example we implement a `Counter` that inherits the qualities of
+#' # Singleton
+#' Counter <- R6::R6Class("Counter", inherit = R6P::Singleton, public = list(
+#'     count = 0,
+#'     add_1 = function(){self$count = self$count + 1; invisible(self)}
+#' ))
+#'
+#' # Whenever we call the constructor on `Counter`, we always get the exact same
+#' # instance:
+#' counter_A <- Counter$new()
+#' counter_B <- Counter$new()
+#'
+#' sprintf("counter_A was crated at %s", address(counter_A))
+#' sprintf("counter_B was crated at %s", address(counter_B))
+#'
+#' identical(counter_A, counter_B)
+#'
+#' # The two objects are equal and located at the same address; thus, they are
+#' # the same object.
+#'
+#' # When we make a change in any of the class instances, the rest of the
+#' # instances are changed as well.
+#'
+#' # How many times has the counter been increased?
+#' counter_A$count
+#'
+#' # Increase the counter by 1
+#' counter_A$add_1()
+#'
+#' # How many times have the counters been increased?
+#' counter_A$count
+#' counter_B$count
 NULL
 
 #' @rdname Singleton
@@ -14,7 +50,7 @@ Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
         classname <- get_classname()
         if(classname == "Singleton") stop(paste(classname, "is an abstract base class and therefore cannot be instantiated directly"))
         if(is.null(private$public_bind_env)){
-            Class <- base::get(classname)
+            Class <- private$dynGet(classname)
 
             private$public_bind_env <- private$dynGet("public_bind_env")
             private$private_bind_env <- private$dynGet("private_bind_env")
@@ -31,7 +67,7 @@ Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
 ), private = list(
     public_bind_env = NULL,
     private_bind_env = NULL,
-    dynGet = base::dynGet,
+    dynGet = dynGet,
     dynSet = dynSet
 ))
 

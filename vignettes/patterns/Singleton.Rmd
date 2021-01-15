@@ -23,7 +23,7 @@ In this example we implement a `Counter` that inherits the qualities of
 **Singleton**.
 
 ```{r Singleton-Counter-implementation, echo=TRUE, results='markup'}
-Counter <<- R6::R6Class(inherit = Singleton, public = list(
+Counter <- R6::R6Class(inherit = Singleton, public = list(
     count = 0,
     add_1 = function(){self$count = self$count + 1; invisible(self)}
 ))
@@ -52,10 +52,10 @@ are changed as well.
 # How many times has the counter been increased?
 counter_A$count
 
-# Add the counter by 1
+# Increase the counter by 1
 counter_A$add_1()
 
-# How many times has the counter been increased?
+# How many times have the counters been increased?
 counter_A$count
 counter_B$count 
 ```
@@ -69,7 +69,7 @@ Notice how the `initialize` public method first calls the `initialize` of the
 **Singleton**, and then appends its own initialisation routine.
 
 ```{r Singleton-DTO-implementation, echo=TRUE, results='hold', eval=TRUE}
-DTO <<- R6::R6Class(classname = "DTO", inherit = Singleton, public = list(
+DTO <- R6::R6Class(classname = "DTO", inherit = Singleton, public = list(
     con = NULL,
     initialize = function(){
         super$initialize()
