@@ -7,4 +7,6 @@ devtools::check_win_devel()
 
 devtools::build_manual()
 
+devtools::spell_check()
+
 utils::maintainer(pkgload::pkg_name())
