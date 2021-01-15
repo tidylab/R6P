@@ -59,3 +59,8 @@ knitr::knit_hooks$set(
 # rmarkdown ---------------------------------------------------------------
 kable <- knitr::kable
 
+
+# regex -------------------------------------------------------------------
+discard_comments <- function(string) string[!stringr::str_detect(string, "^(#'|#) ")]
+discard_null <- function(string) string[!stringr::str_detect(string, "^NULL")]
+discard_empty_lines <- function(string) string[nchar(string)>0]

@@ -1,0 +1,271 @@
+---
+title: "The Repository Pattern"
+bibliography: [../../inst/REFERENCES.bib]
+biblio-style: apalike
+link-citations: yes
+nocite: | 
+  @Fowler2002
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+```
+
+With ***Repository***, in-memory objects do not need to know whether there is a
+database present or absent, they need no SQL interface code, and certainly no
+knowledge of the database schema.
+
+## How It Works
+
+-   **Repository** isolates domain objects from details of the database access
+    code;
+-   **Repository** concentrates code of query construction; and
+-   **Repository** helps to minimize duplicate query logic.
+
+In R, the simplest form of **Repository** encapsulates `data.frame` entries
+persisted in a data store and the operations performed over them, providing a
+more object-oriented view of the persistence layer. From the caller point of
+view, the location (locally or remotely), the technology and the interface of
+the data store are obscured.
+
+## When to Use It
+
+-   In situations with multiple data sources.
+
+-   In situations where the real data store, the one that is used in production,
+    is remote. This allows you to implement a **Repository** mock with identical
+    queries that runs locally. Then, the mock could be used during development
+    and testing. The mock itself may comprise a sample of the real data store or
+    just fake data.
+
+-   In situations where the real data store doesn't exist. Implementing a mock
+    **Repository** allows you to defer immature decisions about the database
+    technology and/or defer its deployment. In this way, the temporary solution
+    allows you to focus the development effort on the core functionality of the
+    application.
+
+-   In situations where using SQL queries can be represented by meaningful
+    names. For example
+    `Repository$get_efficient_cars() = SELECT * FROM mtcars WHERE mpg > 20`
+
+-   When building [stateless
+    microservices](https://www.oreilly.com/library/view/software-architects-handbook/9781788624060/c47a09b6-91f9-4322-a6d4-9bc1604b1bdf.xhtml).
+
+## Implementations
+
+The code of the abstract base class of **Repository** is
+
+```{r}
+path_snippet <- usethis::proj_path("R", "object_relational-Repository.R")
+snippet <- readLines(path_snippet)
+snippet <- snippet %>% discard_comments() %>% discard_null() %>% discard_empty_lines()
+```
+
+```{r, code = snippet, eval = FALSE, echo = TRUE}
+```
+
+```{r, message=TRUE}
+message("By passing the input argument `inherit = Singleton`, the `AbstractRepository` inherits the qualities of the [**Singleton** pattern](https://tidylab.github.io/R6P/articles/patterns/Singleton.html).")
+```
+
+
+The given implementing of `AbstractRepository` requires you to define four
+functions:
+
+(1) `initialize` establishes a database connection of some sort;
+(2) `add` adds one or more domain objects into the database;
+(3) `del` deletes one or more domain objects from the database; and
+(4) `get` retrieve one or more domain objects from the database.
+
+<!-- In addition, there are context depended function you may want to ad -->
+
+```{r, message=TRUE}
+message("In general, the **Repository** patterns requires at least the `add` and `get` operations. However, you may rename those operations to fit your context. For example, if you use **Repository** to access various tables in a database, `write_table` and `read_table` might be better names.")
+```
+
+```{r, warning=TRUE}
+warning("It is up to you to devise a policy that defines (A) what to do when the same entity is added to the Repository; and (B) what to do when a query matches no results.")
+```
+
+Each **Repository** implementation is project specific. The following
+implementation consider a **Repository** of car models with their
+specifications.
+
+From the caller perspective, both implementations behave identically -- they
+have the same queries. Nevertheless, under the hood the two implementations
+employ different storage approaches.
+
+### Example: Transient Storage Implementation with [`collections`](https://github.com/randy3k/collections)
+
+```{r, message=TRUE}
+message("Transient implementations are a temporal solution that is good for testing and rapid prototyping.")
+```
+
+1.  Transient implementations contribute to rapid development because:
+
+-   They can be used before you establish/get access to a real database.
+-   They are fast to establish in comparison to DBMS
+
+2.  Transient implementations are useful during testing because they are
+    independent of the real database (if any), that means:
+
+-   They start as empty storage allowing the programmer to test specific
+    behaviour of the caller.
+-   They don't make unintended changes in the real database
+
+```{r, error=TRUE}
+stop("Transient implementations are not recommended during the production stage. Transient storage is lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.")
+```
+
+First, we define the class constructor, `initialize`, to establish a transient data storage. In this case we use a dictionary from the [`collections` package](https://randy3k.github.io/collections/reference/dict.html). 
+
+Second, we define the `add`, `del` and `get` functions that operate on the dictionary.
+
+As an optional step, we define the NULL object. In this case, rather then the reserved word `NULL`, the NULL object is a data.frame with 0 rows and predefined column. 
+
+```{r Repository-Transient-implementation, echo=TRUE, results='markup'}
+TransientRepository <- R6::R6Class(
+  classname = "Repository", inherit = AbstractRepository, public = list(
+    initialize = function() {private$cars <- collections::dict()},
+    add = function(key, value){private$cars$set(key, value); invisible(self)},
+    del = function(key){private$cars$remove(key); invisible(self)},
+    get = function(key){return(private$cars$get(key, default = private$NULL_car))}
+  ), private = list(
+    NULL_car = cbind(uid  = NA_character_, datasets::mtcars)[0,],
+    cars = NULL
+  ))
+```
+
+Adding customised operations is also possible via the R6 `set` function. The
+following example, adds a query that returns all the objects in the database
+
+```{r Repository-Transient-implementation-addon, echo=TRUE, results='markup'}
+TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
+  result <- private$cars$values() %>% dplyr::bind_rows()
+  if(nrow(result) == 0) return(private$NULL_car) else return(result)
+})
+```
+
+In the example, we use the `mtcars` dataset with a `uid` column that uniquely
+identifies the different cars in the **Repository**:
+
+```{r, echo=TRUE, results='markup'}
+mtcars <- datasets::mtcars %>% tibble::rownames_to_column("uid")
+head(mtcars, 2)
+```
+
+Here is how the caller uses the `Repository`:
+
+```{r, echo=TRUE, results='markup'}
+## Instantiate a repository object
+repository <- TransientRepository$new()
+
+## Add two different cars specification to the repository
+repository$add(key = "Mazda RX4", value = dplyr::filter(mtcars, uid == "Mazda RX4"))
+repository$add(key = "Mazda RX4 Wag", value = dplyr::filter(mtcars, uid == "Mazda RX4 Wag"))
+
+## Get "Mazda RX4" specification
+repository$get(key = "Mazda RX4")
+
+## Get all the specifications in the repository
+repository$get_all_cars()
+
+## Delete "Mazda RX4" specification
+repository$del(key = "Mazda RX4")
+
+## Get "Mazda RX4" specification
+repository$get(key = "Mazda RX4")
+```
+
+-   Talk about each line
+-   Talk about additional functions
+
+### Example: Persistent Storage Implementation with [`DBI`](https://dbi.r-dbi.org/)
+
+First, we define the class constructor, `initialize`, to establish an SQLite database.
+
+Second, we define the `add`, `del` and `get` functions that operate on the dictionary.
+
+As an optional step, we define the NULL object. In this case, rather then the reserved word `NULL`, the NULL object is a data.frame with 0 rows and predefined column. 
+
+```{r Repository-Persistent-implementation, echo=TRUE}
+PersistentRepository <- R6::R6Class(
+  classname = "Repository", inherit = AbstractRepository, public = list(
+    #' @param immediate (`logical`) Should queries be committed immediately?
+    initialize = function(immediate = TRUE){
+      private$immediate <- immediate
+      private$conn <- DBI::dbConnect(RSQLite::SQLite(), dbname = ":memory:")
+      DBI::dbCreateTable(private$conn, "mtcars", private$NULL_car)
+    },
+    add = function(key, value){
+      car <- private$NULL_car %>% tibble::add_row(value)
+      self$del(key = key)
+      DBI::dbAppendTable(private$conn, "mtcars", car)
+      invisible(self)
+    },
+    del = function(key){
+      statement <- paste0("DELETE FROM mtcars WHERE uid = '", key, "'")
+      DBI::dbExecute(private$conn, statement, immediate = private$immediate)
+      invisible(self)
+    },
+    get = function(key){
+      statement <- paste0("SELECT * FROM mtcars WHERE uid = '", key, "'")
+      result <- DBI::dbGetQuery(private$conn, statement)
+      if(nrow(result) == 0) return(private$NULL_car) else return(result)
+    }
+  ), private = list(
+    NULL_car = cbind(uid  = NA_character_, datasets::mtcars)[0,],
+    immediate = NULL,
+    conn = NULL)
+)
+```
+
+Adding customised operations is also possible via the R6 `set` function. The
+following example, adds a query that returns all the objects in the database
+
+```{r Repository-Persistent-implementation-addon, echo=TRUE}
+PersistentRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
+  statement <- "SELECT * FROM mtcars"
+  result <- DBI::dbGetQuery(private$conn, statement)
+  if(nrow(result) == 0) return(private$NULL_car) else return(result)
+})
+```
+
+In the example, we use the `mtcars` dataset with a `uid` column that uniquely
+identifies the different cars in the **Repository**:
+
+```{r, echo=TRUE, results='markup'}
+mtcars <- datasets::mtcars %>% tibble::rownames_to_column("uid")
+head(mtcars, 2)
+```
+
+Here is how the caller uses the `Repository`:
+
+```{r, echo=TRUE, results='markup'}
+## Instantiate a repository object
+repository <- PersistentRepository$new()
+
+## Add two different cars specification to the repository
+repository$add(key = "Mazda RX4", value = dplyr::filter(mtcars, uid == "Mazda RX4"))
+repository$add(key = "Mazda RX4 Wag", value = dplyr::filter(mtcars, uid == "Mazda RX4 Wag"))
+
+## Get "Mazda RX4" specification
+repository$get(key = "Mazda RX4")
+
+## Get all the specifications in the repository
+repository$get_all_cars()
+
+## Delete "Mazda RX4" specification
+repository$del(key = "Mazda RX4")
+
+## Get "Mazda RX4" specification
+repository$get(key = "Mazda RX4")
+```
+
+## Further Reading
+
+[Repository at Martin Fowler
+Blog](https://martinfowler.com/eaaCatalog/repository.html)
