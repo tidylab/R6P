@@ -5,6 +5,7 @@ renv/
 *_cache/
 
 # Files
+.Renviron
 .Rproj.user
 .Rhistory
 .RData
@@ -12,3 +13,4 @@ renv/
 *.png
 renv.lock
 docs
+
