@@ -51,7 +51,7 @@ jobs:
                       writeLines(paste0('options(repos = \'', URL, '\')'), Rprofile);
                       close(Rprofile)"
           Rscript -e "if(!'remotes' %in% rownames(utils::installed.packages())) utils::install.packages('remotes')"
-          Rscript -e "remotes::install_cran('Rcpp', dependencies = TRUE)
+          Rscript -e "remotes::install_cran('Rcpp', dependencies = TRUE)"
 
       - name: Query dependencies
         run: |
