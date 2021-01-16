@@ -3,12 +3,13 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   appendices/Dictionary: Dictionary.html
+  appendices/SpecialCase: SpecialCase.html
   article_template: article_template.html
   details/Repository: Repository.html
   details/Singleton: Singleton.html
   patterns/Repository: Repository.html
   patterns/Singleton: Singleton.html
-last_built: 2021-01-16T05:50Z
+last_built: 2021-01-16T22:42Z
 urls:
   reference: https://tidylab.github.io/R6P//reference
   article: https://tidylab.github.io/R6P//articles
