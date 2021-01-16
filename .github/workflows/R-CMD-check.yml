@@ -51,7 +51,6 @@ jobs:
                       writeLines(paste0('options(repos = \'', URL, '\')'), Rprofile);
                       close(Rprofile)"
           Rscript -e "if(!'remotes' %in% rownames(utils::installed.packages())) utils::install.packages('remotes')"
-          Rscript -e "remotes::install_cran('Rcpp', dependencies = TRUE)"
 
       - name: Query dependencies
         run: |
@@ -74,7 +73,8 @@ jobs:
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
-          sudo apt-get install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev
+          sudo apt-get install build-essential cmake git libbamtools-dev libboost-dev libboost-iostreams-dev libboost-log-dev libboost-system-dev libboost-test-dev libssl-dev libcurl4-openssl-dev libxml2-dev libz-dev curl libhdf5-cpp-100 libarmadillo7 libarmadillo-dev
+
       - name: Install dependencies
         run: |
           remotes::install_cran("devtools")
