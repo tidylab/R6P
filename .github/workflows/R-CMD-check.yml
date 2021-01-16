@@ -51,8 +51,6 @@ jobs:
                       writeLines(paste0('options(repos = \'', URL, '\')'), Rprofile);
                       close(Rprofile)"
           Rscript -e "if(!'remotes' %in% rownames(utils::installed.packages())) utils::install.packages('remotes')"
-          Rscript -e "if(!'devtools' %in% rownames(utils::installed.packages())) utils::install.packages('devtools')"
-          Rscript -e "devtools::document()"
       - name: Query dependencies
         run: |
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
@@ -84,7 +82,7 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
+          remotes::install_cran(c("rcmdcheck", "rmarkdown"))
         shell: Rscript {0}
 
       - name: Check
