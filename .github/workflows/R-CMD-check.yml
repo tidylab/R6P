@@ -43,8 +43,14 @@ jobs:
       - name: Prepare
         run: |
           echo "utils::chooseCRANmirror(graphics=FALSE, ind = 1)" > .Rprofile
+          Rscript -e "Date <- as.character(read.dcf('DESCRIPTION', 'Date'));
+                      URL <- if(is.na(Date)) 'https://cran.rstudio.com/' else paste0('https://mran.microsoft.com/snapshot/', Date);
+                      Rprofile <- file('.Rprofile', open = 'wt');
+                      writeLines('.libPaths(Sys.getenv(\'R_LIBS_USER\'))', Rprofile);
+                      writeLines('require(remotes)', Rprofile);
+                      writeLines(paste0('options(repos = \'', URL, '\')'), Rprofile);
+                      close(Rprofile)"
           Rscript -e "if(!'remotes' %in% rownames(utils::installed.packages())) utils::install.packages('remotes')"
-
       - name: Query dependencies
         run: |
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
@@ -69,9 +75,9 @@ jobs:
           sudo apt-get install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev
       - name: Install dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("devtools")
           remotes::install_cran("rcmdcheck")
+          remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Check
