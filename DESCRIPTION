@@ -27,6 +27,7 @@ Language: en-GB
 Depends: 
     R (>= 3.5)
 Suggests: 
+    testthat,
     collections,
     dplyr,
     DBI,
