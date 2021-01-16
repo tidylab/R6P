@@ -75,7 +75,8 @@ jobs:
           sudo apt-get install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev
       - name: Install dependencies
         run: |
-          remotes::install_cran("devtools")
+          remotes::install_cran(c("usethis", "covr", "httr", "rversions"))
+          remotes::install_cran("devtools", dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
