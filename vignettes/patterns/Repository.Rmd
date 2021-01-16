@@ -56,8 +56,7 @@ warning("It is up to you to devise a policy that defines (A) what to do when the
 ```
 
 Each **Repository** implementation is project specific. The following
-implementation consider a **Repository** of car models with their
-specifications.
+implementation is a **Repository** of car models with their specifications.
 
 From the caller perspective, both implementations behave identically -- they
 have the same queries. Nevertheless, under the hood the two implementations
@@ -93,7 +92,7 @@ As an optional step, we define the NULL object. In this case, rather then the re
 
 ```{r Repository-Transient-implementation, echo=TRUE, results='markup'}
 TransientRepository <- R6::R6Class(
-  classname = "Repository", inherit = AbstractRepository, public = list(
+  classname = "Repository", inherit = R6P::AbstractRepository, public = list(
     initialize = function() {private$cars <- collections::dict()},
     add = function(key, value){private$cars$set(key, value); invisible(self)},
     del = function(key){private$cars$remove(key); invisible(self)},
@@ -114,7 +113,7 @@ TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
 })
 ```
 
-In the example, we use the `mtcars` dataset with a `uid` column that uniquely
+In this example, we use the `mtcars` dataset with a `uid` column that uniquely
 identifies the different cars in the **Repository**:
 
 ```{r, echo=TRUE, results='markup'}
@@ -144,9 +143,6 @@ repository$del(key = "Mazda RX4")
 ## Get "Mazda RX4" specification
 repository$get(key = "Mazda RX4")
 ```
-
--   Talk about each line
--   Talk about additional functions
 
 ### Example: Persistent Storage Implementation with [`DBI`](https://dbi.r-dbi.org/)
 
@@ -199,7 +195,7 @@ PersistentRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
 })
 ```
 
-In the example, we use the `mtcars` dataset with a `uid` column that uniquely
+In this example, we use the `mtcars` dataset with a `uid` column that uniquely
 identifies the different cars in the **Repository**:
 
 ```{r, echo=TRUE, results='markup'}
