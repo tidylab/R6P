@@ -80,7 +80,7 @@ of access to it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Design Patterns in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -174,79 +174,6 @@ some data source, since anything that can’t change isn’t going to run
 into thread clash problems.
 </div></p>
 
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Example: Counter</h3>
-
-
-<p>In this example we implement a <code>Counter</code> that inherits the qualities of
-<strong>Singleton</strong>.<div class="r"></p><pre><span class='va'>Counter</span> <span class='op'>&lt;&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>inherit <span class='op'>=</span> <span class='va'>Singleton</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    count <span class='op'>=</span> <span class='fl'>0</span>,
-    add_1 <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span><span class='va'>self</span><span class='op'>$</span><span class='va'>count</span> <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>count</span> <span class='op'>+</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span><span class='op'>}</span>
-<span class='op'>)</span><span class='op'>)</span>
-</pre><p></div></p>
-<p>Whenever we call the constructor on <code>Counter</code>, we always get the exact
-same instance:<div class="r"></p><pre><span class='va'>counter_A</span> <span class='op'>&lt;-</span> <span class='va'>Counter</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>counter_B</span> <span class='op'>&lt;-</span> <span class='va'>Counter</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"counter_A was crated at %s"</span>, <span class='fu'>pryr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pryr/man/inspect.html'>address</a></span><span class='op'>(</span><span class='va'>counter_A</span><span class='op'>)</span><span class='op'>)</span>
-<span class='co'>#&gt; [1] "counter_A was crated at 0x7f95e0e40b78"</span>
-<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"counter_B was crated at %s"</span>, <span class='fu'>pryr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/pryr/man/inspect.html'>address</a></span><span class='op'>(</span><span class='va'>counter_B</span><span class='op'>)</span><span class='op'>)</span>
-<span class='co'>#&gt; [1] "counter_B was crated at 0x7f95e0e40b78"</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>counter_A</span>, <span class='va'>counter_B</span><span class='op'>)</span>
-<span class='co'>#&gt; [1] TRUE</span>
-</pre><p></div></p>
-<p>The two objects are equal and located at the same address; thus, they
-are the same object.</p>
-<p>When we make a change in any of the class instances, the rest of the
-instances are changed as well.<div class="r"></p><pre><span class='co'># How many times has the counter been increased?</span>
-<span class='va'>counter_A</span><span class='op'>$</span><span class='va'>count</span>
-<span class='co'>#&gt; [1] 0</span>
-
-<span class='co'># Add the counter by 1</span>
-<span class='va'>counter_A</span><span class='op'>$</span><span class='fu'>add_1</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># How many times has the counter been increased?</span>
-<span class='va'>counter_A</span><span class='op'>$</span><span class='va'>count</span>
-<span class='co'>#&gt; [1] 1</span>
-<span class='va'>counter_B</span><span class='op'>$</span><span class='va'>count</span> 
-<span class='co'>#&gt; [1] 1</span>
-</pre><p></div></p>
-
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Example: Data Transfer Object (DTO)</h3>
-
-
-<p>In this example, we crate access to a database that only establishes one
-connection per session.</p>
-<p>Notice how the <code>initialize</code> public method first calls the <code>initialize</code>
-of the <strong>Singleton</strong>, and then appends its own initialisation routine.<div class="r"></p><pre><span class='va'>DTO</span> <span class='op'>&lt;&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>classname <span class='op'>=</span> <span class='st'>"DTO"</span>, inherit <span class='op'>=</span> <span class='va'>Singleton</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    con <span class='op'>=</span> <span class='cn'>NULL</span>,
-    initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
-        <span class='va'>super</span><span class='op'>$</span><span class='fu'>initialize</span><span class='op'>(</span><span class='op'>)</span>
-        <span class='va'>self</span><span class='op'>$</span><span class='fu'>establish_connection</span><span class='op'>(</span><span class='op'>)</span>
-    <span class='op'>}</span>,
-    establish_connection <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
-        <span class='va'>self</span><span class='op'>$</span><span class='va'>con</span> <span class='op'>&lt;-</span> <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span><span class='op'>(</span><span class='fu'>RSQLite</span><span class='fu'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span><span class='op'>(</span><span class='op'>)</span>, dbname <span class='op'>=</span> <span class='st'>":memory:"</span><span class='op'>)</span>
-        <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span>
-    <span class='op'>}</span>,
-    dbSendQuery <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>statement</span><span class='op'>)</span><span class='op'>{</span>
-        <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbSendQuery.html'>dbSendQuery</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>$</span><span class='va'>con</span>, <span class='va'>statement</span><span class='op'>)</span>
-        <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
-    <span class='op'>}</span>
-<span class='op'>)</span><span class='op'>)</span>
-</pre><p></div></p>
-<p>Once a database connection has established during the session, other
-calls to <code>DTO</code> instantiate objects that use the same database
-connection.<div class="r"></p><pre><span class='va'>database_A</span> <span class='op'>&lt;-</span> <span class='va'>DTO</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>database_B</span> <span class='op'>&lt;-</span> <span class='va'>DTO</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>database_A</span>, <span class='va'>database_B</span><span class='op'>)</span>
-<span class='co'>#&gt; [1] TRUE</span>
-</pre><p></div></p>
-
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Further Reading</h3>
-
-
-<p><a href='https://en.wikipedia.org/wiki/Singleton_pattern'>Singleton at Wikipedia</a></p>
-
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
@@ -263,6 +190,43 @@ connection.<div class="r"></p><pre><span class='va'>database_A</span> <span clas
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># See more examples at &lt;https://tidylab.github.io/R6P/articles&gt;</span>
+<span class='va'>address</span> <span class='op'>&lt;-</span> <span class='fu'>pryr</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/pryr/man/inspect.html'>address</a></span>
+
+<span class='co'># In this example we implement a `Counter` that inherits the qualities of</span>
+<span class='co'># Singleton</span>
+<span class='va'>Counter</span> <span class='op'>&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span><span class='st'>"Counter"</span>, inherit <span class='op'>=</span> <span class='fu'>R6P</span><span class='fu'>::</span><span class='va'>Singleton</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    count <span class='op'>=</span> <span class='fl'>0</span>,
+    add_1 <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span><span class='va'>self</span><span class='op'>$</span><span class='va'>count</span> <span class='op'>=</span> <span class='va'>self</span><span class='op'>$</span><span class='va'>count</span> <span class='op'>+</span> <span class='fl'>1</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span><span class='op'>}</span>
+<span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># Whenever we call the constructor on `Counter`, we always get the exact same</span>
+<span class='co'># instance:</span>
+<span class='va'>counter_A</span> <span class='op'>&lt;-</span> <span class='va'>Counter</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>counter_B</span> <span class='op'>&lt;-</span> <span class='va'>Counter</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"counter_A was crated at %s"</span>, <span class='fu'>address</span><span class='op'>(</span><span class='va'>counter_A</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "counter_A was crated at 0x7fd76b975340"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"counter_B was crated at %s"</span>, <span class='fu'>address</span><span class='op'>(</span><span class='va'>counter_B</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "counter_B was crated at 0x7fd76b975340"</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>counter_A</span>, <span class='va'>counter_B</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='co'># The two objects are equal and located at the same address; thus, they are</span>
+<span class='co'># the same object.</span>
+
+<span class='co'># When we make a change in any of the class instances, the rest of the</span>
+<span class='co'># instances are changed as well.</span>
+
+<span class='co'># How many times has the counter been increased?</span>
+<span class='va'>counter_A</span><span class='op'>$</span><span class='va'>count</span>
+</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
+<span class='co'># Increase the counter by 1</span>
+<span class='va'>counter_A</span><span class='op'>$</span><span class='fu'>add_1</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># How many times have the counters been increased?</span>
+<span class='va'>counter_A</span><span class='op'>$</span><span class='va'>count</span>
+</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='va'>counter_B</span><span class='op'>$</span><span class='va'>count</span>
+</div><div class='output co'>#&gt; [1] 1</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

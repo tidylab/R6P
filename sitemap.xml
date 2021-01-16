@@ -13,10 +13,16 @@
     <loc>https://tidylab.github.io/R6P//reference/pipe.html</loc>
   </url>
   <url>
+    <loc>https://tidylab.github.io/R6P//articles/appendices/Dictionary.html</loc>
+  </url>
+  <url>
     <loc>https://tidylab.github.io/R6P//articles/article_template.html</loc>
   </url>
   <url>
-    <loc>https://tidylab.github.io/R6P//articles/patterns/Dictionary.html</loc>
+    <loc>https://tidylab.github.io/R6P//articles/details/Repository.html</loc>
+  </url>
+  <url>
+    <loc>https://tidylab.github.io/R6P//articles/details/Singleton.html</loc>
   </url>
   <url>
     <loc>https://tidylab.github.io/R6P//articles/patterns/Repository.html</loc>

@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">Design Patterns in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -89,6 +89,7 @@
 
     
     
+<!-- Details -->
 <!-- One line about what the function does -->
 <p><strong><em>Singleton</em></strong> ensures a class only has one instance, and provide a global point of access to it.</p>
 <div id="how-it-works" class="section level2">
@@ -123,7 +124,7 @@
 <a href="#example-1" class="anchor"></a>Example: Counter</h2>
 <p>In this example we implement a <code>Counter</code> that inherits the qualities of <strong>Singleton</strong>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">Counter</span> <span class="op">&lt;&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span>inherit <span class="op">=</span> <span class="va">Singleton</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">Counter</span> <span class="op">&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span>inherit <span class="op">=</span> <span class="va">Singleton</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     count <span class="op">=</span> <span class="fl">0</span>,
     add_1 <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span><span class="va">self</span><span class="op">$</span><span class="va">count</span> <span class="op">=</span> <span class="va">self</span><span class="op">$</span><span class="va">count</span> <span class="op">+</span> <span class="fl">1</span>; <span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span><span class="op">(</span><span class="va">self</span><span class="op">)</span><span class="op">}</span>
 <span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -133,9 +134,9 @@
 <span class="va">counter_B</span> <span class="op">&lt;-</span> <span class="va">Counter</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"counter_A was crated at %s"</span>, <span class="fu">pryr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/inspect.html">address</a></span><span class="op">(</span><span class="va">counter_A</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "counter_A was crated at 0x7fe11e35aa18"</span>
+<span class="co">#&gt; [1] "counter_A was crated at 0x7fa06c922c08"</span>
 <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"counter_B was crated at %s"</span>, <span class="fu">pryr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/inspect.html">address</a></span><span class="op">(</span><span class="va">counter_B</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] "counter_B was crated at 0x7fe11e35aa18"</span>
+<span class="co">#&gt; [1] "counter_B was crated at 0x7fa06c922c08"</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="va">counter_A</span>, <span class="va">counter_B</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
@@ -146,10 +147,10 @@
 <span class="va">counter_A</span><span class="op">$</span><span class="va">count</span>
 <span class="co">#&gt; [1] 0</span>
 
-<span class="co"># Add the counter by 1</span>
+<span class="co"># Increase the counter by 1</span>
 <span class="va">counter_A</span><span class="op">$</span><span class="fu">add_1</span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># How many times has the counter been increased?</span>
+<span class="co"># How many times have the counters been increased?</span>
 <span class="va">counter_A</span><span class="op">$</span><span class="va">count</span>
 <span class="co">#&gt; [1] 1</span>
 <span class="va">counter_B</span><span class="op">$</span><span class="va">count</span> 
@@ -161,7 +162,7 @@
 <p>In this example, we crate access to a database that only establishes one connection per session.</p>
 <p>Notice how the <code>initialize</code> public method first calls the <code>initialize</code> of the <strong>Singleton</strong>, and then appends its own initialisation routine.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">DTO</span> <span class="op">&lt;&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span>classname <span class="op">=</span> <span class="st">"DTO"</span>, inherit <span class="op">=</span> <span class="va">Singleton</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">DTO</span> <span class="op">&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span>classname <span class="op">=</span> <span class="st">"DTO"</span>, inherit <span class="op">=</span> <span class="va">Singleton</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     con <span class="op">=</span> <span class="cn">NULL</span>,
     initialize <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span><span class="op">{</span>
         <span class="va">super</span><span class="op">$</span><span class="fu">initialize</span><span class="op">(</span><span class="op">)</span>

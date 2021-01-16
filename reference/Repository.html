@@ -80,7 +80,7 @@ collection-like interface for accessing domain objects." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Design Patterns in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -136,7 +136,9 @@ collection-like interface for accessing domain objects.</p>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>With <em><strong>Repository</strong></em>, in-memory objects do not need to know whether
+    <p><!-- One line about what the function does --></p>
+
+<p>With <em><strong>Repository</strong></em>, in-memory objects do not need to know whether
 there is a database present or absent, they need no SQL interface code,
 and certainly no knowledge of the database schema.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>How It Works</h3>
 
@@ -172,237 +174,6 @@ meaningful names. For example <code>Repository$get_efficient_cars() = SELECT * F
 <li><p>When building <a href='https://www.oreilly.com/library/view/software-architects-handbook/9781788624060/c47a09b6-91f9-4322-a6d4-9bc1604b1bdf.xhtml'>stateless microservices</a>.</p></li>
 </ul>
 
-
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Implementations</h3>
-
-
-<p>The code of the abstract base class of <strong>Repository</strong> is<div class="r"></p><pre><span class='va'>AbstractRepository</span> <span class='op'>&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span><span class='st'>"Repository"</span>, inherit <span class='op'>=</span> <span class='va'>Singleton</span>, cloneable <span class='op'>=</span> <span class='cn'>FALSE</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    <span class='co'>#' @description Instantiate an object</span>
-    initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='va'>exceptions</span><span class='op'>$</span><span class='fu'>not_implemented_error</span><span class='op'>(</span><span class='op'>)</span>,
-    <span class='co'>#' @description Add an element to the Repository.</span>
-    add <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>value</span><span class='op'>)</span> <span class='va'>exceptions</span><span class='op'>$</span><span class='fu'>not_implemented_error</span><span class='op'>(</span><span class='op'>)</span>,
-    <span class='co'>#' @description Delete an element from the Repository.</span>
-    del <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span> <span class='va'>exceptions</span><span class='op'>$</span><span class='fu'>not_implemented_error</span><span class='op'>(</span><span class='op'>)</span>,
-    <span class='co'>#' @description Retrieve an element from the Repository.</span>
-    get <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span> <span class='va'>exceptions</span><span class='op'>$</span><span class='fu'>not_implemented_error</span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span><span class='op'>)</span>
-</pre><p></div>
-<div class="alert alert-info"></p>
-
-<p><strong>Tip:</strong> By passing the input argument <code>inherit = Singleton</code>, the
-<code>AbstractRepository</code> inherits the qualities of the <a href='https://tidylab.github.io/R6P/articles/patterns/Singleton.html'><strong>Singleton</strong> pattern</a>.
-</div></p>
-
-<p>The given implementing of <code>AbstractRepository</code> requires you to define
-four functions:</p><ol>
-<li><p><code>initialize</code> establishes a database connection of some sort;</p></li>
-<li><p><code>add</code> adds one or more domain objects into the database;</p></li>
-<li><p><code>del</code> deletes one or more domain objects from the database; and</p></li>
-<li><p><code>get</code> retrieve one or more domain objects from the database.</p></li>
-</ol><p><!-- In addition, there are context depended function you may want to ad -->
-
-
-<div class="alert alert-info"></p>
-
-<p><strong>Tip:</strong> In general, the <strong>Repository</strong> patterns requires at least the
-<code>add</code> and <code>get</code> operations. However, you may rename those operations to
-fit your context. For example, if you use <strong>Repository</strong> to access
-various tables in a database, <code>write_table</code> and <code>read_table</code> might be
-better names.
-</div>
-
-
-<div class="alert alert-warning"></p>
-
-<p><strong>Note:</strong> It is up to you to devise a policy that defines (A) what to do
-when the same entity is added to the Repository; and (B) what to do when
-a query matches no results.
-</div></p>
-
-<p>Each <strong>Repository</strong> implementation is project specific. The following
-implementation consider a <strong>Repository</strong> of car models with their
-specifications.</p>
-<p>From the caller perspective, both implementations behave identically –
-they have the same queries. Nevertheless, under the hood the two
-implementations employ different storage approaches.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Example: Transient Storage Implementation with <a href='https://github.com/randy3k/collections'><code>collections</code></a></h4>
-<p><div class="alert alert-info"></p>
-
-<p><strong>Tip:</strong> Transient implementations are a temporal solution that is good
-for testing and rapid prototyping.
-</div></p>
-<ol>
-<li><p>Transient implementations contribute to rapid development because:</p></li>
-</ol><p><!-- end list --></p>
-<ul>
-<li><p>They can be used before you establish/get access to a real database.</p></li>
-<li><p>They are fast to establish in comparison to DBMS</p></li>
-</ul><p><!-- end list --></p>
-<ol>
-<li><p>Transient implementations are useful during testing because they are
-independent of the real database (if any), that means:</p></li>
-</ol><p><!-- end list --></p>
-<ul>
-<li><p>They start as empty storage allowing the programmer to test specific
-behaviour of the caller.</p></li>
-<li><p>They don’t make unintended changes in the real database</p></li>
-</ul><p><div class="alert alert-danger"></p>
-
-<p><strong>Caution:</strong> Transient implementations are not recommended during the
-production stage. Transient storage is lost when a session is rebooted.
-You should think about what are the ramifications of losing all the data
-put into storage.
-</div></p>
-
-<p>First, we define the class constructor, <code>initialize</code>, to establish a
-transient data storage. In this case we use a dictionary from the
-<a href='https://randy3k.github.io/collections/reference/dict.html'><code>collections</code> package</a>.</p>
-<p>Second, we define the <code>add</code>, <code>del</code> and <code>get</code> functions that operate on
-the dictionary.</p>
-<p>As an optional step, we define the NULL object. In this case, rather
-then the reserved word <code>NULL</code>, the NULL object is a data.frame with 0
-rows and predefined column.<div class="r"></p><pre><span class='va'>TransientRepository</span> <span class='op'>&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>
-  classname <span class='op'>=</span> <span class='st'>"Repository"</span>, inherit <span class='op'>=</span> <span class='va'>AbstractRepository</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span><span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span> <span class='op'>&lt;-</span> <span class='fu'>collections</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/collections/man/dict.html'>dict</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>}</span>,
-    add <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>value</span><span class='op'>)</span><span class='op'>{</span><span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>value</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span><span class='op'>}</span>,
-    del <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span><span class='op'>{</span><span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span><span class='op'>$</span><span class='fu'>remove</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span><span class='op'>}</span>,
-    get <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span><span class='op'>{</span><span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='va'>key</span>, default <span class='op'>=</span> <span class='va'>private</span><span class='op'>$</span><span class='va'>NULL_car</span><span class='op'>)</span><span class='op'>)</span><span class='op'>}</span>
-  <span class='op'>)</span>, private <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    NULL_car <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span>uid  <span class='op'>=</span> <span class='cn'>NA_character_</span>, <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span><span class='op'>[</span><span class='fl'>0</span>,<span class='op'>]</span>,
-    cars <span class='op'>=</span> <span class='cn'>NULL</span>
-  <span class='op'>)</span><span class='op'>)</span>
-</pre><p></div></p>
-<p>Adding customised operations is also possible via the R6 <code>set</code> function.
-The following example, adds a query that returns all the objects in the
-database<div class="r"></p><pre><span class='va'>TransientRepository</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span><span class='st'>"public"</span>, <span class='st'>"get_all_cars"</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
-  <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span><span class='op'>$</span><span class='fu'>values</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='op'>)</span>
-  <span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>NULL_car</span><span class='op'>)</span> <span class='kw'>else</span> <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span>
-<span class='op'>}</span><span class='op'>)</span>
-</pre><p></div></p>
-<p>In the example, we use the <code>mtcars</code> dataset with a <code>uid</code> column that
-uniquely identifies the different cars in the <strong>Repository</strong>:<div class="r"></p><pre><span class='va'>mtcars</span> <span class='op'>&lt;-</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/rownames.html'>rownames_to_column</a></span><span class='op'>(</span><span class='st'>"uid"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fl'>2</span><span class='op'>)</span>
-<span class='co'>#&gt;             uid mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class='co'>#&gt; 1     Mazda RX4  21   6  160 110  3.9 2.620 16.46  0  1    4    4</span>
-<span class='co'>#&gt; 2 Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</span>
-</pre><p></div></p>
-<p>Here is how the caller uses the <code>Repository</code>:<div class="r"></p><pre><span class='co'>## Instantiate a repository object</span>
-<span class='va'>repository</span> <span class='op'>&lt;-</span> <span class='va'>TransientRepository</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'>## Add two different cars specification to the repository</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span>, value <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>uid</span> <span class='op'>==</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4 Wag"</span>, value <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>uid</span> <span class='op'>==</span> <span class='st'>"Mazda RX4 Wag"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>## Get "Mazda RX4" specification</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span>
-<span class='co'>#&gt;         uid mpg cyl disp  hp drat   wt  qsec vs am gear carb</span>
-<span class='co'>#&gt; 1 Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</span>
-
-<span class='co'>## Get all the specifications in the repository</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>get_all_cars</span><span class='op'>(</span><span class='op'>)</span>
-<span class='co'>#&gt;             uid mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class='co'>#&gt; 1     Mazda RX4  21   6  160 110  3.9 2.620 16.46  0  1    4    4</span>
-<span class='co'>#&gt; 2 Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</span>
-
-<span class='co'>## Delete "Mazda RX4" specification</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>del</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span>
-
-<span class='co'>## Get "Mazda RX4" specification</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span>
-<span class='co'>#&gt;  [1] uid  mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb</span>
-<span class='co'>#&gt; &lt;0 rows&gt; (or 0-length row.names)</span>
-</pre><p></div></p><ul>
-<li><p>Talk about each line</p></li>
-<li><p>Talk about additional functions</p></li>
-</ul>
-
-
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Example: Persistent Storage Implementation with <a href='https://dbi.r-dbi.org/'><code>DBI</code></a></h4>
-
-
-<p>First, we define the class constructor, <code>initialize</code>, to establish an
-SQLite database.</p>
-<p>Second, we define the <code>add</code>, <code>del</code> and <code>get</code> functions that operate on
-the dictionary.</p>
-<p>As an optional step, we define the NULL object. In this case, rather
-then the reserved word <code>NULL</code>, the NULL object is a data.frame with 0
-rows and predefined column.<div class="r"></p><pre><span class='va'>PersistentRepository</span> <span class='op'>&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>
-  classname <span class='op'>=</span> <span class='st'>"Repository"</span>, inherit <span class='op'>=</span> <span class='va'>AbstractRepository</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    <span class='co'>#' @param immediate (`logical`) Should queries be committed immediately?</span>
-    initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>immediate</span> <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>{</span>
-      <span class='va'>private</span><span class='op'>$</span><span class='va'>immediate</span> <span class='op'>&lt;-</span> <span class='va'>immediate</span>
-      <span class='va'>private</span><span class='op'>$</span><span class='va'>conn</span> <span class='op'>&lt;-</span> <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbConnect.html'>dbConnect</a></span><span class='op'>(</span><span class='fu'>RSQLite</span><span class='fu'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span><span class='op'>(</span><span class='op'>)</span>, dbname <span class='op'>=</span> <span class='st'>":memory:"</span><span class='op'>)</span>
-      <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbCreateTable.html'>dbCreateTable</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>conn</span>, <span class='st'>"mtcars"</span>, <span class='va'>private</span><span class='op'>$</span><span class='va'>NULL_car</span><span class='op'>)</span>
-    <span class='op'>}</span>,
-    add <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>value</span><span class='op'>)</span><span class='op'>{</span>
-      <span class='va'>car</span> <span class='op'>&lt;-</span> <span class='va'>private</span><span class='op'>$</span><span class='va'>NULL_car</span> <span class='op'>%&gt;%</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/add_row.html'>add_row</a></span><span class='op'>(</span><span class='va'>value</span><span class='op'>)</span>
-      <span class='va'>self</span><span class='op'>$</span><span class='fu'>del</span><span class='op'>(</span>key <span class='op'>=</span> <span class='va'>key</span><span class='op'>)</span>
-      <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbAppendTable.html'>dbAppendTable</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>conn</span>, <span class='st'>"mtcars"</span>, <span class='va'>car</span><span class='op'>)</span>
-      <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span>
-    <span class='op'>}</span>,
-    del <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span><span class='op'>{</span>
-      <span class='va'>statement</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"DELETE FROM mtcars WHERE uid = '"</span>, <span class='va'>key</span>, <span class='st'>"'"</span><span class='op'>)</span>
-      <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbExecute.html'>dbExecute</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>conn</span>, <span class='va'>statement</span>, immediate <span class='op'>=</span> <span class='va'>private</span><span class='op'>$</span><span class='va'>immediate</span><span class='op'>)</span>
-      <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span>
-    <span class='op'>}</span>,
-    get <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span><span class='op'>{</span>
-      <span class='va'>statement</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"SELECT * FROM mtcars WHERE uid = '"</span>, <span class='va'>key</span>, <span class='st'>"'"</span><span class='op'>)</span>
-      <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbGetQuery.html'>dbGetQuery</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>conn</span>, <span class='va'>statement</span><span class='op'>)</span>
-      <span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>NULL_car</span><span class='op'>)</span> <span class='kw'>else</span> <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span>
-    <span class='op'>}</span>
-  <span class='op'>)</span>, private <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    NULL_car <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span>uid  <span class='op'>=</span> <span class='cn'>NA_character_</span>, <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span><span class='op'>[</span><span class='fl'>0</span>,<span class='op'>]</span>,
-    immediate <span class='op'>=</span> <span class='cn'>NULL</span>,
-    conn <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-<span class='op'>)</span>
-</pre><p></div></p>
-<p>Adding customised operations is also possible via the R6 <code>set</code> function.
-The following example, adds a query that returns all the objects in the
-database<div class="r"></p><pre><span class='va'>PersistentRepository</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span><span class='st'>"public"</span>, <span class='st'>"get_all_cars"</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
-  <span class='va'>statement</span> <span class='op'>&lt;-</span> <span class='st'>"SELECT * FROM mtcars"</span>
-  <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>DBI</span><span class='fu'>::</span><span class='fu'><a href='https://dbi.r-dbi.org/reference/dbGetQuery.html'>dbGetQuery</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>conn</span>, <span class='va'>statement</span><span class='op'>)</span>
-  <span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>NULL_car</span><span class='op'>)</span> <span class='kw'>else</span> <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span>
-<span class='op'>}</span><span class='op'>)</span>
-</pre><p></div></p>
-<p>In the example, we use the <code>mtcars</code> dataset with a <code>uid</code> column that
-uniquely identifies the different cars in the <strong>Repository</strong>:<div class="r"></p><pre><span class='va'>mtcars</span> <span class='op'>&lt;-</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/rownames.html'>rownames_to_column</a></span><span class='op'>(</span><span class='st'>"uid"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fl'>2</span><span class='op'>)</span>
-<span class='co'>#&gt;             uid mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class='co'>#&gt; 1     Mazda RX4  21   6  160 110  3.9 2.620 16.46  0  1    4    4</span>
-<span class='co'>#&gt; 2 Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</span>
-</pre><p></div></p>
-<p>Here is how the caller uses the <code>Repository</code>:<div class="r"></p><pre><span class='co'>## Instantiate a repository object</span>
-<span class='va'>repository</span> <span class='op'>&lt;-</span> <span class='va'>PersistentRepository</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'>## Add two different cars specification to the repository</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span>, value <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>uid</span> <span class='op'>==</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4 Wag"</span>, value <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>uid</span> <span class='op'>==</span> <span class='st'>"Mazda RX4 Wag"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>## Get "Mazda RX4" specification</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span>
-<span class='co'>#&gt;         uid mpg cyl disp  hp drat   wt  qsec vs am gear carb</span>
-<span class='co'>#&gt; 1 Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</span>
-
-<span class='co'>## Get all the specifications in the repository</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>get_all_cars</span><span class='op'>(</span><span class='op'>)</span>
-<span class='co'>#&gt;             uid mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
-<span class='co'>#&gt; 1     Mazda RX4  21   6  160 110  3.9 2.620 16.46  0  1    4    4</span>
-<span class='co'>#&gt; 2 Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</span>
-
-<span class='co'>## Delete "Mazda RX4" specification</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>del</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span>
-
-<span class='co'>## Get "Mazda RX4" specification</span>
-<span class='va'>repository</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span>
-<span class='co'>#&gt;  [1] uid  mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb</span>
-<span class='co'>#&gt; &lt;0 rows&gt; (or 0-length row.names)</span>
-</pre><p></div></p>
-
-
-
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Further Reading</h3>
-
-
-<p><a href='https://martinfowler.com/eaaCatalog/repository.html'>Repository at Martin Fowler Blog</a></p>
 
     <h2 class="hasAnchor" id="super-class"><a class="anchor" href="#super-class"></a>Super class</h2>
 
@@ -465,6 +236,75 @@ implementation of <code>AbstractRepository</code>.</p></dd>
 
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># See more examples at &lt;https://tidylab.github.io/R6P/articles&gt;</span>
+
+<span class='co'># The following implementation is a Repository of car models with their</span>
+<span class='co'># specifications.</span>
+
+<span class='co'># First, we define the class constructor, initialize, to establish a</span>
+<span class='co'># transient data storage.</span>
+
+<span class='co'># In this case we use a dictionary from the collections package</span>
+<span class='co'># &lt;https://randy3k.github.io/collections/reference/dict.html&gt;</span>
+
+<span class='co'># Second, we define the add, del and get functions that operate on the dictionary.</span>
+
+<span class='co'># As an optional step, we define the NULL object. In this case, rather then</span>
+<span class='co'># the reserved word NULL, the NULL object is a data.frame with 0 rows and</span>
+<span class='co'># predefined column.</span>
+
+<span class='va'>TransientRepository</span> <span class='op'>&lt;-</span> <span class='fu'>R6</span><span class='fu'>::</span><span class='kw'><a href='https://r6.r-lib.org/reference/R6Class.html'>R6Class</a></span><span class='op'>(</span>
+    classname <span class='op'>=</span> <span class='st'>"Repository"</span>, inherit <span class='op'>=</span> <span class='fu'>R6P</span><span class='fu'>::</span><span class='va'>AbstractRepository</span>, public <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+        initialize <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span><span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span> <span class='op'>&lt;-</span> <span class='fu'>collections</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/collections/man/dict.html'>dict</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>}</span>,
+        add <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>value</span><span class='op'>)</span><span class='op'>{</span><span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span><span class='va'>key</span>, <span class='va'>value</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span><span class='op'>}</span>,
+        del <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span><span class='op'>{</span><span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span><span class='op'>$</span><span class='fu'>remove</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span>; <span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='va'>self</span><span class='op'>)</span><span class='op'>}</span>,
+        get <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>key</span><span class='op'>)</span><span class='op'>{</span><span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='va'>key</span>, default <span class='op'>=</span> <span class='va'>private</span><span class='op'>$</span><span class='va'>NULL_car</span><span class='op'>)</span><span class='op'>)</span><span class='op'>}</span>
+    <span class='op'>)</span>, private <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+        NULL_car <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span>uid  <span class='op'>=</span> <span class='cn'>NA_character_</span>, <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span><span class='op'>)</span><span class='op'>[</span><span class='fl'>0</span>,<span class='op'>]</span>,
+        cars <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># Adding customised operations is also possible via the R6 set function.</span>
+<span class='co'># The following example, adds a query that returns all the objects in the database</span>
+
+<span class='va'>TransientRepository</span><span class='op'>$</span><span class='fu'>set</span><span class='op'>(</span><span class='st'>"public"</span>, <span class='st'>"get_all_cars"</span>, overwrite <span class='op'>=</span> <span class='cn'>TRUE</span>, <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span><span class='op'>{</span>
+    <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='va'>private</span><span class='op'>$</span><span class='va'>cars</span><span class='op'>$</span><span class='fu'>values</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='op'>)</span>
+    <span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span> <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>private</span><span class='op'>$</span><span class='va'>NULL_car</span><span class='op'>)</span> <span class='kw'>else</span> <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+
+<span class='co'># In this example, we use the mtcars dataset with a uid column that uniquely</span>
+<span class='co'># identifies the different cars in the Repository:</span>
+<span class='va'>mtcars</span> <span class='op'>&lt;-</span> <span class='fu'>datasets</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/datasets/mtcars.html'>mtcars</a></span> <span class='op'>%&gt;%</span> <span class='fu'>tibble</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/rownames.html'>rownames_to_column</a></span><span class='op'>(</span><span class='st'>"uid"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;             uid mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#&gt; 1     Mazda RX4  21   6  160 110  3.9 2.620 16.46  0  1    4    4
+#&gt; 2 Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</div><div class='input'>
+<span class='co'># Here is how the caller uses the Repository:</span>
+
+<span class='co'>## Instantiate a repository object</span>
+<span class='va'>repository</span> <span class='op'>&lt;-</span> <span class='va'>TransientRepository</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'>## Add two different cars specification to the repository</span>
+<span class='va'>repository</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span>, value <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>uid</span> <span class='op'>==</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>repository</span><span class='op'>$</span><span class='fu'>add</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4 Wag"</span>, value <span class='op'>=</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>uid</span> <span class='op'>==</span> <span class='st'>"Mazda RX4 Wag"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'>## Get "Mazda RX4" specification</span>
+<span class='va'>repository</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         uid mpg cyl disp  hp drat   wt  qsec vs am gear carb
+#&gt; 1 Mazda RX4  21   6  160 110  3.9 2.62 16.46  0  1    4    4</div><div class='input'>
+<span class='co'>## Get all the specifications in the repository</span>
+<span class='va'>repository</span><span class='op'>$</span><span class='fu'>get_all_cars</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;             uid mpg cyl disp  hp drat    wt  qsec vs am gear carb
+#&gt; 1     Mazda RX4  21   6  160 110  3.9 2.620 16.46  0  1    4    4
+#&gt; 2 Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</div><div class='input'>
+<span class='co'>## Delete "Mazda RX4" specification</span>
+<span class='va'>repository</span><span class='op'>$</span><span class='fu'>del</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span>
+
+<span class='co'>## Get "Mazda RX4" specification</span>
+<span class='va'>repository</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span>key <span class='op'>=</span> <span class='st'>"Mazda RX4"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] uid  mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb
+#&gt; &lt;0 rows&gt; (or 0-length row.names)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
