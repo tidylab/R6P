@@ -14,7 +14,8 @@ articles:
   - patterns/Repository
 #- title: Appendix
 #  contents:
-#  - '`Dictionary`'
+#  - appendices/Dictionary
+#  - appendices/SpecialCase
 
 # Functions ---------------------------------------------------------------
 reference:
