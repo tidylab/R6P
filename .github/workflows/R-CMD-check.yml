@@ -75,7 +75,9 @@ jobs:
           sudo apt-get install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev
 
       - name: Install devtools
+        #if: runner.os == 'Linux'
         run: |
+          remotes::install_cran("gert")
           remotes::install_cran("usethis")
           remotes::install_cran("devtools", dependencies = TRUE)
         shell: Rscript {0}
