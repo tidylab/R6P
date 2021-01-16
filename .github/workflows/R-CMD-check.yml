@@ -73,15 +73,11 @@ jobs:
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
-          sudo apt-get install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev
+          sudo apt-get install build-essential git libcurl4-gnutls-dev libxml2-dev libssl-dev
 
       - name: Install dependencies
         run: |
-         remotes::install_cran("gert")
-         remotes::install_cran("usethis")
          remotes::install_cran("devtools")
-         remotes::install_cran("rcmdcheck")
-         remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
       - name: Check
@@ -91,6 +87,11 @@ jobs:
           devtools::document()
           rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
+
+      - name: Show testthat output
+        if: always()
+        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
+        shell: bash
 
       - name: Upload check results
         if: failure()
