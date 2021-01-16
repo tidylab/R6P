@@ -76,6 +76,7 @@ jobs:
 
       - name: Install devtools
         run: |
+          remotes::install_cran("usethis")
           remotes::install_cran("devtools", dependencies = TRUE)
         shell: Rscript {0}
 
