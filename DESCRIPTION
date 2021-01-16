@@ -28,6 +28,7 @@ Depends:
     R (>= 3.5)
 Suggests: 
     collections,
+    dplyr,
     DBI,
     RSQLite,
     tibble,
