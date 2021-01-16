@@ -78,6 +78,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          remotes::install_cran("xml2")
           remotes::install_cran("devtools")
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("rmarkdown")
