@@ -78,7 +78,6 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_cran(c("rcmdcheck", "devtools", "testthat", "covr"))
-          remotes::install_cran("tidyverse")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
