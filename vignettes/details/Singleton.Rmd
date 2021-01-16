@@ -1,10 +1,5 @@
 ---
 title: "The Singleton Pattern"
-#bibliography: [../../inst/REFERENCES.bib]
-#biblio-style: apalike
-#nocite: | 
-#  @Gamma1995 
-#link-citations: yes
 editor_options: 
   markdown: 
     wrap: 80

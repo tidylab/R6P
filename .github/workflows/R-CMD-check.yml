@@ -51,7 +51,6 @@ jobs:
                       writeLines(paste0('options(repos = \'', URL, '\')'), Rprofile);
                       close(Rprofile)"
           Rscript -e "if(!'remotes' %in% rownames(utils::installed.packages())) utils::install.packages('remotes')"
-
       - name: Query dependencies
         run: |
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
@@ -74,10 +73,8 @@ jobs:
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
           sudo apt-get install build-essential libcurl4-gnutls-dev libxml2-dev libssl-dev
-
       - name: Install dependencies
         run: |
-          remotes::install_cran("tidyverse")
           remotes::install_cran("devtools")
           remotes::install_cran("rcmdcheck")
           remotes::install_deps(dependencies = TRUE)

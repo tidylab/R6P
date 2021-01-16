@@ -12,6 +12,7 @@
 ^.*\.Rproj$
 ^codecov\.yml$
 ^cran-comments\.md$
+^CRAN-RELEASE$
 ^README\.Rmd$
 ^LICENSE\.md$
 ^vignettes/_common.R$
@@ -26,4 +27,4 @@
 ^pkgdown$
 
 
-^CRAN-RELEASE$
+
