@@ -39,6 +39,5 @@ Suggests:
 Imports: 
     R6,
     purrr,
-    stringr,
-    fs
+    stringr
 Config/testthat/edition: 3

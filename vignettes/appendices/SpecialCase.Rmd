@@ -1,0 +1,19 @@
+---
+title: "The Special Case"
+bibliography: [../../inst/REFERENCES.bib]
+biblio-style: apalike
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+```
+
+The NULL object [@Fowler2002, p. 496]
+
+-   ggplot2 NULL object
+
+-   data.frame NULL object
