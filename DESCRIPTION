@@ -27,12 +27,10 @@ Language: en-GB
 Depends: 
     R (>= 3.5)
 Suggests: 
-    rmarkdown,
-    testthat,
-    covr,
     collections,
     DBI,
     RSQLite,
+    tibble,
     pryr
 Imports: 
     R6,
