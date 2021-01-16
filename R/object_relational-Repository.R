@@ -1,6 +1,8 @@
 #' @title Repository Pattern
 #' @name Repository
-#' @includeRmd vignettes/patterns/Repository.Rmd
+#' @includeRmd vignettes/details/Repository.Rmd
+#' @examples
+#' # See more examples at <https://tidylab.github.io/R6P/articles>
 NULL
 
 #' @rdname Repository

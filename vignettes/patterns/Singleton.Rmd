@@ -14,6 +14,8 @@ editor_options:
 source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ```
 
+<!-- Details -->
+
 ```{r child="../details/Singleton.Rmd"}
 ```
 
