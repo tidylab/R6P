@@ -4,6 +4,12 @@ authors:
   Harel Lustiger:
     href: https://github.com/harell
 
+# template:
+#   params:
+#     docsearch:
+#       api_key: 1cd55a1cf3bcf6d0b863fee2aedf4112
+#       index_name: domain-driven-design
+
 # Articles ----------------------------------------------------------------
 articles:
 - title: Base Patterns
