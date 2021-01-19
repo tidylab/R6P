@@ -5,6 +5,7 @@ renv/
 *_cache/
 
 # Files
+CRAN-RELEASE
 .Renviron
 .Rproj.user
 .Rhistory
