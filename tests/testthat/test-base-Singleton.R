@@ -5,7 +5,7 @@ test_that("calling Singleton$new fails because it cannot be instantiated directl
 
 # Implementation ----------------------------------------------------------
 test_that("instantiating of multiple objects of the same Singleton are identical", {
-    Counter <<- R6::R6Class(classname = "Counter", inherit = Singleton, public = list(
+    Counter <- R6::R6Class(classname = "Counter", inherit = Singleton, public = list(
         count = 0,
         add_1 = function(){self$count = self$count + 1; invisible(self)}
     ))
@@ -19,7 +19,7 @@ test_that("instantiating of multiple objects of the same Singleton are identical
 })
 
 test_that("instantiating of multiple objects of the same Singleton with superclass", {
-    SuperCounter <<- R6::R6Class(classname = "SuperCounter", inherit = Singleton, public = list(
+    SuperCounter <- R6::R6Class(classname = "SuperCounter", inherit = Singleton, public = list(
         count = 0,
         add_1 = function(){self$count = self$count + 1; invisible(self)},
         initialize = function(){super$initialize()}
@@ -34,8 +34,8 @@ test_that("instantiating of multiple objects of the same Singleton with supercla
 })
 
 test_that("instantiating of multiple objects of the different Singleton are not identical", {
-    SingletonA <<- R6::R6Class(classname = "SingletonA", inherit = Singleton, public = list(uid = "A"))
-    SingletonB <<- R6::R6Class(classname = "SingletonB", inherit = Singleton, public = list(uid = "B"))
+    SingletonA <- R6::R6Class(classname = "SingletonA", inherit = Singleton, public = list(uid = "A"))
+    SingletonB <- R6::R6Class(classname = "SingletonB", inherit = Singleton, public = list(uid = "B"))
 
     expect_s3_class(singleton_A <- SingletonA$new(), "Singleton")
     expect_s3_class(singleton_B <- SingletonB$new(), "Singleton")
@@ -43,10 +43,10 @@ test_that("instantiating of multiple objects of the different Singleton are not 
 })
 
 # test_that("inheriting Singleton takes the last class name", {
-#     Level1Class <<- R6::R6Class(classname = "Level1", inherit = Singleton, public = list(uid = "A"))
+#     Level1Class <- R6::R6Class(classname = "Level1", inherit = Singleton, public = list(uid = "A"))
 #     expect_s3_class(level1 <- Level1Class$new(), "Level1")
 #
-#     Level2Class <<- R6::R6Class(classname = "Level2", inherit = Level1Class, public = list(uid = "A"))
+#     Level2Class <- R6::R6Class(classname = "Level2", inherit = Level1Class, public = list(uid = "A"))
 #     expect_s3_class(level2 <- Level2Class$new(), "Level2")
 #
 #     expect_false(identical(level1, level2))

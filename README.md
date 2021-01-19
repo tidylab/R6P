@@ -16,17 +16,36 @@ status](https://github.com/tidylab/R6P/workflows/R-CMD-check/badge.svg)](https:/
 Introduction
 ------------
 
-Design patterns abstract and present in neat, well-defined components
-and interfaces the experience of many software designers and architects
-over many years of solving similar problems. These are solutions that
-have withstood the test of time with respect to re-usability,
-flexibility, and maintainability. R6P provides abstract base classes
-with examples for a few known design patterns. The patterns were
-selected by their applicability to analytic projects in R. Using these
-patterns in R projects have proven effective in dealing with the
+Build robust and maintainable software with object-oriented design
+patterns in R. Design patterns abstract and present in neat,
+well-defined components and interfaces the experience of many software
+designers and architects over many years of solving similar problems.
+These are solutions that have withstood the test of time with respect to
+re-usability, flexibility, and maintainability. ‘R6P’ provides abstract
+base classes with examples for a few known design patterns. The patterns
+were selected by their applicability to analytic projects in R. Using
+these patterns in R projects have proven effective in dealing with the
 complexity that data-driven applications possess.
 
 This package is based on the work of Gamma1995, and Fowler2002.
+
+### Should I use design patterns?
+
+Design patterns represent an alternative to design: rather than
+designing a new mechanism from scratch, just apply a well-known design
+pattern. For the most part, this is good: design patterns arose because
+they solve common problems, and because they are generally agreed to
+provide clean solutions. If a design pattern works well in a particular
+situation, it will probably be hard for you to come up with a different
+approach that is better.
+
+The greatest risk with design patterns is over-application. Not every
+problem can be solved cleanly with an existing design pattern; don’t try
+to force a problem into a design pattern when a custom approach will be
+cleaner. Using design patterns doesn’t automatically improve a software
+system; it only does so if the design patterns fit. As with many ideas
+in software design, the notion that design patterns are good doesn’t
+necessarily mean that more design patterns are better.
 
 Installation
 ------------
@@ -50,3 +69,6 @@ Addison-Wesley Longman Publishing Co., Inc.
 Gamma, Erich, Richard Helm, Ralph Johnson, and John Vlissides. 1995.
 *Design patterns: elements of reusable object-oriented software*.
 Pearson Education India.
+
+Ousterhout, John. 2018. *A Philosophy of Software Design*. Yaknyam
+Press. <https://b-ok.cc/book/3701141/98e349>.

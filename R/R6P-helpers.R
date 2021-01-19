@@ -8,6 +8,13 @@ get_classname <- function(){
     return(classname)
 }
 
+dynGet <- function(x, ...){
+    tryCatch(
+        base::dynGet(x, ...),
+        error = function(e){ return(base::get(x, ...)) }
+    )
+}
+
 dynSet <- function(key, value){
     n <- sys.nframe()
     for(i in seq_len(n-1))

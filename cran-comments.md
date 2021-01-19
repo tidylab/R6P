@@ -1,3 +1,9 @@
+## v0.1.1 Revision
+
+* Update description 
+* Add small executable examples in Rd-files
+* Discard examples from changing the global environment
+
 ## Test environments
 * windows (on github-actions), R 4.0.3
 * ubuntu 18.04.5 (on github-actions), R 4.0.3
