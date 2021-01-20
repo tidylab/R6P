@@ -50,12 +50,11 @@ necessarily mean that more design patterns are better.
 Installation
 ------------
 
-You can install the released version of R6P from
-[CRAN](https://CRAN.R-project.org) with:
+You can install the released version of R6P from CRAN with:
 
     install.packages("R6P")
 
-And the development version from [GitHub](https://github.com/) with:
+And the development version from GitHub with:
 
     # install.packages("devtools")
     devtools::install_github("tidylab/R6P")
@@ -71,4 +70,4 @@ Gamma, Erich, Richard Helm, Ralph Johnson, and John Vlissides. 1995.
 Pearson Education India.
 
 Ousterhout, John. 2018. *A Philosophy of Software Design*. Yaknyam
-Press. <https://b-ok.cc/book/3701141/98e349>.
+Press.
