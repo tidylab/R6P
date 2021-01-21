@@ -3,12 +3,11 @@ title: "Design Patterns in R"
 authors:
   Harel Lustiger:
     href: https://github.com/harell
-
-# template:
-#   params:
-#     docsearch:
-#       api_key: 1cd55a1cf3bcf6d0b863fee2aedf4112
-#       index_name: domain-driven-design
+template:
+   params:
+     docsearch:
+       api_key: d5f049d51d6123dd767e5f8bc7882c35
+       index_name: tidylab-r6p
 
 # Articles ----------------------------------------------------------------
 articles:
