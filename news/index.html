@@ -44,6 +44,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Changelog" />
@@ -109,6 +115,12 @@
 </li>
       </ul>
       
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -124,18 +136,33 @@
       <small>Source: <a href='https://github.com/tidylab/R6P/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="r6p-010" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0">
-<a href="#r6p-010" class="anchor"></a>R6P 0.1.0<small> Unreleased </small>
+    <div id="r6p-020" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#r6p-020" class="anchor"></a>R6P 0.2.0<small> Unreleased </small>
 </h1>
 <div id="new-features" class="section level2">
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>New Features</h2>
 <ul>
 <li>
-<code>Singleton</code> Pattern</li>
+<code>ValueObject</code> pattern</li>
 <li>
-<code>Repository</code> Pattern</li>
+<code>import_x</code> functions</li>
+</ul>
+</div>
+</div>
+    <div id="r6p-010" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.0">
+<a href="#r6p-010" class="anchor"></a>R6P 0.1.0<small> Unreleased </small>
+</h1>
+<div id="new-features-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features-1" class="anchor"></a>New Features</h2>
+<ul>
+<li>
+<code>Singleton</code> pattern</li>
+<li>
+<code>Repository</code> pattern</li>
 </ul>
 </div>
 </div>
@@ -163,6 +190,23 @@
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: 'd5f049d51d6123dd767e5f8bc7882c35',
+    indexName: 'tidylab-r6p',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>
