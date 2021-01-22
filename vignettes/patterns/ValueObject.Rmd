@@ -3,7 +3,7 @@ title: "The Value Object Pattern"
 bibliography: [../../inst/REFERENCES.bib]
 biblio-style: apalike
 nocite: | 
-  @Fowler2002 
+  @Vernon2013 
 link-citations: yes
 editor_options: 
   markdown: 

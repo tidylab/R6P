@@ -11,13 +11,75 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 <!-- One line about what the function does -->
 
-***Value Object*** ...
+A ***Value Object*** models a domain concept using natural lingo of the domain
+experts, such as "Passenger", "Address", and "Money".
+
+Any **Value Object** is created by a function that receives input, applies some
+transformations, and outputs the results in some data structure such as a
+vector, a list or a data.frame.
+
+<div>
+
+<mark>**Value Objects** are a vital building block of analytic
+applications.</mark>
+
+</div>
 
 ## How It Works
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu, suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
+In R, a good option for creating a **Value Object** is to follow two
+instructions:
+
+-   A **Value Object** is created by a `function`, rather than a class method;
+    and
+-   A **Value Object** returns a `tibble`, rather than a list or a vector.
+
+An example of a value object is the notion of a "Person". Any person in the
+world has a name. Needless to say, a person name is spelt by letters, rather
+than numbers. A **Value Object** captures these attribute as `tibble` columns
+and type checks:
+
+```{r, echo=TRUE}
+Person <- function(given = NA_character_, family = NA_character_){
+    stopifnot(is.character(given), is.character(family))
+    tibble::tibble(given = given, family = family)
+}
+```
+
+Instantiating a person **Value Object** is done by calling the `Person`
+function:
+
+```{r, echo=TRUE}
+person <- Person(given = "Bilbo", family = "Baggins")
+```
+
+Getting to know the advantages of a **Value Object**, we should consider the
+typical alternative -- constructing a Person by using the `tibble` function
+directly:
+
+```{r, echo=TRUE}
+person <- tibble::tibble(given = "Bilbo", family = "Baggins")
+```
+
+Both implementations return identical objects, equal in content and structure
+i.e. column names and types.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat.
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu,
+suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris
+suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum
+bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices
+tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci
+luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
 
 ## When to Use It
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu, suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
-
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat.
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu,
+suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris
+suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum
+bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices
+tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci
+luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
