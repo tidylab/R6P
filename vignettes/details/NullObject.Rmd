@@ -15,9 +15,47 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 ## How It Works
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu, suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat.
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu,
+suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris
+suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum
+bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices
+tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci
+luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
 
 ## When to Use It
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu, suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
+-   In situations when a subroutine is likely to fail, such as loss of Internet
+    or database connectivity. Instead of prompting a run-time error, you could
+    return the **Null Object** as part of a [gracefully
+    failing](https://en.wikipedia.org/wiki/Graceful_exit) strategy. A common
+    strategy employs `tryCatch` that returns the **Null Object** in case of an
+    error:
 
+```{r,  echo = TRUE, eval = TRUE}
+set.seed(1814)
+
+# Adult value object constructor
+Adult <- function(age = NA_integer_){
+  if(isTRUE(age < 18)) stop("Can not instantiate minors") 
+  tibble::tibble(age = age) %>% tidyr::drop_na(age)
+}
+
+# A Non-Null Adult object is
+print(Adult(age = 42))
+# The Null Adult object is
+print(Adult())
+
+# Subroutine with gracefully failing strategy
+# Notice: Whether the subroutine fails or succeeds, it returns a tibble with 
+# the same structure.
+adult <- tryCatch(
+  # Try instantiating an Adult value object
+  Adult(age = sample(1:120)), 
+  # If there is an error, return the Null Adult object
+  error = function(e) return(Adult()) 
+)
+```
+
+-   In unit-tests
