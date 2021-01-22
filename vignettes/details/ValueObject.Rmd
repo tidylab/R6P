@@ -1,0 +1,23 @@
+---
+title: "The Value Object Pattern"
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+```
+
+<!-- One line about what the function does -->
+
+***Value Object*** ...
+
+## How It Works
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu, suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
+
+## When to Use It
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu, suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
+

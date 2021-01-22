@@ -34,7 +34,9 @@ Suggests:
     dplyr,
     DBI,
     RSQLite,
+    ggplot2,
     tibble,
+    tidyr,
     pryr
 Imports: 
     R6,

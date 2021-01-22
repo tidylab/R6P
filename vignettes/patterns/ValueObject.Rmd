@@ -1,0 +1,31 @@
+---
+title: "The Value Object Pattern"
+bibliography: [../../inst/REFERENCES.bib]
+biblio-style: apalike
+nocite: | 
+  @Fowler2002 
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+```
+
+<!-- Details -->
+
+```{r child="../details/ValueObject.Rmd"}
+```
+
+## Example: Foo
+
+```{r, echo=TRUE}
+foo <- function() NULL
+```
+
+
+## Further Reading
+
+[Value Object at Wikipedia](https://en.wikipedia.org/wiki/Value_object)

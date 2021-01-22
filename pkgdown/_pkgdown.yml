@@ -14,6 +14,8 @@ articles:
 - title: Base Patterns
   contents:
   - patterns/Singleton
+  - patterns/ValueObject
+  - patterns/NullObject
 - title: Object-Relational Patterns
   contents:
   - patterns/Repository
