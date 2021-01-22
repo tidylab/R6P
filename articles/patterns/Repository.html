@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">Design Patterns in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -129,23 +129,7 @@
 <a href="#implementations" class="anchor"></a>Implementations</h2>
 <p>The code of the abstract base class of <strong>Repository</strong> is</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="co">#'</span>
-<span class="va">AbstractRepository</span> <span class="op">&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span><span class="st">"Repository"</span>, inherit <span class="op">=</span> <span class="va">Singleton</span>, cloneable <span class="op">=</span> <span class="cn">FALSE</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">AbstractRepository</span> <span class="op">&lt;-</span> <span class="fu">R6</span><span class="fu">::</span><span class="kw"><a href="https://r6.r-lib.org/reference/R6Class.html">R6Class</a></span><span class="op">(</span><span class="st">"Repository"</span>, inherit <span class="op">=</span> <span class="va">Singleton</span>, cloneable <span class="op">=</span> <span class="cn">FALSE</span>, public <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     <span class="co">#' @description Instantiate an object</span>
     initialize <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="va">exceptions</span><span class="op">$</span><span class="fu">not_implemented_error</span><span class="op">(</span><span class="op">)</span>,
     <span class="co">#' @description Add an element to the Repository.</span>
