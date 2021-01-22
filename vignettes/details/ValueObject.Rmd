@@ -11,13 +11,35 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 <!-- One line about what the function does -->
 
-***Value Object*** ...
+A ***Value Object*** models a domain concept using natural lingo of the domain
+experts, such as "Passenger", "Address", and "Money".
+
+**Value Objects** are value types that measure, quantify, or describe things are easier to create, test, use, optimize, and maintain.
+
+::: {.alert .alert-info}
+**Value Objects** are a vital building block of analytic applications.
+:::
 
 ## How It Works
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu, suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
+In R, the
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat.
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu,
+suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris
+suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum
+bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices
+tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci
+luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
 
 ## When to Use It
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu, suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
-
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat.
+Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
+curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu,
+suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris
+suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum
+bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices
+tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci
+luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
