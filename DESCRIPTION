@@ -41,5 +41,6 @@ Suggests:
 Imports: 
     R6,
     purrr,
+    lubridate,
     stringr
 Config/testthat/edition: 3
