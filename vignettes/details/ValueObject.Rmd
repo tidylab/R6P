@@ -190,3 +190,9 @@ clean_audience_data <- function(data)
 clean_audience_data <- function(attendees = Audience()) 
     dplyr::mutate(.data = attendees, given = stringr::str_to_title(given))
 ```
+
+```{r, warning=TRUE}
+warning("**Value Objects** do not need to have unit-tests. This is because of two reasons: 
+(1) **Value Objects** are often called by other functions that are being tested. That means, **Value Objects** are implicitly tested. 
+(2) **Value Objects** are data types similarly to 'data.frame' or 'list'. As such, they need no testing")
+```
