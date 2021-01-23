@@ -86,8 +86,8 @@ which are not offered by the alternative:
 
 1.  Readability. Each **Value Object** captures a concept belonging to the
     problem domain. Rather than trying to infer what a `tibble` is by looking at
-    its low-level details (key-value pairs), the **Value Object** constructor
-    descries a context on a high-level.
+    its low-level details, the **Value Object** constructor descries a context
+    on a high-level.
 
 2.  Explicitness. Since the constructor of the **Value Object** is a function,
     its expected input arguments and their type can be detailed in a helper
@@ -167,11 +167,26 @@ print(diner)
 
 ## When to Use It
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat.
-Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu,
-suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris
-suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum
-bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices
-tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci
-luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
+-   In situations where domain concepts are more important then the database
+    schema. For example, when you are modelling Passengers, your first instinct
+    might be to think about the different data sources you'd need for the
+    analysis. You may envision "FlightDetails" and "CustomerDetails". Next you
+    will define the relationship between them. Instead, let the domain drive the
+    design. Create a Passenger **Value Object** with the attributes you must
+    have, regardless of any particular database schema.
+
+-   In a function that runs within a specific context. Rather than having an
+    input argument called `data` of type `data.frame`, use the appropriate
+    **Value Object** name and pass it its constructor.
+
+```{r, echo = TRUE, eval = FALSE}
+Audience <- Person
+
+## Without a Value Object
+clean_audience_data <- function(data) 
+    dplyr::mutate(.data = data, given = stringr::str_to_title(given))
+
+## With a Value Object
+clean_audience_data <- function(attendees = Audience()) 
+    dplyr::mutate(.data = attendees, given = stringr::str_to_title(given))
+```
