@@ -12,6 +12,23 @@ status](https://github.com/tidylab/R6P/workflows/R-CMD-check/badge.svg)](https:/
 
 <!-- badges: end -->
 
+## Intentions
+
+-   R6P is an amalgamation of useful design patterns in R
+-   R6P explains *how a design pattern works* and *when to use a design
+    pattern*
+-   R6P provides examples that show how to implement each design pattern
+    in R
+
+**Caution:** Most functions and classes provided by the R6P package are
+not useful by themselves. This is because design patterns are employed
+in a specific context. R6P implementations are designed for
+demonstration purposes. Instead of directly using the design pattern as
+they appear in the package, you’d have to adjust the source code
+(provided in the examples) to the problem you are trying to solve.
+
+-   R6P is not useful
+
 ## Introduction
 
 Build robust and maintainable software with object-oriented design
@@ -29,21 +46,22 @@ This package is based on the work of Gamma1995, and Fowler2002.
 
 ### Should I use design patterns?
 
-Design patterns represent an alternative to design: rather than
-designing a new mechanism from scratch, just apply a well-known design
-pattern. For the most part, this is good: design patterns arose because
-they solve common problems, and because they are generally agreed to
-provide clean solutions. If a design pattern works well in a particular
-situation, it will probably be hard for you to come up with a different
-approach that is better.
+::: {.alert .alert-info} Design patterns represent an alternative to
+design: rather than designing a new mechanism from scratch, just apply a
+well-known design pattern. For the most part, this is good: design
+patterns arose because they solve common problems, and because they are
+generally agreed to provide clean solutions. If a design pattern works
+well in a particular situation, it will probably be hard for you to come
+up with a different approach that is better. :::
 
-The greatest risk with design patterns is over-application. Not every
-problem can be solved cleanly with an existing design pattern; don’t try
-to force a problem into a design pattern when a custom approach will be
-cleaner. Using design patterns doesn’t automatically improve a software
-system; it only does so if the design patterns fit. As with many ideas
-in software design, the notion that design patterns are good doesn’t
-necessarily mean that more design patterns are better.
+::: {.alert .alert-warning} The greatest risk with design patterns is
+over-application. Not every problem can be solved cleanly with an
+existing design pattern; don’t try to force a problem into a design
+pattern when a custom approach will be cleaner. Using design patterns
+doesn’t automatically improve a software system; it only does so if the
+design patterns fit. As with many ideas in software design, the notion
+that design patterns are good doesn’t necessarily mean that more design
+patterns are better. :::
 
 ## Installation
 

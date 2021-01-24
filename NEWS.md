@@ -5,10 +5,6 @@
 -   `ValueObject` 
 -   `NullObject`
 
-## New Features
-
--   `import_x` functions
-
 # R6P 0.1.1
 
 ## New Patterns
