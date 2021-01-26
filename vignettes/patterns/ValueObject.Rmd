@@ -19,7 +19,7 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ```{r child="../details/ValueObject.Rmd"}
 ```
 
-## Example: Foo
+## Example: Car Value Object
 
 ```{r, echo=TRUE}
 foo <- function() NULL
