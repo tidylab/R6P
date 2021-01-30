@@ -5,12 +5,9 @@ test_that("instantiating a Null Value Object", {
 })
 
 test_that("instantiating a person", {
-    expect_s3_class(
-        Person(given = "Bilbo", family = "Baggins", birthdate = as.Date("2890-09-22")),
-        "data.frame"
-    )
+    expect_s3_class(Person(given = "Bilbo", family = "Baggins"), "data.frame")
 })
 
-test_that("instantiating persons", {
-    expect_s3_class(Person(given = LETTERS, family = LETTERS),"data.frame")
+test_that("instantiating persons without family names", {
+    expect_s3_class(Person(given = LETTERS, ), "data.frame")
 })
