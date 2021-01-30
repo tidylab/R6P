@@ -5,11 +5,15 @@ articles:
   appendices/Dictionary: Dictionary.html
   appendices/SpecialCase: SpecialCase.html
   article_template: article_template.html
+  details/NullObject: NullObject.html
   details/Repository: Repository.html
   details/Singleton: Singleton.html
+  details/ValueObject: ValueObject.html
+  patterns/NullObject: NullObject.html
   patterns/Repository: Repository.html
   patterns/Singleton: Singleton.html
-last_built: 2021-01-22T01:31Z
+  patterns/ValueObject: ValueObject.html
+last_built: 2021-01-30T02:58Z
 urls:
   reference: https://tidylab.github.io/R6P//reference
   article: https://tidylab.github.io/R6P//articles

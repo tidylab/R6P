@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Singleton Pattern • Design Patterns in R</title>
+<title>The Null Object Pattern • Design Patterns in R</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
@@ -19,7 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
 <script src="../../pkgdown.js"></script><!-- docsearch --><script src="../../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../../docsearch.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="The Singleton Pattern">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script><meta property="og:title" content="The Null Object Pattern">
 <meta property="og:description" content="R6P">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -84,47 +84,67 @@
 
       
 
-      </header><script src="Singleton_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="NullObject_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>The Singleton Pattern</h1>
+      <h1 data-toc-skip>The Null Object Pattern</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidylab/R6P/blob/master/vignettes/details/Singleton.Rmd"><code>vignettes/details/Singleton.Rmd</code></a></small>
-      <div class="hidden name"><code>Singleton.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/tidylab/R6P/blob/master/vignettes/details/NullObject.Rmd"><code>vignettes/details/NullObject.Rmd</code></a></small>
+      <div class="hidden name"><code>NullObject.Rmd</code></div>
 
     </div>
 
     
     
+<div class="alert alert-danger">
+<p><strong>Caution:</strong> NullObject is designed for demonstration purposes. Instead of directly using the design pattern as it appears in the package, you’d have to adjust the source code to the problem you are trying to solve.</p>
+</div>
 <!-- One line about what the function does -->
-<p><strong><em>Singleton</em></strong> ensures a class only has one instance, and provide a global point of access to it.</p>
+<p><strong><em>Null Object</em></strong> …</p>
 <div id="how-it-works" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-it-works" class="anchor"></a>How It Works</h2>
-<ol style="list-style-type: decimal">
-<li>Create only one instance of the <strong>Singleton</strong> class; and</li>
-<li>If an instance exists, then serve the same object again.</li>
-</ol>
-<p>The main features of <strong>Singleton</strong> are:</p>
-<ul>
-<li><p>Ensuring that one and only one object of the class gets created;</p></li>
-<li><p>Providing an access point for an object that is global to the program; and</p></li>
-<li><p>Controlling concurrent access to resources that are shared.</p></li>
-</ul>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nam vitae tempor sem. Nullam vel augue suscipit, scelerisque nisl eu, suscipit mi. Etiam sit amet turpis vitae massa facilisis tincidunt. Mauris suscipit venenatis tincidunt. Ut convallis augue ac orci pulvinar, vestibulum bibendum nibh vestibulum. In sed leo arcu. Proin eget magna porttitor, ultrices tortor auctor, luctus ligula. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.</p>
 </div>
 <div id="when-to-use-it" class="section level2">
 <h2 class="hasAnchor">
 <a href="#when-to-use-it" class="anchor"></a>When to Use It</h2>
 <ul>
-<li>In situations that require exactly one instance of a class, that must be accessible to clients from a well-known access point. See the <a href="#example-1"><code>Counter</code> example</a>.</li>
+<li>In situations when a subroutine is likely to fail, such as loss of Internet or database connectivity. Instead of prompting a run-time error, you could return the <strong>Null Object</strong> as part of a <a href="https://en.wikipedia.org/wiki/Graceful_exit">gracefully failing</a> strategy. A common strategy employs <code>tryCatch</code> that returns the <strong>Null Object</strong> in case of an error:</li>
 </ul>
-<div class="alert alert-danger">
-<p><strong>Caution:</strong> Singletons can be a problem in multi-threaded applications, especially when they manipulate mutable data.</p>
-</div>
-<div class="alert alert-info">
-<p><strong>Tip:</strong> Singletons work well for immutable data, such as reading from some data source, since anything that can’t change isn’t going to run into thread clash problems.</p>
-</div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1814</span><span class="op">)</span>
+
+<span class="co"># Adult value object constructor</span>
+<span class="va">Adult</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">age</span> <span class="op">=</span> <span class="cn">NA_integer_</span><span class="op">)</span><span class="op">{</span>
+  <span class="kw">if</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html">isTRUE</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&lt;</span> <span class="fl">18</span><span class="op">)</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Can not instantiate minors"</span><span class="op">)</span> 
+  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>age <span class="op">=</span> <span class="va">age</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>
+<span class="op">}</span>
+
+<span class="co"># A Non-Null Adult object is</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu">Adult</span><span class="op">(</span>age <span class="op">=</span> <span class="fl">42</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 1 x 1</span>
+<span class="co">#&gt;     age</span>
+<span class="co">#&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; 1    42</span>
+<span class="co"># The Null Adult object is</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu">Adult</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 0 x 1</span>
+<span class="co">#&gt; # … with 1 variable: age &lt;int&gt;</span>
+
+<span class="co"># Subroutine with gracefully failing strategy</span>
+<span class="co"># Notice: Whether the subroutine fails or succeeds, it returns a tibble with </span>
+<span class="co"># the same structure.</span>
+<span class="va">adult</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html">tryCatch</a></span><span class="op">(</span>
+  <span class="co"># Try instantiating an Adult value object</span>
+  <span class="fu">Adult</span><span class="op">(</span>age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">120</span><span class="op">)</span><span class="op">)</span>, 
+  <span class="co"># If there is an error, return the Null Adult object</span>
+  error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu">Adult</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> 
+<span class="op">)</span></code></pre></div>
+<ul>
+<li>In unit-tests</li>
+</ul>
 </div>
   </div>
 

@@ -10,6 +10,9 @@
     <loc>https://tidylab.github.io/R6P//reference/Singleton.html</loc>
   </url>
   <url>
+    <loc>https://tidylab.github.io/R6P//reference/ValueObject.html</loc>
+  </url>
+  <url>
     <loc>https://tidylab.github.io/R6P//reference/pipe.html</loc>
   </url>
   <url>
@@ -22,15 +25,27 @@
     <loc>https://tidylab.github.io/R6P//articles/article_template.html</loc>
   </url>
   <url>
+    <loc>https://tidylab.github.io/R6P//articles/details/NullObject.html</loc>
+  </url>
+  <url>
     <loc>https://tidylab.github.io/R6P//articles/details/Repository.html</loc>
   </url>
   <url>
     <loc>https://tidylab.github.io/R6P//articles/details/Singleton.html</loc>
   </url>
   <url>
+    <loc>https://tidylab.github.io/R6P//articles/details/ValueObject.html</loc>
+  </url>
+  <url>
+    <loc>https://tidylab.github.io/R6P//articles/patterns/NullObject.html</loc>
+  </url>
+  <url>
     <loc>https://tidylab.github.io/R6P//articles/patterns/Repository.html</loc>
   </url>
   <url>
     <loc>https://tidylab.github.io/R6P//articles/patterns/Singleton.html</loc>
+  </url>
+  <url>
+    <loc>https://tidylab.github.io/R6P//articles/patterns/ValueObject.html</loc>
   </url>
 </urlset>
