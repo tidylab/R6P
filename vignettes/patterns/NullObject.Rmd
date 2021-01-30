@@ -44,4 +44,4 @@ print(Person())
 
 ## Further Reading
 
-[Null Object at Wikipedia](https://en.wikipedia.org/wiki/Null_object_pattern)
+[Null Object on Wikipedia](https://en.wikipedia.org/wiki/Null_object_pattern)

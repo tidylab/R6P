@@ -14,10 +14,11 @@
 #' # In this example we are appointing elected officials to random ministries, just
 #' # like in real-life.
 #' Person <- ValueObject
+#' Person()
 #'
 #' # Create a test for objects of type Person
-#' # * Extract the column names of Person by using its Null Object
-#' # * Check that the input argument has all the column that a Person has
+#' # * Extract the column names of Person by using its Null Object (returned by Person())
+#' # * Check that the input argument has all the columns that a Person has
 #' is.Person <- function(x) all(colnames(x) %in% colnames(Person()))
 #'
 #' # A 'Minister' is a 'Person' with a ministry title. We capture that information
@@ -34,9 +35,9 @@
 #'}
 #'
 #' # Given one or more parliament members
-#' # When appoint_random_minstries is called
+#' # When appoint_random_ministries is called
 #' # Then the parliament members are appointed to an office.
-#' appoint_random_minstries <- function(member = Person()){
+#' appoint_random_ministries <- function(member = Person()){
 #'     positions <- c(
 #'         "Arts, Culture and Heritage", "Finance", "Corrections",
 #'         "Racing", "Sport and Recreation", "Housing", "Energy and Resources",
@@ -48,17 +49,17 @@
 #' }
 #'
 #' # Listing New Zealand elected officials in 2020, we instantiate a Person Object,
-#' # call appoint them to random offices and return a Member object value.
+#' # appoint them to random offices and return a Member value object.
 #' set.seed(2020)
 #'
-#' elected_officials <- Person(
+#' parliament_members <- Person(
 #'     given = c("Jacinda", "Grant",     "Kelvin", "Megan", "Chris",   "Carmel"),
-#'     family = c("Ardern", "Robertson", "Davis",  "Woods", "Hipkins", "Sepuloni"),
+#'     family = c("Ardern", "Robertson", "Davis",  "Woods", "Hipkins", "Sepuloni")
 #' )
 #'
-#' elected_officials
+#' parliament_members
 #'
-#' appoint_random_minstries(member = elected_officials)
+#' appoint_random_ministries(member = parliament_members)
 ValueObject <- function(
     given = NA_character_,
     family = NA_character_,

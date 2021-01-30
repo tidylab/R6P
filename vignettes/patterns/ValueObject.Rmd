@@ -19,13 +19,110 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ```{r child="../details/ValueObject.Rmd"}
 ```
 
-## Example: Car Value Object
+<!-- Example -->
+
+## Example: Person and Minister Value Objects
+
+In this example, we are appointing elected officials to random ministries, just
+like in real life. 
+
+The nomination process comprises three components: input, function, output.
+
+* The input is the given and family names of a **Person**
+* The function receives a **Person** value object and pairs it with ministry titles
+* The output is a **Minister** value object
+
+ **Person** -> appoint_random_ministries
+
+First, we implement the input type. `Person()` is the constructor of the
+**Person** value object.
 
 ```{r, echo=TRUE}
-foo <- function() NULL
+#' @title Person Value Object Constructor
+#' @description A Person encapsulates the information that constitute an individual 
+#' @param given (`character`) Individual first name.
+#' @param family (`character`) Individual last name.
+#' @return (`Person`) Person value object.
+Person <- function(given = NA_character_, family = NA_character_){
+  stopifnot(is.character(given), is.character(family))
+  stopifnot(length(given) == length(family))
+  
+  return(
+    tibble::tibble(given = given, family = family)
+    %>% tidyr::drop_na(given)
+  )
+}
+
+Person()
+```
+
+In addition, we implement a predicate that validates whether an arbitrary
+`data.frame` is a **Person** value object.
+
+```{r, echo=TRUE}
+# Create a test for objects of type Person
+# * Extract the column names of Person by using its Null Object (returned by Person())
+# * Check that the input argument has all the columns that a Person has
+is.Person <- function(x) all(colnames(x) %in% colnames(Person()))
+```
+
+Second, we implement the output type. `Minister()` is the constructor of the
+**Minister** value object.
+
+```{r, echo=TRUE}
+#' @title Minister Value Object Constructor
+#' @decription A 'Minister' is a 'Person' with a ministry title. 
+#' @param Person (`Person`) A member of parliament.
+#' @param title (`character`) A string with one or more ministry titles.
+#' @return (`Minister`) Minister value object.
+Minister <- function(member = Person(), title = NA_character_){
+  stopifnot(is.Person(member), is.character(title))
+  stopifnot(nrow(member) == length(title) | all(is.na(title)))
+  
+  member %>% dplyr::mutate(title = title)
+}
+```
+
+Third, we write a function that transforms **Person** into **Minister**.
+
+```{r, echo=TRUE}
+#' @title Appoint Parliament Members to Ministries
+#' @decription
+#' Given one or more parliament members
+#' When appoint_random_ministries is called
+#' Then the parliament members are appointed to an office.
+#' @param memeber (`Person`) A Person value object.
+#' @return (`Minister`) Minister value object.
+appoint_random_ministries <- function(member = Person()){
+  positions <- c(
+    "Arts, Culture and Heritage", "Finance", "Corrections",
+    "Racing", "Sport and Recreation", "Housing", "Energy and Resources",
+    "Education", "Public Service", "Disability Issues", "Environment",
+    "Justice", "Immigration", "Defence", "Internal Affairs", "Transport"
+  )
+  
+  Minister(member = member, title = sample(positions, size = nrow(member)))
+}
+```
+
+Finally, we pair parliament members with ministries
+
+```{r, echo=TRUE}
+# Listing New Zealand elected officials in 2020, we instantiate a Person Object,
+# appoint them to random offices and return a Member value object.
+set.seed(2020)
+
+parliament_members <- Person(
+  given = c("Jacinda", "Grant",     "Kelvin", "Megan", "Chris",   "Carmel"),
+  family = c("Ardern", "Robertson", "Davis",  "Woods", "Hipkins", "Sepuloni")
+)
+
+parliament_members
+
+appoint_random_ministries(member = parliament_members)
 ```
 
 
 ## Further Reading
 
-[Value Object at Wikipedia](https://en.wikipedia.org/wiki/Value_object)
+[Value Object on Wikipedia](https://en.wikipedia.org/wiki/Value_object)

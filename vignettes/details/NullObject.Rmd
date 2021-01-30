@@ -9,6 +9,10 @@ editor_options:
 source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ```
 
+```{r, error=TRUE}
+events$stop_not_useful("NullObject")
+```
+
 <!-- One line about what the function does -->
 
 ***Null Object*** ...
