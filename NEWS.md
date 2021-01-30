@@ -1,14 +1,14 @@
 # R6P 0.2.0
 
-## New Features
+## New Patterns
 
--   `ValueObject` pattern
--   `import_x` functions
+-   `ValueObject` 
+-   `NullObject`
 
 # R6P 0.1.1
 
-## New Features
+## New Patterns
 
--   `Singleton` pattern
--   `Repository` pattern
+-   `Singleton` 
+-   `Repository` 
 

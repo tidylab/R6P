@@ -1,0 +1,47 @@
+---
+title: "The Null Object Pattern"
+bibliography: [../../inst/REFERENCES.bib]
+biblio-style: apalike
+nocite: | 
+  @Fowler2002 
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+```
+
+<!-- Details -->
+
+```{r child="../details/NullObject.Rmd"}
+```
+
+## Example: Null ggplot2
+
+```{r, echo=TRUE}
+geom_null <- function(...){
+  ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void()
+}
+```
+
+## Example: Null Value Object
+
+```{r, echo=TRUE}
+Person <- function(given = NA_character_, family = NA_character_){
+  tibble::tibble(given = given, family = family) %>% tidyr::drop_na(given)
+}
+
+# Instantiating a person with a `given` name, returns a non-null person object
+print(Person("Madonna"))
+
+# Instantiating a person without a `given` name, returns the null person object
+print(Person())
+```
+
+
+## Further Reading
+
+[Null Object on Wikipedia](https://en.wikipedia.org/wiki/Null_object_pattern)
