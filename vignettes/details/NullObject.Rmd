@@ -17,6 +17,10 @@ events$stop_not_useful("NullObject")
 
 ***Null Object*** ...
 
+```{r warning=TRUE}
+warning("The Null Object is not the same as the reserved word in R `NULL` (all caps).")
+```
+
 ## How It Works
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lacinia erat.
@@ -34,32 +38,42 @@ luctus et ultrices posuere cubilia curae; Proin consequat dignissim dictum.
     or database connectivity. Instead of prompting a run-time error, you could
     return the **Null Object** as part of a [gracefully
     failing](https://en.wikipedia.org/wiki/Graceful_exit) strategy. A common
-    strategy employs `tryCatch` that returns the **Null Object** in case of an
-    error:
+    strategy employs `tryCatch` that returns the **Null Object** in the case of 
+    an error:
 
-```{r,  echo = TRUE, eval = TRUE}
-set.seed(1814)
+```{r, echo = TRUE, eval = TRUE}
+# Mock that simulated a database that is 5% likely to fail 
+read_mtcars <- function() if(runif(1) < 0.05) stop() else return(mtcars)
 
-# Adult value object constructor
-Adult <- function(age = NA_integer_){
-  if(isTRUE(age < 18)) stop("Can not instantiate minors") 
-  tibble::tibble(age = age) %>% tidyr::drop_na(age)
-}
+# mtcars null object constructor
+NullCar <- function() mtcars[0,]
 
-# A Non-Null Adult object is
-print(Adult(age = 42))
-# The Null Adult object is
-print(Adult())
+# How does the null car object look like? 
+NullCar()
 
 # Subroutine with gracefully failing strategy
+set.seed(1814)
+cars <- tryCatch(
+  # Try reading the mtcars dataset
+  read_mtcars(), 
+  # If there is an error, return the Null Car object
+  error = function(e) return(NullCar()) 
+)
+
 # Notice: Whether the subroutine fails or succeeds, it returns a tibble with 
 # the same structure.
-adult <- tryCatch(
-  # Try instantiating an Adult value object
-  Adult(age = sample(1:120)), 
-  # If there is an error, return the Null Adult object
-  error = function(e) return(Adult()) 
-)
+colnames(cars)
 ```
 
 -   In unit-tests
+
+```{r, echo = TRUE, eval = FALSE}
+classes <- function(x) sapply(x, class)
+    
+test_that("mtcars follows a certain table structure", {
+    # Compare column names
+    expect_identical(colnames(mtcars), colnames(NullCar()))
+    # Compare variable types
+    expect_identical(classes(mtcars), classes(NullCar()))
+})
+```

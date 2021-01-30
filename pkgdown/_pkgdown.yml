@@ -33,6 +33,7 @@ reference:
   contents:
   - 'Singleton'
   - 'ValueObject'
+  - 'NullObject'
 - title: Object-Relational Patterns
   desc: >
     Simplify access to data stored in persistent storage of some kind.

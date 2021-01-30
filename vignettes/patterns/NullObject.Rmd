@@ -21,10 +21,25 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 ## Example: Null ggplot2
 
+* Useful in shiny dashboard when the visual is dependent on the user selection
+of what to plot.
+
 ```{r, echo=TRUE}
 geom_null <- function(...){
   ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void()
 }
+```
+
+## Example: Null mtcars
+
+```{r, echo=TRUE}
+NullCar <- function() mtcars[0,]
+
+# The Null Car and the NULL value are not the same
+identical(NullCar(), NULL)
+
+# Binding mtcars with the Null Car returns mtcars 
+identical(rbind(mtcars, NullCar()), mtcars)
 ```
 
 ## Example: Null Value Object
@@ -40,7 +55,6 @@ print(Person("Madonna"))
 # Instantiating a person without a `given` name, returns the null person object
 print(Person())
 ```
-
 
 ## Further Reading
 
