@@ -24,13 +24,6 @@ Any **Value Object** is created by a function that receives input, applies some
 transformations, and outputs the results in some data structure such as a
 vector, a list or a data.frame.
 
-<div>
-
-<mark>**Value Objects** are a vital building block of analytic
-applications.</mark>
-
-</div>
-
 ## How It Works
 
 In R, a good option for creating a **Value Object** is to follow two
@@ -195,7 +188,7 @@ clean_audience_data <- function(attendees = Audience())
   dplyr::mutate(.data = attendees, given = stringr::str_to_title(given))
 ```
 
--   In [pipes and filters](https://en.wikipedia.org/wiki/Pipeline_(software)). 
+-   In [pipes and filters](https://en.wikipedia.org/wiki/Pipeline_(software)) architecture. 
 
 ```{r, warning=TRUE}
 warning("**Value Objects** do not need to have unit-tests. This is because of two reasons: 

@@ -21,19 +21,47 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 ## Example: Null ggplot2
 
-* Useful in shiny dashboard when the visual is dependent on the user selection
-of what to plot.
 
-```{r, echo=TRUE}
+```{r, echo=TRUE, eval=FALSE}
 geom_null <- function(...){
   ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void()
 }
 ```
 
-## Example: Null mtcars
+* Useful as part of a [gracefully failing](https://en.wikipedia.org/wiki/Graceful_exit) strategy.
+
+```{r, echo=TRUE, eval=FALSE}
+fig <- 
+  tryCatch({
+    stopifnot(runif(1) > 0.05) # simulate 5% chance for the subroutine to fail
+    
+    mtcars %>% 
+      ggplot2::ggplot(ggplot::aes(x = mpg, y = hp)) + 
+      ggplot2::geom_point()
+  }, 
+  error = function(e) return(geom_null()) # if subroutine has failed, return null
+  )
+
+plot(fig)
+```
+
+* Useful in shiny dashboards when a visual is dependent on the user selection of
+what to plot. In this case, you could also add a "call to action" text as a
+ggplot object.
+
+```{r, echo=TRUE, eval=FALSE}
+if(exists("user_input")){
+  ggplot2::ggplot(user_input, ggplot::aes(x = mpg, y = hp)) + ggplot2::geom_point()
+} else {
+  geom_null() + geom_text(aes(0,0), label = "choose an entry from the list")
+}
+```
+
+## Example: Null mtcars Car
 
 ```{r, echo=TRUE}
 NullCar <- function() mtcars[0,]
+print(NullCar())
 
 # The Null Car and the NULL value are not the same
 identical(NullCar(), NULL)
