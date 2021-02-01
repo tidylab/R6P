@@ -1,0 +1,89 @@
+---
+title: "The Null Object Pattern"
+bibliography: [../../inst/REFERENCES.bib]
+biblio-style: apalike
+nocite: | 
+  @Fowler2002 
+link-citations: yes
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+```
+
+<!-- Details -->
+
+```{r child="../details/NullObject.Rmd"}
+```
+
+## Example: Null ggplot2
+
+
+```{r, echo=TRUE, eval=FALSE}
+geom_null <- function(...){
+  ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void()
+}
+```
+
+* Useful as part of a [gracefully failing](https://en.wikipedia.org/wiki/Graceful_exit) strategy.
+
+```{r, echo=TRUE, eval=FALSE}
+fig <- 
+  tryCatch({
+    stopifnot(runif(1) > 0.05) # simulate 5% chance for the subroutine to fail
+    
+    mtcars %>% 
+      ggplot2::ggplot(ggplot::aes(x = mpg, y = hp)) + 
+      ggplot2::geom_point()
+  }, 
+  error = function(e) return(geom_null()) # if subroutine has failed, return null
+  )
+
+plot(fig)
+```
+
+* Useful in shiny dashboards when a visual is dependent on the user selection of
+what to plot. In this case, you could also add a "call to action" text as a
+ggplot object.
+
+```{r, echo=TRUE, eval=FALSE}
+if(exists("user_input")){
+  ggplot2::ggplot(user_input, ggplot::aes(x = mpg, y = hp)) + ggplot2::geom_point()
+} else {
+  geom_null() + geom_text(aes(0,0), label = "choose an entry from the list")
+}
+```
+
+## Example: Null mtcars Car
+
+```{r, echo=TRUE}
+NullCar <- function() mtcars[0,]
+print(NullCar())
+
+# The Null Car and the NULL value are not the same
+identical(NullCar(), NULL)
+
+# Binding mtcars with the Null Car returns mtcars 
+identical(rbind(mtcars, NullCar()), mtcars)
+```
+
+## Example: Null Value Object
+
+```{r, echo=TRUE}
+Person <- function(given = NA_character_, family = NA_character_){
+  tibble::tibble(given = given, family = family) %>% tidyr::drop_na(given)
+}
+
+# Instantiating a person with a `given` name, returns a non-null person object
+print(Person("Madonna"))
+
+# Instantiating a person without a `given` name, returns the null person object
+print(Person())
+```
+
+## Further Reading
+
+[Null Object on Wikipedia](https://en.wikipedia.org/wiki/Null_object_pattern)
