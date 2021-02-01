@@ -2,8 +2,7 @@
 
 export("%>%")
 export(AbstractRepository)
+export(NullObject)
 export(Singleton)
 export(ValueObject)
-importFrom(lubridate,NA_Date_)
-importFrom(lubridate,is.Date)
 importFrom(purrr,"%>%")
