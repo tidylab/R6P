@@ -140,7 +140,7 @@
 </ol>
 <p>In addition to these qualities, there are two desirable behaviours which are not offered by directly calling <code>tibble</code>:</p>
 <ol style="list-style-type: decimal">
-<li><p><a href="(https://tidylab.github.io/R6P/articles/patterns/NullObject.html)">Null Value Object</a>. Calling the <strong>Value Object</strong> constructor with no input arguments returns the structure of the <code>tibble</code> (column names and column types).</p></li>
+<li><p>Null Value Object. Calling the <strong>Value Object</strong> constructor with no input arguments returns the structure of the <code>tibble</code> (column names and column types).</p></li>
 <li><p>Default values for missing input arguments. In this manner, the <strong>Value Object</strong> has a well-defined behaviour for a person without a family name, such as Madonna and Bono.</p></li>
 </ol>
 <p>In addition to native R data types, a <strong>Value Object</strong> constructor can receive other <strong>Value Objects</strong> as input arguments. Here are two examples that transmute Person to other Person-based concepts:</p>
