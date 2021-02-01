@@ -13,7 +13,7 @@ articles:
   patterns/Repository: Repository.html
   patterns/Singleton: Singleton.html
   patterns/ValueObject: ValueObject.html
-last_built: 2021-01-30T02:58Z
+last_built: 2021-02-01T02:15Z
 urls:
   reference: https://tidylab.github.io/R6P//reference
   article: https://tidylab.github.io/R6P//articles

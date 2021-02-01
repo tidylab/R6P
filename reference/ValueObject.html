@@ -144,11 +144,7 @@ experts, such as “Passenger”, “Address”, and “Money”." />
 experts, such as “Passenger”, “Address”, and “Money”.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ValueObject</span><span class='op'>(</span>
-  given <span class='op'>=</span> <span class='cn'>NA_character_</span>,
-  family <span class='op'>=</span> <span class='cn'>NA_character_</span>,
-  birthdate <span class='op'>=</span> <span class='va'>NA_Date_</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>ValueObject</span><span class='op'>(</span>given <span class='op'>=</span> <span class='cn'>NA_character_</span>, family <span class='op'>=</span> <span class='cn'>NA_character_</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,10 +156,6 @@ experts, such as “Passenger”, “Address”, and “Money”.</p>
     <tr>
       <th>family</th>
       <td><p>(<code>character</code>) A character vector with the family name.</p></td>
-    </tr>
-    <tr>
-      <th>birthdate</th>
-      <td><p>(<code>Date</code>) A date vector with birth date.</p></td>
     </tr>
     </table>
 
@@ -183,13 +175,7 @@ have to adjust the source code to the problem you are trying to solve.
 domain experts, such as “Passenger”, “Address”, and “Money”.</p>
 <p>Any <strong>Value Object</strong> is created by a function that receives input,
 applies some transformations, and outputs the results in some data
-structure such as a vector, a list or a data.frame.
-<div></p>
-
-<p><mark><strong>Value Objects</strong> are a vital building block of analytic
-applications.</mark>
-</div></p>
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>How It Works</h3>
+structure such as a vector, a list or a data.frame.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>How It Works</h3>
 
 
 <p>In R, a good option for creating a <strong>Value Object</strong> is to follow two
@@ -341,7 +327,8 @@ appropriate <strong>Value Object</strong> name and pass it its constructor.</p><
 <span class='va'>clean_audience_data</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>attendees</span> <span class='op'>=</span> <span class='fu'>Audience</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> 
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>.data <span class='op'>=</span> <span class='va'>attendees</span>, given <span class='op'>=</span> <span class='fu'>stringr</span><span class='fu'>::</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/case.html'>str_to_title</a></span><span class='op'>(</span><span class='va'>given</span><span class='op'>)</span><span class='op'>)</span>
 </pre><p></div></p><ul>
-<li><p>In <a href='https://en.wikipedia.org/wiki/Pipeline_(software)'>pipes and filters</a>.</p></li>
+<li><p>In <a href='https://en.wikipedia.org/wiki/Pipeline_(software)'>pipes and filters</a>
+architecture.</p></li>
 </ul><p><div class="alert alert-warning"></p>
 
 <p><strong>Note:</strong> <strong>Value Objects</strong> do not need to have unit-tests. This is
@@ -354,6 +341,7 @@ implicitly tested. (2) <strong>Value Objects</strong> are data types similarly t
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other base design patterns: 
+<code><a href='NullObject.html'>NullObject</a>()</code>,
 <code><a href='Singleton.html'>Singleton</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -363,8 +351,8 @@ implicitly tested. (2) <strong>Value Objects</strong> are data types similarly t
 <span class='co'># like in real-life.</span>
 <span class='va'>Person</span> <span class='op'>&lt;-</span> <span class='va'>ValueObject</span>
 <span class='fu'>Person</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 0 x 3</span><span>
-#&gt; </span><span style='color: #555555;'># … with 3 variables: given </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, family </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, birthdate </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span></div><div class='input'>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 0 x 2</span><span>
+#&gt; </span><span style='color: #555555;'># … with 2 variables: given </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, family </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'>
 <span class='co'># Create a test for objects of type Person</span>
 <span class='co'># * Extract the column names of Person by using its Null Object (returned by Person())</span>
 <span class='co'># * Check that the input argument has all the columns that a Person has</span>
@@ -406,25 +394,25 @@ implicitly tested. (2) <strong>Value Objects</strong> are data types similarly t
 <span class='op'>)</span>
 
 <span class='va'>parliament_members</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
-#&gt;   given   family    birthdate 
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>    
-#&gt; </span><span style='color: #555555;'>1</span><span> Jacinda Ardern    </span><span style='color: #BB0000;'>NA</span><span>        
-#&gt; </span><span style='color: #555555;'>2</span><span> Grant   Robertson </span><span style='color: #BB0000;'>NA</span><span>        
-#&gt; </span><span style='color: #555555;'>3</span><span> Kelvin  Davis     </span><span style='color: #BB0000;'>NA</span><span>        
-#&gt; </span><span style='color: #555555;'>4</span><span> Megan   Woods     </span><span style='color: #BB0000;'>NA</span><span>        
-#&gt; </span><span style='color: #555555;'>5</span><span> Chris   Hipkins   </span><span style='color: #BB0000;'>NA</span><span>        
-#&gt; </span><span style='color: #555555;'>6</span><span> Carmel  Sepuloni  </span><span style='color: #BB0000;'>NA</span><span>        </div><div class='input'>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 2</span><span>
+#&gt;   given   family   
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    
+#&gt; </span><span style='color: #555555;'>1</span><span> Jacinda Ardern   
+#&gt; </span><span style='color: #555555;'>2</span><span> Grant   Robertson
+#&gt; </span><span style='color: #555555;'>3</span><span> Kelvin  Davis    
+#&gt; </span><span style='color: #555555;'>4</span><span> Megan   Woods    
+#&gt; </span><span style='color: #555555;'>5</span><span> Chris   Hipkins  
+#&gt; </span><span style='color: #555555;'>6</span><span> Carmel  Sepuloni </div><div class='input'>
 <span class='fu'>appoint_random_ministries</span><span class='op'>(</span>member <span class='op'>=</span> <span class='va'>parliament_members</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 4</span><span>
-#&gt;   given   family    birthdate  title                     
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;date&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     
-#&gt; </span><span style='color: #555555;'>1</span><span> Jacinda Ardern    </span><span style='color: #BB0000;'>NA</span><span>         Justice                   
-#&gt; </span><span style='color: #555555;'>2</span><span> Grant   Robertson </span><span style='color: #BB0000;'>NA</span><span>         Transport                 
-#&gt; </span><span style='color: #555555;'>3</span><span> Kelvin  Davis     </span><span style='color: #BB0000;'>NA</span><span>         Energy and Resources      
-#&gt; </span><span style='color: #555555;'>4</span><span> Megan   Woods     </span><span style='color: #BB0000;'>NA</span><span>         Housing                   
-#&gt; </span><span style='color: #555555;'>5</span><span> Chris   Hipkins   </span><span style='color: #BB0000;'>NA</span><span>         Education                 
-#&gt; </span><span style='color: #555555;'>6</span><span> Carmel  Sepuloni  </span><span style='color: #BB0000;'>NA</span><span>         Arts, Culture and Heritage</div></span></pre>
+</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 6 x 3</span><span>
+#&gt;   given   family    title                     
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                     
+#&gt; </span><span style='color: #555555;'>1</span><span> Jacinda Ardern    Justice                   
+#&gt; </span><span style='color: #555555;'>2</span><span> Grant   Robertson Transport                 
+#&gt; </span><span style='color: #555555;'>3</span><span> Kelvin  Davis     Energy and Resources      
+#&gt; </span><span style='color: #555555;'>4</span><span> Megan   Woods     Housing                   
+#&gt; </span><span style='color: #555555;'>5</span><span> Chris   Hipkins   Education                 
+#&gt; </span><span style='color: #555555;'>6</span><span> Carmel  Sepuloni  Arts, Culture and Heritage</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

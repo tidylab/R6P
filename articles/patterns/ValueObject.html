@@ -104,9 +104,6 @@
 <!-- One line about what the function does -->
 <p>A <strong>Value Object</strong> models a domain concept using natural lingo of the domain experts, such as “Passenger”, “Address”, and “Money”.</p>
 <p>Any <strong>Value Object</strong> is created by a function that receives input, applies some transformations, and outputs the results in some data structure such as a vector, a list or a data.frame.</p>
-<div>
-<p><mark><strong>Value Objects</strong> are a vital building block of analytic applications.</mark></p>
-</div>
 <div id="how-it-works" class="section level2">
 <h2 class="hasAnchor">
 <a href="#how-it-works" class="anchor"></a>How It Works</h2>
@@ -206,7 +203,7 @@
 <span class="va">clean_audience_data</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">attendees</span> <span class="op">=</span> <span class="fu">Audience</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>.data <span class="op">=</span> <span class="va">attendees</span>, given <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/case.html">str_to_title</a></span><span class="op">(</span><span class="va">given</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <ul>
-<li>In <a href="https://en.wikipedia.org/wiki/Pipeline_(software)">pipes and filters</a>.</li>
+<li>In <a href="https://en.wikipedia.org/wiki/Pipeline_(software)">pipes and filters</a> architecture.</li>
 </ul>
 <div class="alert alert-warning">
 <p><strong>Note:</strong> <strong>Value Objects</strong> do not need to have unit-tests. This is because of two reasons: (1) <strong>Value Objects</strong> are often called by other functions that are being tested. That means, <strong>Value Objects</strong> are implicitly tested. (2) <strong>Value Objects</strong> are data types similarly to ‘data.frame’ or ‘list’. As such, they need no testing</p>

@@ -189,6 +189,7 @@ into thread clash problems.
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other base design patterns: 
+<code><a href='NullObject.html'>NullObject</a>()</code>,
 <code><a href='ValueObject.html'>ValueObject</a>()</code></p></div>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
@@ -223,8 +224,8 @@ into thread clash problems.
 <span class='va'>counter_B</span> <span class='op'>&lt;-</span> <span class='va'>Counter</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"counter_A was crated at %s"</span>, <span class='fu'>address</span><span class='op'>(</span><span class='va'>counter_A</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "counter_A was crated at 0x7fb6696530e8"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"counter_B was crated at %s"</span>, <span class='fu'>address</span><span class='op'>(</span><span class='va'>counter_B</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "counter_B was crated at 0x7fb6696530e8"</div><div class='input'>
+</div><div class='output co'>#&gt; [1] "counter_A was crated at 0x7fdb1db4d498"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sprintf.html'>sprintf</a></span><span class='op'>(</span><span class='st'>"counter_B was crated at %s"</span>, <span class='fu'>address</span><span class='op'>(</span><span class='va'>counter_B</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "counter_B was crated at 0x7fdb1db4d498"</div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/identical.html'>identical</a></span><span class='op'>(</span><span class='va'>counter_A</span>, <span class='va'>counter_B</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># The two objects are equal and located at the same address; thus, they are</span>
