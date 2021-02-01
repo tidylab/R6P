@@ -2,5 +2,7 @@
 
 export("%>%")
 export(AbstractRepository)
+export(NullObject)
 export(Singleton)
+export(ValueObject)
 importFrom(purrr,"%>%")

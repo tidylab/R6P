@@ -3,11 +3,12 @@ Type: Package
 Title: Design Patterns in R
 URL: https://tidylab.github.io/R6P/, https://github.com/tidylab/R6P
 BugReports: https://github.com/tidylab/R6P/issues
-Version: 0.1.1
+Version: 0.2.0
 Date: 2021-01-01
 Authors@R: c(
     person("Harel", "Lustiger", email = "tidylab@gmail.com", role = c("aut", "cre"),
-    comment = c(ORCID = "0000-0003-2953-9598"))
+    comment = c(ORCID = "0000-0003-2953-9598")),
+    person("Tidylab", role = c("cph", "fnd"))
     )
 Maintainer: Harel Lustiger <tidylab@gmail.com>   
 Description: Build robust and maintainable software with object-oriented design 
@@ -34,7 +35,9 @@ Suggests:
     dplyr,
     DBI,
     RSQLite,
+    ggplot2,
     tibble,
+    tidyr,
     pryr
 Imports: 
     R6,

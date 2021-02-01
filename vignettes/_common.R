@@ -37,7 +37,7 @@ knitr::knit_hooks$set(
     error = function(x, options) {
         paste('\n\n<div class="alert alert-danger">',
               x %>%
-                  stringr::str_replace_all('^#>\ Error in eval\\(expr, envir, enclos\\):', '**Caution:**') %>%
+                  stringr::str_replace_all('^.*:', '**Caution:**') %>%
                   stringr::str_replace_all('#> ', '\n'),
               '</div>', sep = '\n')
     },
@@ -61,6 +61,14 @@ kable <- knitr::kable
 
 
 # regex -------------------------------------------------------------------
-discard_comments <- function(string) string[!stringr::str_detect(string, "^(#'|#) ")]
+discard_comments <- function(string) return(string[!stringr::str_detect(string, "^#")])
 discard_null <- function(string) string[!stringr::str_detect(string, "^NULL")]
 discard_empty_lines <- function(string) string[nchar(string)>0]
+
+
+# events ------------------------------------------------------------------
+events <- new.env()
+events$stop_not_useful <- function(name) stop(paste(name,
+"is designed for demonstration purposes. Instead of directly using the design pattern as it appears in the package, you'd have to adjust the source code to the problem you are trying to solve."
+))
+

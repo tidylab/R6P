@@ -1,3 +1,7 @@
+## v0.2.0 Update
+
+* Two new functions
+
 ## v0.1.1 Revision
 
 * Update description 
@@ -13,4 +17,3 @@
 
 0 errors | 0 warnings | 0 note
 
-* This is a new release.

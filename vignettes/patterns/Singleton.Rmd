@@ -99,4 +99,4 @@ identical(database_A, database_B)
 
 ## Further Reading
 
-[Singleton at Wikipedia](https://en.wikipedia.org/wiki/Singleton_pattern)
+[Singleton on Wikipedia](https://en.wikipedia.org/wiki/Singleton_pattern)

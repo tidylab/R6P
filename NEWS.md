@@ -1,7 +1,14 @@
-# R6P 0.1.0
+# R6P 0.2.0
 
-## New Features
+## New Patterns
 
--   `Singleton` Pattern
--   `Repository` Pattern
+-   `ValueObject` 
+-   `NullObject`
+
+# R6P 0.1.1
+
+## New Patterns
+
+-   `Singleton` 
+-   `Repository` 
 
