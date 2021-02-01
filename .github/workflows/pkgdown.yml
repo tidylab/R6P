@@ -28,6 +28,7 @@ jobs:
 
       - name: Query dependencies
         run: |
+          print(remotes::dev_package_deps(dependencies = TRUE))
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
@@ -55,7 +56,7 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          Rscript -e 'covr::codecov(type = c('tests', 'examples'))'
           Rscript -e 'devtools::document()'
           Rscript -e 'rmarkdown::render("README.Rmd", "md_document")'
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
+          Rscript -e 'covr::codecov(type = c('tests', 'examples'))'
