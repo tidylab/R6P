@@ -1,4 +1,8 @@
-.onAttach <- function(lib, pkg,...){
+.onAttach <- function(lib, pkg,...){#nocov start
+    options(
+        usethis.quiet = TRUE
+    )
+	
     try(
         packageStartupMessage(
             paste(
@@ -10,4 +14,4 @@
                 sep="")
         )
     )
-}
+}#nocov end
