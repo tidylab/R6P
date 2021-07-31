@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">Design Patterns in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -160,7 +160,7 @@
 <span class="va">person</span> <span class="op">&lt;-</span> <span class="fu">Person</span><span class="op">(</span>given <span class="op">=</span> <span class="st">"Bilbo"</span>, family <span class="op">=</span> <span class="st">"Baggins"</span><span class="op">)</span>
 <span class="va">passenger</span> <span class="op">&lt;-</span> <span class="fu">Passenger</span><span class="op">(</span>person <span class="op">=</span> <span class="va">person</span>, booking_reference <span class="op">=</span> <span class="st">"B662HR"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">passenger</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt; # A tibble: 1 × 3</span>
 <span class="co">#&gt;   given family  booking_reference</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            </span>
 <span class="co">#&gt; 1 Bilbo Baggins B662HR</span></code></pre></div>
@@ -180,7 +180,7 @@
 <span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct</a></span><span class="op">(</span><span class="st">"2021-01-23 18:00:00 NZDT"</span><span class="op">)</span>
 <span class="va">diner</span> <span class="op">&lt;-</span> <span class="fu">Diner</span><span class="op">(</span>person <span class="op">=</span> <span class="va">person</span>, reservation_time <span class="op">=</span> <span class="va">timestamp</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">diner</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt; # A tibble: 1 × 3</span>
 <span class="co">#&gt;   given family  reservation_time   </span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;dttm&gt;             </span>
 <span class="co">#&gt; 1 Bilbo Baggins 2021-01-23 18:00:00</span></code></pre></div>
@@ -240,7 +240,7 @@
 <span class="op">}</span>
 
 <span class="fu">Person</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 0 x 2</span>
+<span class="co">#&gt; # A tibble: 0 × 2</span>
 <span class="co">#&gt; # … with 2 variables: given &lt;chr&gt;, family &lt;chr&gt;</span></code></pre></div>
 <p>In addition, we implement a predicate that validates whether an arbitrary <code>data.frame</code> is a <strong>Person</strong> value object.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -292,7 +292,7 @@
 <span class="op">)</span>
 
 <span class="va">parliament_members</span>
-<span class="co">#&gt; # A tibble: 6 x 2</span>
+<span class="co">#&gt; # A tibble: 6 × 2</span>
 <span class="co">#&gt;   given   family   </span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;    </span>
 <span class="co">#&gt; 1 Jacinda Ardern   </span>
@@ -303,7 +303,7 @@
 <span class="co">#&gt; 6 Carmel  Sepuloni</span>
 
 <span class="fu">appoint_random_ministries</span><span class="op">(</span>member <span class="op">=</span> <span class="va">parliament_members</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 6 x 3</span>
+<span class="co">#&gt; # A tibble: 6 × 3</span>
 <span class="co">#&gt;   given   family    title                     </span>
 <span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;                     </span>
 <span class="co">#&gt; 1 Jacinda Ardern    Justice                   </span>

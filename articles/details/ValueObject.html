@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">Design Patterns in R</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -159,7 +159,7 @@
 <span class="va">person</span> <span class="op">&lt;-</span> <span class="fu">Person</span><span class="op">(</span>given <span class="op">=</span> <span class="st">"Bilbo"</span>, family <span class="op">=</span> <span class="st">"Baggins"</span><span class="op">)</span>
 <span class="va">passenger</span> <span class="op">&lt;-</span> <span class="fu">Passenger</span><span class="op">(</span>person <span class="op">=</span> <span class="va">person</span>, booking_reference <span class="op">=</span> <span class="st">"B662HR"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">passenger</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt; # A tibble: 1 × 3</span>
 <span class="co">#&gt;   given family  booking_reference</span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;            </span>
 <span class="co">#&gt; 1 Bilbo Baggins B662HR</span></code></pre></div>
@@ -179,7 +179,7 @@
 <span class="va">timestamp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct</a></span><span class="op">(</span><span class="st">"2021-01-23 18:00:00 NZDT"</span><span class="op">)</span>
 <span class="va">diner</span> <span class="op">&lt;-</span> <span class="fu">Diner</span><span class="op">(</span>person <span class="op">=</span> <span class="va">person</span>, reservation_time <span class="op">=</span> <span class="va">timestamp</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">diner</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 1 x 3</span>
+<span class="co">#&gt; # A tibble: 1 × 3</span>
 <span class="co">#&gt;   given family  reservation_time   </span>
 <span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;dttm&gt;             </span>
 <span class="co">#&gt; 1 Bilbo Baggins 2021-01-23 18:00:00</span></code></pre></div>
