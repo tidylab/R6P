@@ -38,10 +38,7 @@ instance:
 counter_A <- Counter$new()
 counter_B <- Counter$new()
 
-sprintf("counter_A was crated at %s", pryr::address(counter_A))
-sprintf("counter_B was crated at %s", pryr::address(counter_B))
-
-identical(counter_A, counter_B)
+identical(counter_A, counter_B, ignore.environment = FALSE)
 ```
 
 The two objects are equal and located at the same address; thus, they are the

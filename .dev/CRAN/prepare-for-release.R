@@ -1,3 +1,7 @@
+# Configuration -----------------------------------------------------------
+Sys.setenv(`_R_DEPENDS_ONLY` = "true")
+
+
 # Setup -------------------------------------------------------------------
 remotes::install_cran(c("devtools", "urlchecker", "rhub", "revdepcheck"))
 # remotes::install_github("r-lib/revdepcheck@master")
