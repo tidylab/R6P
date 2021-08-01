@@ -3,7 +3,7 @@ services:
   # R Testing
   ######################################################
   r-test:
-    image: r-package/R6P
+    image: r-package/r6p
     build:
       context: ./
       dockerfile: ./.dev/docker/r-test/Dockerfile

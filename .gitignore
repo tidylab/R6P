@@ -2,6 +2,7 @@
 docs/
 man/
 renv/
+revdep/
 *_cache/
 
 # Files
