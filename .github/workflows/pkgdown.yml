@@ -21,6 +21,11 @@ jobs:
 
       - uses: r-lib/actions/setup-tinytex@v1
 
+      - name: Install system dependencies
+        run: |
+          brew install harfbuzz fribidi libgit2
+          rm .Rprofile
+
       - name: Prepare
         run: |
           echo "utils::chooseCRANmirror(graphics=FALSE, ind = 1)" > .Rprofile
@@ -42,7 +47,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_cran(c("tidyverse", "devtools", "pkgdown", "covr"))
+          sapply(c("tidyverse", "devtools", "pkgdown", "covr"), function(x) try(remotes::install_cran(x)))
           remotes::update_packages("pkgdown")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
@@ -50,7 +55,7 @@ jobs:
       - name: Install package
         run: R CMD INSTALL .
 
-      - name: Deploy package
+      - name: Deploy website
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"

@@ -14,7 +14,7 @@ status](https://github.com/tidylab/R6P/workflows/R-CMD-check/badge.svg)](https:/
 
 ## Intentions
 
--   `R6P` is an amalgamation of useful design patterns in R
+-   `R6P` is a collection of useful design patterns in R
 -   `R6P` explains *how a design pattern works* and *when to use a
     design pattern*
 -   `R6P` provides examples that show how to implement each design

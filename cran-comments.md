@@ -1,3 +1,8 @@
+## v0.2.1 Update
+
+* Removed `LazyData` from DESCRIPTION
+* Removed dependency on the `pryr` package
+
 ## v0.2.0 Update
 
 * Two new functions
