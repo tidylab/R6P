@@ -1,3 +1,7 @@
+## v0.2.2 Bug fix
+
+* Include the tibble pacakge in "Imports"
+
 ## v0.2.1 Update
 
 * Removed `LazyData` from DESCRIPTION
