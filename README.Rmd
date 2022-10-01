@@ -21,7 +21,7 @@ editor_options:
 source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ```
 
-# `R6P` <img src="https://raw.githubusercontent.com/tidylab/R6P/master/pkgdown/logo.png" align="right" height="75"/>
+# `R6P` <img src="https://raw.githubusercontent.com/tidylab/R6P/master/pkgdown/logo.png" align="right" style="float:right; height:75px"/>
 
 <!-- badges: start -->
 
@@ -32,10 +32,6 @@ status](https://github.com/tidylab/R6P/workflows/R-CMD-check/badge.svg)](https:/
 [![codecov](https://codecov.io/gh/tidylab/R6P/branch/master/graph/badge.svg?token=U6FL5N32FL)](https://codecov.io/gh/tidylab/R6P)
 
 <!-- badges: end -->
-
-```{r, echo = FALSE, out.width = "100%"}
-# knitr::include_graphics("https://i.imgur.com/q8GRJll.png")
-```
 
 ## Intentions
 
