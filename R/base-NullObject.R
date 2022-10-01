@@ -1,7 +1,12 @@
 #' @title Null Object Pattern
-#' @includeRmd vignettes/details/NullObject.Rmd
+#'
 #' @description Model a domain concept using natural lingo of the domain
-#'   experts, such as “Passenger”, “Address”, and “Money”.
+#'   experts, such as "Passenger", "Address", and "Money".
+#'
+#' @details
+#' ```{r child = "vignettes/details/NullObject.Rmd"}
+#' ````
+#'
 #' @family base design patterns
 #' @export
 #' @examples

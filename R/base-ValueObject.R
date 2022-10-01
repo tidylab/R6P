@@ -1,9 +1,15 @@
 #' @title Value Object Pattern
-#' @includeRmd vignettes/details/ValueObject.Rmd
+#'
 #' @description Model a domain concept using natural lingo of the domain
-#'   experts, such as “Passenger”, “Address”, and “Money”.
+#'   experts, such as "Passenger", "Address", and "Money".
+#'
 #' @param given (`character`) A character vector with the given name.
 #' @param family (`character`) A character vector with the family name.
+#'
+#' @details
+#' ```{r child = "vignettes/details/ValueObject.Rmd"}
+#' ````
+#'
 #' @family base design patterns
 #' @export
 #' @examples
