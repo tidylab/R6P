@@ -46,10 +46,10 @@ jobs:
         run: |
             Rscript -e "
             file.create('.Rprofile', showWarnings = FALSE)
-            Rprofile <- file('.Rprofile', open = 'wt')
+            Rprofile <- file('.Rprofile', open='wt')
             writeLines('.libPaths(Sys.getenv(\\'R_LIBS_USER\\'))', Rprofile)
             writeLines('require(remotes)', Rprofile)
-            writeLines('r_version_date <- gsub(\".*\\\\((\\\\d{4}-\\\\d{2}-\\\\d{2}).*\", \"\\\\1\", R.Version()$version.string)', Rprofile)
+            writeLines('r_version_date <- gsub(\".*\\\\((\\\\d{4}-\\\\d{2}-\\\\d{2})\\\\).*\", \"\\\\1\", R.Version()$version.string)', Rprofile)
             writeLines('r_package_date <- as.character(read.dcf(\"DESCRIPTION\", \"Date\"))', Rprofile)
             writeLines('r_cran_date <- ifelse(is.na(r_package_date), r_version_date, r_package_date)', Rprofile)
             writeLines('options(repos = c(CRAN = paste0(\"https://packagemanager.rstudio.com/cran/\", r_cran_date)))', Rprofile)
