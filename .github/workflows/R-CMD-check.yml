@@ -45,6 +45,7 @@ jobs:
       - name: Prepare
         run: |
             Rscript -e "
+            file.create('.Rprofile', showWarnings = FALSE)
             Rprofile <- file('.Rprofile', open = 'wt')
             writeLines('.libPaths(Sys.getenv(\\'R_LIBS_USER\\'))', Rprofile)
             writeLines('require(remotes)', Rprofile)
