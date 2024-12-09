@@ -23,7 +23,7 @@ Description: Build robust and maintainable software with object-oriented design
     data-driven applications possess.
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 Language: en-GB
 Depends: 

@@ -44,15 +44,17 @@ jobs:
 
       - name: Prepare
         run: |
-          echo "utils::chooseCRANmirror(graphics=FALSE, ind = 1)" > .Rprofile
-          Rscript -e "Date <- as.character(read.dcf('DESCRIPTION', 'Date'));
-                      URL <- if(is.na(Date)) 'https://cran.rstudio.com/' else paste0('https://mran.microsoft.com/snapshot/', Date);
-                      Rprofile <- file('.Rprofile', open = 'wt');
-                      writeLines('.libPaths(Sys.getenv(\'R_LIBS_USER\'))', Rprofile);
-                      writeLines('require(remotes)', Rprofile);
-                      writeLines(paste0('options(repos = \'', URL, '\')'), Rprofile);
-                      close(Rprofile)"
-          Rscript -e "if(!'remotes' %in% rownames(utils::installed.packages())) utils::install.packages('remotes')"
+            Rscript -e "
+            Rprofile <- file('.Rprofile', open = 'wt')
+            writeLines('.libPaths(Sys.getenv(\'R_LIBS_USER\'))', Rprofile)
+            writeLines('require(remotes)', Rprofile)
+            writeLines('r_version_date <- gsub(\".*\\\\((\\\\d{4}-\\\\d{2}-\\\\d{2}).*\", \"\\\\1\", R.Version()$version.string)', Rprofile)
+            writeLines('r_package_date <- as.character(read.dcf(\"DESCRIPTION\", \"Date\"))', Rprofile)
+            writeLines('r_cran_date <- ifelse(is.na(r_package_date), r_version_date, r_package_date)', Rprofile)
+            writeLines('options(repos = c(CRAN = paste0(\"https://packagemanager.rstudio.com/cran/\", r_cran_date)))', Rprofile)
+            close(Rprofile)"
+            Rscript -e "if(!'remotes' %in% rownames(utils::installed.packages())) utils::install.packages('remotes')"
+
       - name: Query dependencies
         run: |
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
