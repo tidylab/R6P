@@ -16,6 +16,7 @@ assign(".Rprofile", new.env(), envir = globalenv())
 
     # Options
     Sys.setenv(`_R_S3_METHOD_REGISTRATION_NOTE_OVERWRITES_` = "false")
+    Sys.setenv(`_R_CHECK_SYSTEM_CLOCK_` = 0)
 }
 
 # .Last -------------------------------------------------------------------

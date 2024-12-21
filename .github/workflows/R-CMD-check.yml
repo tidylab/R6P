@@ -1,7 +1,7 @@
 name: R-CMD-check
 
 on:
-  # Triggers on any push or pull request, regardless of branch
+  # Trigger on pushes and pull requests.
   push:
   pull_request:
 
@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Define operating systems and R versions
+        # Operating systems and R versions to test.
         config:
           - {os: ubuntu-latest, r: 'release'}
           - {os: ubuntu-latest, r: 'devel'}
@@ -20,22 +20,27 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        # Checks out your repository code so subsequent steps can access it
+        # Checks out repository code.
+
+      - uses: r-lib/actions/setup-r@v2
+        # Installs the R version specified in the matrix.
+        with:
+          r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-r-dependencies@v2
+        # Installs core dependencies from CRAN.
         with:
           dependencies: all
-        # Installs the specified R version on the runner
 
       - uses: r-lib/actions/setup-pandoc@v2
-        # Ensures pandoc is available for R markdown tasks
+        # Makes pandoc available for R Markdown tasks.
 
       - uses: r-lib/actions/setup-r-dependencies@v2
-        # Installs default dependencies and caches them, speeding up builds
+        # Installs additional R packages.
         with:
           extra-packages: devtools rcmdcheck rmarkdown testthat
 
       - uses: r-lib/actions/check-r-package@v2
-        # Runs R CMD check on your package with the provided arguments
+        # Executes R CMD check on the package.
         with:
           build-args: --as-cran
