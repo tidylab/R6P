@@ -67,7 +67,6 @@ NULL
 
 #' @name AbstractRepository
 #' @title AbstractRepository
-#' @aliases Repository
 #' @description Mediates between the domain and data mapping layers using a
 #'   collection-like interface for accessing domain objects.
 #' @param key (`character`) Name of the element.
