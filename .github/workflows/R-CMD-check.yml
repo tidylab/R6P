@@ -24,7 +24,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          install-suggests: true
+          dependencies: all
         # Installs the specified R version on the runner
 
       - uses: r-lib/actions/setup-pandoc@v2
