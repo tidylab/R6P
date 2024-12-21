@@ -16,7 +16,7 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 <!-- Details -->
 
-```{r child="../details/NullObject.Rmd"}
+```{r child=file.path(usethis::proj_get(), "vignettes", "details", "NullObject.Rmd")}
 ```
 
 ## Example: Null ggplot2

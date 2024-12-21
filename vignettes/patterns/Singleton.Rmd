@@ -16,7 +16,8 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 <!-- Details -->
 
-```{r child="../details/Singleton.Rmd"}
+```{r child=file.path(usethis::proj_get(), "vignettes", "details", "Singleton.Rmd")}
+
 ```
 
 ## Example: Counter {#example-1}

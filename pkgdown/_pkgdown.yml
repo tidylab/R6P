@@ -5,16 +5,31 @@ authors:
     href: https://github.com/harell
   Tidylab:
     href: "https://github.com/tidylab"
-    html: "<img src='https://github.com/tidylab/tidylab/blob/master/favicon/apple-touch-icon-120x120.png?raw=true' height=24>"
+    html: "<img src='https://raw.githubusercontent.com/tidylab/tidylab/master/pkgdown/logo.png' height='24' alt='TidyLab Homepage'>"
+    aria-label: Tidylab Logo
+
 template:
    bootstrap: 5
    params:
      docsearch:
        api_key: d5f049d51d6123dd767e5f8bc7882c35
        index_name: tidylab-r6p
+cran:
+  icon: fab fa-r-project
+  href: https://cloud.r-project.org/package=pkgdown
+  aria-label: View on CRAN
 
 # Articles ----------------------------------------------------------------
 articles:
+- title: internal
+  contents:
+  - article_template
+  - appendices/Dictionary
+  - details/NullObject
+  - details/Repository
+  - details/Singleton
+  - appendices/SpecialCase
+  - details/ValueObject
 - title: Base Patterns
   contents:
   - patterns/Singleton

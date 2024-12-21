@@ -16,7 +16,8 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 <!-- Details -->
 
-```{r child="../details/Repository.Rmd"}
+```{r child=file.path(usethis::proj_get(), "vignettes", "details", "Repository.Rmd")}
+
 ```
 
 ## Implementations
