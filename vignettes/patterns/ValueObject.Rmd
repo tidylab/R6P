@@ -25,15 +25,16 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ## Example: Person and Minister Value Objects
 
 In this example, we are appointing elected officials to random ministries, just
-like in real life. 
+like in real life.
 
 The nomination process comprises three components: input, function, output.
 
-* The input is the given and family names of a **Person**
-* The function receives a **Person** value object and pairs it with ministry titles
-* The output is a **Minister** value object
+-   The input is the given and family names of a **Person**
+-   The function receives a **Person** value object and pairs it with ministry
+    titles
+-   The output is a **Minister** value object
 
- **Person** -> appoint_random_ministries
+**Person** -\> appoint_random_ministries
 
 First, we implement the input type. `Person()` is the constructor of the
 **Person** value object.
@@ -122,7 +123,6 @@ parliament_members
 
 appoint_random_ministries(member = parliament_members)
 ```
-
 
 ## Further Reading
 

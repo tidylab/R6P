@@ -37,7 +37,6 @@ snippet <- snippet |> discard_comments() |> discard_null() |> discard_empty_line
 message("By passing the input argument `inherit = Singleton`, the `AbstractRepository` inherits the qualities of the [**Singleton** pattern](https://tidylab.github.io/R6P/articles/patterns/Singleton.html).")
 ```
 
-
 The given implementing of `AbstractRepository` requires you to define four
 functions:
 
@@ -85,11 +84,16 @@ message("Transient implementations are a temporal solution that is good for test
 stop("Transient implementations are not recommended during the production stage. Transient storage is lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.")
 ```
 
-First, we define the class constructor, `initialize`, to establish a transient data storage. In this case we use a dictionary from the [`collections` package](https://randy3k.github.io/collections/reference/dict.html). 
+First, we define the class constructor, `initialize`, to establish a transient
+data storage. In this case we use a dictionary from the [`collections`
+package](https://randy3k.github.io/collections/reference/dict.html).
 
-Second, we define the `add`, `del` and `get` functions that operate on the dictionary.
+Second, we define the `add`, `del` and `get` functions that operate on the
+dictionary.
 
-As an optional step, we define the NULL object. In this case, rather then the reserved word `NULL`, the NULL object is a data.frame with 0 rows and predefined column. 
+As an optional step, we define the NULL object. In this case, rather then the
+reserved word `NULL`, the NULL object is a data.frame with 0 rows and predefined
+column.
 
 ```{r Repository-Transient-implementation, echo=TRUE, results='markup'}
 TransientRepository <- R6::R6Class(
@@ -147,11 +151,15 @@ repository$get(key = "Mazda RX4")
 
 ### Example: Persistent Storage Implementation with [`DBI`](https://dbi.r-dbi.org/)
 
-First, we define the class constructor, `initialize`, to establish an SQLite database.
+First, we define the class constructor, `initialize`, to establish an SQLite
+database.
 
-Second, we define the `add`, `del` and `get` functions that operate on the dictionary.
+Second, we define the `add`, `del` and `get` functions that operate on the
+dictionary.
 
-As an optional step, we define the NULL object. In this case, rather then the reserved word `NULL`, the NULL object is a data.frame with 0 rows and predefined column. 
+As an optional step, we define the NULL object. In this case, rather then the
+reserved word `NULL`, the NULL object is a data.frame with 0 rows and predefined
+column.
 
 ```{r Repository-Persistent-implementation, echo=TRUE}
 PersistentRepository <- R6::R6Class(
