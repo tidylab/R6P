@@ -49,7 +49,7 @@ Person <- function(given = NA_character_, family = NA_character_){
   
   return(
     tibble::tibble(given = given, family = family)
-    %>% tidyr::drop_na(given)
+    |> tidyr::drop_na(given)
   )
 }
 
@@ -79,7 +79,7 @@ Minister <- function(member = Person(), title = NA_character_){
   stopifnot(is.Person(member), is.character(title))
   stopifnot(nrow(member) == length(title) | all(is.na(title)))
   
-  member %>% dplyr::mutate(title = title)
+  member |> dplyr::mutate(title = title)
 }
 ```
 

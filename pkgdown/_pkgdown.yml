@@ -7,6 +7,7 @@ authors:
     href: "https://github.com/tidylab"
     html: "<img src='https://github.com/tidylab/tidylab/blob/master/favicon/apple-touch-icon-120x120.png?raw=true' height=24>"
 template:
+   bootstrap: 5
    params:
      docsearch:
        api_key: d5f049d51d6123dd767e5f8bc7882c35

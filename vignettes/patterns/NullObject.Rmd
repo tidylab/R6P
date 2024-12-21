@@ -35,7 +35,7 @@ fig <-
   tryCatch({
     stopifnot(runif(1) > 0.05) # simulate 5% chance for the subroutine to fail
     
-    mtcars %>% 
+    mtcars |> 
       ggplot2::ggplot(ggplot::aes(x = mpg, y = hp)) + 
       ggplot2::geom_point()
   }, 
@@ -74,7 +74,7 @@ identical(rbind(mtcars, NullCar()), mtcars)
 
 ```{r, echo=TRUE}
 Person <- function(given = NA_character_, family = NA_character_){
-  tibble::tibble(given = given, family = family) %>% tidyr::drop_na(given)
+  tibble::tibble(given = given, family = family) |> tidyr::drop_na(given)
 }
 
 # Instantiating a person with a `given` name, returns a non-null person object

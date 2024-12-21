@@ -26,7 +26,7 @@ The code of the abstract base class of **Repository** is
 ```{r}
 path_snippet <- usethis::proj_path("R", "object_relational-Repository.R")
 snippet <- readLines(path_snippet)
-snippet <- snippet %>% discard_comments() %>% discard_null() %>% discard_empty_lines()
+snippet <- snippet |> discard_comments() |> discard_null() |> discard_empty_lines()
 ```
 
 ```{r, code = snippet, eval = FALSE, echo = TRUE}
@@ -108,7 +108,7 @@ following example, adds a query that returns all the objects in the database
 
 ```{r Repository-Transient-implementation-addon, echo=TRUE, results='markup'}
 TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
-  result <- private$cars$values() %>% dplyr::bind_rows()
+  result <- private$cars$values() |> dplyr::bind_rows()
   if(nrow(result) == 0) return(private$NULL_car) else return(result)
 })
 ```
@@ -117,7 +117,7 @@ In this example, we use the `mtcars` dataset with a `uid` column that uniquely
 identifies the different cars in the **Repository**:
 
 ```{r, echo=TRUE, results='markup'}
-mtcars <- datasets::mtcars %>% tibble::rownames_to_column("uid")
+mtcars <- datasets::mtcars |> tibble::rownames_to_column("uid")
 head(mtcars, 2)
 ```
 
@@ -162,7 +162,7 @@ PersistentRepository <- R6::R6Class(
       DBI::dbCreateTable(private$conn, "mtcars", private$NULL_car)
     },
     add = function(key, value){
-      car <- private$NULL_car %>% tibble::add_row(value)
+      car <- private$NULL_car |> tibble::add_row(value)
       self$del(key = key)
       DBI::dbAppendTable(private$conn, "mtcars", car)
       invisible(self)
@@ -199,7 +199,7 @@ In this example, we use the `mtcars` dataset with a `uid` column that uniquely
 identifies the different cars in the **Repository**:
 
 ```{r, echo=TRUE, results='markup'}
-mtcars <- datasets::mtcars %>% tibble::rownames_to_column("uid")
+mtcars <- datasets::mtcars |> tibble::rownames_to_column("uid")
 head(mtcars, 2)
 ```
 

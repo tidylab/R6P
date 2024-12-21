@@ -34,13 +34,13 @@
 #' # The following example, adds a query that returns all the objects in the database
 #'
 #' TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
-#'     result <- private$cars$values() %>% dplyr::bind_rows()
+#'     result <- private$cars$values() |> dplyr::bind_rows()
 #'     if(nrow(result) == 0) return(private$NULL_car) else return(result)
 #' })
 #'
 #' # In this example, we use the mtcars dataset with a uid column that uniquely
 #' # identifies the different cars in the Repository:
-#' mtcars <- datasets::mtcars %>% tibble::rownames_to_column("uid")
+#' mtcars <- datasets::mtcars |> tibble::rownames_to_column("uid")
 #' head(mtcars, 2)
 #'
 #' # Here is how the caller uses the Repository:

@@ -29,7 +29,7 @@
 #'     stopifnot(is.Person(member), is.character(title))
 #'     stopifnot(nrow(member) == length(title) | all(is.na(title)))
 #'
-#'     member %>% dplyr::mutate(title = title)
+#'     member |> dplyr::mutate(title = title)
 #'}
 #'
 #' # Given one or more parliament members
@@ -66,9 +66,9 @@ ValueObject <- function(
     stopifnot(length(given) == length(family)    | all(is.na(family)))
 
     tibble::tibble(
-        given = given %>% stringr::str_to_title(),
-        family = family %>% stringr::str_to_title()
-    ) %>% tidyr::drop_na(given)
+        given = given |> stringr::str_to_title(),
+        family = family |> stringr::str_to_title()
+    ) |> tidyr::drop_na(given)
 }
 
 
