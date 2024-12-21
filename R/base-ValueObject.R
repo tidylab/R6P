@@ -1,3 +1,4 @@
+#' @name ValueObject
 #' @title Value Object Pattern
 #' @includeRmd vignettes/details/ValueObject.Rmd
 #' @description Model a domain concept using natural lingo of the domain
