@@ -31,7 +31,7 @@ jobs:
       - uses: r-lib/actions/setup-r-dependencies@v2
         # Installs default dependencies and caches them, speeding up builds
         with:
-          extra-packages: devtools rcmdcheck rmarkdown
+          extra-packages: devtools rcmdcheck rmarkdown testthat
 
       - uses: r-lib/actions/check-r-package@v2
         # Runs R CMD check on your package with the provided arguments
