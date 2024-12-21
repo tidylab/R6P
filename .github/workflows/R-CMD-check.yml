@@ -1,11 +1,9 @@
 name: R-CMD-check
 
 on:
-  # Triggers when pushing or opening pull requests on specified branches
+  # Triggers on any push or pull request, regardless of branch
   push:
-    branches: [ master, develop ]
   pull_request:
-    branches: [ master, develop ]
 
 jobs:
   check:
