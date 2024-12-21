@@ -1,0 +1,197 @@
+---
+title: "The Value Object Pattern"
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+NA_POSIXct_ <- .POSIXct(NA_real_, tz = "UTC")
+is.POSIXct <- function(x) inherits(x, "POSIXct")
+```
+
+```{r, error=TRUE}
+events$stop_not_useful("ValueObject")
+```
+
+<!-- One line about what the function does -->
+
+A **Value Object** models a domain concept using natural lingo of the domain
+experts, such as "Passenger", "Address", and "Money".
+
+Any **Value Object** is created by a function that receives input, applies some
+transformations, and outputs the results in some data structure such as a
+vector, a list or a data.frame.
+
+## How It Works
+
+In R, a good option for creating a **Value Object** is to follow two
+instructions:
+
+-   A **Value Object** is created by a `function`, rather than a class method;
+    and
+-   A **Value Object** returns a `tibble`, rather than a list or a vector.
+
+In essence, a **Value Object** is a data type, like `integer`, `logical`, `Date`
+or `data.frame` data types to name a few. While the built-in data types in R fit
+any application, **Value Objects** are domain specific and as such, they fit
+only to a specific application. This is because, `integer` is an abstract that
+represent whole numbers. This abstract is useful in any application. However, a
+**Value Object** represent a high-level abstraction that appears in a particular
+domain.
+
+An example of a **Value Object** is the notion of a "Person". Any person in the
+world has a name. Needless to say, a person name is spelt by letters, rather
+than numbers. A **Value Object** captures these attribute as `tibble` columns
+and type checks:
+
+```{r, echo=TRUE}
+Person <- function(given = NA_character_, family = NA_character_){
+  stopifnot(is.character(given), is.character(family))
+  stopifnot(length(given) == length(family))
+  
+  return(
+    tibble::tibble(given = given, family = family)
+    |> tidyr::drop_na(given)
+  )
+}
+```
+
+Instantiating a person **Value Object** is done by calling the `Person`
+constructor function:
+
+```{r, echo=TRUE}
+person <- Person(given = "Bilbo", family = "Baggins")
+```
+
+Getting to know the advantages of a **Value Object**, we should consider the
+typical alternative -- constructing a Person by using the `tibble` function
+directly:
+
+```{r, echo=TRUE}
+person <- tibble::tibble(given = "Bilbo", family = "Baggins")
+```
+
+Both implementations return objects with identical content and structure, that
+is, their column names, column types and cell values are identical. Then, why
+would one prefer using a **Value Object** and its constructor over the direct
+alternative?
+
+There are four predominant qualities offered by the **Value Object** pattern
+which are not offered by the alternative:
+
+1.  Readability. Each **Value Object** captures a concept belonging to the
+    problem domain. Rather than trying to infer what a `tibble` is by looking at
+    its low-level details, the **Value Object** constructor descries a context
+    on a high-level.
+
+2.  Explicitness. Since the constructor of the **Value Object** is a function,
+    its expected input arguments and their type can be detailed in a helper
+    file. Moreover, assigning input arguments with default values of specific
+    type, such as `NA` (logical NA), `NA_integer_`, `NA_character_`, or
+    `NA_Date` (see `lubridate::NA_Date`), expresses clearly the variable types
+    of the **Value Object**.
+
+3.  Coherence. The representation of a **Value Object** is concentrated in one
+    place -- its constructor. Any change, mainly modifications and extensions,
+    applied to the constructor promise the change would propagate to all
+    instances of the Value Objects. That means, no structure discrepancies
+    between instances that are supposed to represent the same concept.
+
+4.  Safety. The constructor may start with [defensive
+    programming](https://en.wikipedia.org/wiki/Defensive_programming) to ensure
+    the qualities of its input. One important assertion is type checking. Type
+    checking eliminated the risk of implicit type coercing. Another important
+    assertion is checking if the lengths of the input arguments meet some
+    criteria, say all inputs are of the same length, or more restrictively, all
+    inputs are scalars. Having a set of checks makes the code base more robust.
+    This is because **Value Objects** are regularly created with the output of
+    other functions calls, having a set of checks serves as pseudo-tests of
+    these functions output throughout the code.
+
+In addition to these qualities, there are two desirable behaviours which are not
+offered by directly calling `tibble`:
+
+1.  Null Value Object. Calling the **Value Object** constructor with no input
+    arguments returns the structure of the `tibble` (column names and column
+    types).
+
+2.  Default values for missing input arguments. In this manner, the **Value
+    Object** has a well-defined behaviour for a person without a family name,
+    such as Madonna and Bono.
+
+In addition to native R data types, a **Value Object** constructor can receive
+other **Value Objects** as input arguments. Here are two examples that transmute
+Person to other Person-based concepts:
+
+```{r, echo = TRUE, eval = TRUE}
+# A Passenger is a Person with a flight booking reference
+Passenger <- function(person = Person(), booking_reference = NA_character_){
+  stopifnot(all(colnames(person) %in% colnames(Person())))
+  stopifnot(is.character(booking_reference))
+  
+  return(
+    person 
+    |> tibble::add_column(booking_reference = booking_reference)
+    |> tidyr::drop_na(booking_reference)
+  )
+}
+
+person <- Person(given = "Bilbo", family = "Baggins")
+passenger <- Passenger(person = person, booking_reference = "B662HR")
+print(passenger)
+```
+
+```{r, echo = TRUE, eval = TRUE}
+# A Diner is a Person that may have dinner reservation
+Diner <- function(person = Person(), reservation_time = NA_POSIXct_){
+  stopifnot(all(colnames(person) %in% colnames(Person())))
+  stopifnot(is.POSIXct(reservation_time))
+  
+  return(
+    person 
+    |> tibble::add_column(reservation_time = reservation_time)
+  )
+}
+
+person <- Person(given = "Bilbo", family = "Baggins")
+timestamp <- as.POSIXct("2021-01-23 18:00:00 NZDT")
+diner <- Diner(person = person, reservation_time = timestamp)
+print(diner)
+```
+
+## When to Use It
+
+-   In situations where domain concepts are more important then the database
+    schema. For example, when you are modelling Passengers, your first instinct
+    might be to think about the different data sources you'd need for the
+    analysis. You may envision "FlightDetails" and "CustomerDetails". Next you
+    will define the relationship between them. Instead, let the domain drive the
+    design. Create a Passenger **Value Object** with the attributes you must
+    have, regardless of any particular database schema.
+
+-   In a function that runs within a specific context. Rather than having an
+    input argument called `data` of type `data.frame`, use the appropriate
+    **Value Object** name and pass it its constructor.
+
+```{r, echo = TRUE, eval = FALSE}
+Audience <- Person
+
+## Without a Value Object
+clean_audience_data <- function(data) 
+  dplyr::mutate(.data = data, given = stringr::str_to_title(given))
+
+## With a Value Object
+clean_audience_data <- function(attendees = Audience()) 
+  dplyr::mutate(.data = attendees, given = stringr::str_to_title(given))
+```
+
+-   In [pipes and filters](https://en.wikipedia.org/wiki/Pipeline_(software))
+    architecture.
+
+```{r, warning=TRUE}
+warning("**Value Objects** do not need to have unit-tests. This is because of two reasons: 
+(1) **Value Objects** are often called by other functions that are being tested. That means, **Value Objects** are implicitly tested. 
+(2) **Value Objects** are data types similarly to 'data.frame' or 'list'. As such, they need no testing")
+```

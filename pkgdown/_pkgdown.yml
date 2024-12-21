@@ -20,13 +20,8 @@ template:
 articles:
 - title: internal
   contents:
-  - article_template
   - appendices/Dictionary
-  - details/NullObject
-  - details/Repository
-  - details/Singleton
   - appendices/SpecialCase
-  - details/ValueObject
 - title: Base Patterns
   contents:
   - patterns/Singleton

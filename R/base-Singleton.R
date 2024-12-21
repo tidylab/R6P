@@ -1,7 +1,7 @@
 #' @title Singleton Pattern
 #' @name Singleton
 #' @aliases Singleton
-#' @includeRmd vignettes/details/Singleton.Rmd
+#' @includeRmd vignettes/details/_Singleton.Rmd
 #' @description Ensure a class only has one instance, and provide a global point of access to it.
 #' @family base design patterns
 #' @export
