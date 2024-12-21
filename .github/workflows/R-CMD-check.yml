@@ -11,28 +11,28 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: ubuntu-latest, r: 'release'}
-          - {os: ubuntu-latest, r: 'devel'}
-          - {os: macOS-latest, r: 'release'}
-          - {os: windows-latest, r: 'release'}
+          - { os: ubuntu-latest, r: 'release' }
+          - { os: ubuntu-latest, r: 'devel' }
+          - { os: macOS-latest, r: 'release' }
+          - { os: windows-latest, r: 'release' }
 
     steps:
       - name: Remove .Rprofile
-        # Delete .Rprofile if it exists in the repository root.
+        # Delete .Rprofile if present.
         run: rm -f ./.Rprofile
 
       - uses: actions/checkout@v3
         # Check out repository code.
 
       - uses: r-lib/actions/setup-r@v2
-        # Install the specified R version.
+        # Install the R version from matrix.
         with:
           r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-r-dependencies@v2
-        # Install dependencies: specifying 'true' ensures all, including Suggests.
+        # Install dependencies and extra packages.
         with:
-          dependencies: 'true'
+          dependencies: all
           extra-packages: devtools rcmdcheck rmarkdown testthat
 
       - uses: r-lib/actions/setup-pandoc@v2

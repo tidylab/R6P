@@ -19,6 +19,62 @@ assign(".Rprofile", new.env(), envir = globalenv())
     Sys.setenv(`_R_CHECK_SYSTEM_CLOCK_` = 0)
 }
 
+# pkgdown -----------------------------------------------------------------
+.Rprofile$pkgdown$browse <- function(name){
+    if(missing(name)){
+        path <- "./docs"
+        name <- "index.html"
+    } else {
+        path <- "./docs/articles"
+        name <- match.arg(name, list.files(path, "*.html"))
+    }
+    try(browseURL(stringr::str_glue('{path}/{name}', path = path, name = name)))
+    invisible()
+}
+
+.Rprofile$pkgdown$create <- function(){
+    path_script <- tempfile("system-", fileext = ".R")
+    job_name <- "Rendering Package Website"
+
+    writeLines(c(
+        "devtools::document()",
+        "rmarkdown::render('README.Rmd', 'md_document')",
+        "unlink(usethis::proj_path('docs'), TRUE, TRUE)",
+        paste0("try(detach('package:",read.dcf("DESCRIPTION", "Package")[[1]], "', unload = TRUE, force = TRUE))"),
+        "pkgdown::build_site(devel = FALSE, lazy = FALSE)"
+    ), path_script)
+
+    .Rprofile$utils$run_script(path_script, job_name)
+}
+
+.Rprofile$pkgdown$update <- function(){
+    path_script <- tempfile("system-", fileext = ".R")
+    job_name <- "Rendering Package Website"
+
+    writeLines(c(
+        "devtools::document()",
+        "rmarkdown::render('README.Rmd', 'md_document')",
+        paste0("try(detach('package:",read.dcf("DESCRIPTION", "Package")[[1]], "', unload = TRUE, force = TRUE))"),
+        "pkgdown::build_site(devel = TRUE, lazy = TRUE)"
+    ), path_script)
+
+    .Rprofile$utils$run_script(path_script, job_name)
+}
+
+# Utils -------------------------------------------------------------------
+.Rprofile$utils$run_script <- function(path, name){
+    withr::with_envvar(
+        c(TESTTHAT = "true"),
+        rstudioapi::jobRunScript(
+            path = path,
+            name = name,
+            workingDir = ".",
+            importEnv = FALSE,
+            exportEnv = ""
+        ))
+    invisible()
+}
+
 # .Last -------------------------------------------------------------------
 .Last <- function() {
     try(if (testthat::is_testing()) {
