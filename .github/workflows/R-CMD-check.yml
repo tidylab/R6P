@@ -19,6 +19,10 @@ jobs:
           - {os: windows-latest, r: 'release'}
 
     steps:
+      - name: Remove .Rprofile
+        # Deletes .Rprofile if it exists in the root directory.
+        run: rm -f ./.Rprofile
+
       - uses: actions/checkout@v3
         # Checks out repository code.
 
