@@ -1,7 +1,6 @@
 name: R-CMD-check
 
 on:
-  # Trigger on pushes and pull requests.
   push:
   pull_request:
 
@@ -11,7 +10,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Operating systems and R versions to test.
         config:
           - {os: ubuntu-latest, r: 'release'}
           - {os: ubuntu-latest, r: 'devel'}
@@ -20,31 +18,27 @@ jobs:
 
     steps:
       - name: Remove .Rprofile
-        # Deletes .Rprofile if it exists in the root directory.
+        # Delete .Rprofile if it exists in the repository root.
         run: rm -f ./.Rprofile
 
       - uses: actions/checkout@v3
-        # Checks out repository code.
+        # Check out repository code.
 
       - uses: r-lib/actions/setup-r@v2
-        # Installs the R version specified in the matrix.
+        # Install the specified R version.
         with:
           r-version: ${{ matrix.config.r }}
 
       - uses: r-lib/actions/setup-r-dependencies@v2
-        # Installs core dependencies from CRAN.
+        # Install dependencies: specifying 'true' ensures all, including Suggests.
         with:
-          dependencies: all
-
-      - uses: r-lib/actions/setup-pandoc@v2
-        # Makes pandoc available for R Markdown tasks.
-
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        # Installs additional R packages.
-        with:
+          dependencies: 'true'
           extra-packages: devtools rcmdcheck rmarkdown testthat
 
+      - uses: r-lib/actions/setup-pandoc@v2
+        # Provide pandoc for R Markdown tasks.
+
       - uses: r-lib/actions/check-r-package@v2
-        # Executes R CMD check on the package.
+        # Run R CMD check with CRAN-like checks.
         with:
           build-args: --as-cran
