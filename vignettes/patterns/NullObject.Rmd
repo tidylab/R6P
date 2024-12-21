@@ -21,14 +21,14 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 
 ## Example: Null ggplot2
 
-
 ```{r, echo=TRUE, eval=FALSE}
 geom_null <- function(...){
   ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void()
 }
 ```
 
-* Useful as part of a [gracefully failing](https://en.wikipedia.org/wiki/Graceful_exit) strategy.
+-   Useful as part of a [gracefully
+    failing](https://en.wikipedia.org/wiki/Graceful_exit) strategy.
 
 ```{r, echo=TRUE, eval=FALSE}
 fig <- 
@@ -45,9 +45,9 @@ fig <-
 plot(fig)
 ```
 
-* Useful in shiny dashboards when a visual is dependent on the user selection of
-what to plot. In this case, you could also add a "call to action" text as a
-ggplot object.
+-   Useful in shiny dashboards when a visual is dependent on the user selection
+    of what to plot. In this case, you could also add a "call to action" text as
+    a ggplot object.
 
 ```{r, echo=TRUE, eval=FALSE}
 if(exists("user_input")){

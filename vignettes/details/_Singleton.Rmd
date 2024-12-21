@@ -40,4 +40,3 @@ stop("Singletons can be a problem in multi-threaded applications, especially whe
 ```{r, message=TRUE}
 message("Singletons work well for immutable data, such as reading from some data source, since anything that can’t change isn’t going to run into thread clash problems.")
 ```
-
