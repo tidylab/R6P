@@ -1,6 +1,5 @@
 #' @title Repository Pattern
 #' @name Repository
-#' @includeRmd vignettes/details/_Repository.Rmd
 #' @examples
 #' # See more examples at <https://tidylab.github.io/R6P/articles>
 #'
@@ -65,8 +64,7 @@
 #' repository$get(key = "Mazda RX4")
 NULL
 
-#' @name AbstractRepository
-#' @title AbstractRepository
+#' @rdname Repository
 #' @description Mediates between the domain and data mapping layers using a
 #'   collection-like interface for accessing domain objects.
 #' @param key (`character`) Name of the element.
