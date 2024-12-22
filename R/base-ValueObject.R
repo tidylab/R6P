@@ -1,5 +1,5 @@
-#' @name ValueObject
 #' @title Value Object Pattern
+#' @includeRmd vignettes/details/ValueObject.Rmd
 #' @description Model a domain concept using natural lingo of the domain
 #'   experts, such as “Passenger”, “Address”, and “Money”.
 #' @param given (`character`) A character vector with the given name.
@@ -59,8 +59,8 @@
 #'
 #' appoint_random_ministries(member = parliament_members)
 ValueObject <- function(
-    given = NA_character_,
-    family = NA_character_
+        given = NA_character_,
+        family = NA_character_
 ){
     stopifnot(is.character(given), is.character(family))
     stopifnot(length(given) == length(family)    | all(is.na(family)))
@@ -70,5 +70,4 @@ ValueObject <- function(
         family = family |> stringr::str_to_title()
     ) |> tidyr::drop_na(given)
 }
-
 

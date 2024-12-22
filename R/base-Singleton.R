@@ -1,9 +1,6 @@
 #' @title Singleton Pattern
 #' @name Singleton
-#' @aliases Singleton
-#' @description Ensure a class only has one instance, and provide a global point of access to it.
-#' @family base design patterns
-#' @export
+#' @includeRmd vignettes/details/Singleton.Rmd
 #' @examples
 #' # See more examples at <https://tidylab.github.io/R6P/articles>
 #' address <- function(x) sub('<environment: (.*)>', '\\1', capture.output(x))
@@ -13,7 +10,7 @@
 #' Counter <- R6::R6Class("Counter", inherit = R6P::Singleton, public = list(
 #'     count = 0,
 #'     add_1 = function(){self$count = self$count + 1; invisible(self)}
-#'  ))
+#' ))
 #'
 #' # Whenever we call the constructor on `Counter`, we always get the exact same
 #' # instance:
@@ -39,6 +36,11 @@
 #' counter_B$count
 NULL
 
+#' @rdname Singleton
+#' @description Ensure a class only has one instance, and provide a global point
+#'   of access to it.
+#' @family base design patterns
+#' @export
 Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
     #' @description Create or retrieve an object
     initialize = function(){
@@ -53,7 +55,7 @@ Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
             Class$set('private', 'public_bind_env', private$public_bind_env, overwrite = TRUE)
             Class$set('private', 'private_bind_env', private$private_bind_env, overwrite = TRUE)
 
-            } else {
+        } else {
             self <- private$instance
             private$dynSet("public_bind_env", private$public_bind_env)
             private$dynSet("private_bind_env", private$private_bind_env)
@@ -65,4 +67,3 @@ Singleton <- R6::R6Class("Singleton", cloneable = FALSE, public = list(
     dynGet = dynGet,
     dynSet = dynSet
 ))
-

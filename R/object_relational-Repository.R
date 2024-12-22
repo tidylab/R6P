@@ -1,5 +1,6 @@
 #' @title Repository Pattern
 #' @name Repository
+#' @includeRmd vignettes/details/Repository.Rmd
 #' @examples
 #' # See more examples at <https://tidylab.github.io/R6P/articles>
 #'
@@ -85,4 +86,3 @@ AbstractRepository <- R6::R6Class("Repository", inherit = Singleton, cloneable =
     get = function(key) exceptions$not_implemented_error()
 ))
 # nocov end
-
