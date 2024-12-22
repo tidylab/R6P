@@ -11,12 +11,13 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
-source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+source(file.path(usethis::proj_get(), "vignettes", "_common.R"))
 ```
 
 <!-- Details -->
 
-```{r child="../details/Repository.Rmd"}
+```{r, echo=FALSE, results='asis'}
+cat(knitr::knit_child('./vignettes/details/_Repository.Rmd', quiet = TRUE))
 ```
 
 ## Implementations
@@ -26,7 +27,10 @@ The code of the abstract base class of **Repository** is
 ```{r}
 path_snippet <- usethis::proj_path("R", "object_relational-Repository.R")
 snippet <- readLines(path_snippet)
-snippet <- snippet %>% discard_comments() %>% discard_null() %>% discard_empty_lines()
+snippet <- snippet |>
+  discard_comments() |>
+  discard_null() |>
+  discard_empty_lines()
 ```
 
 ```{r, code = snippet, eval = FALSE, echo = TRUE}
@@ -35,7 +39,6 @@ snippet <- snippet %>% discard_comments() %>% discard_null() %>% discard_empty_l
 ```{r, message=TRUE}
 message("By passing the input argument `inherit = Singleton`, the `AbstractRepository` inherits the qualities of the [**Singleton** pattern](https://tidylab.github.io/R6P/articles/patterns/Singleton.html).")
 ```
-
 
 The given implementing of `AbstractRepository` requires you to define four
 functions:
@@ -84,32 +87,52 @@ message("Transient implementations are a temporal solution that is good for test
 stop("Transient implementations are not recommended during the production stage. Transient storage is lost when a session is rebooted. You should think about what are the ramifications of losing all the data put into storage.")
 ```
 
-First, we define the class constructor, `initialize`, to establish a transient data storage. In this case we use a dictionary from the [`collections` package](https://randy3k.github.io/collections/reference/dict.html). 
+First, we define the class constructor, `initialize`, to establish a transient
+data storage. In this case we use a dictionary from the [`collections`
+package](https://randy3k.github.io/collections/reference/dict.html).
 
-Second, we define the `add`, `del` and `get` functions that operate on the dictionary.
+Second, we define the `add`, `del` and `get` functions that operate on the
+dictionary.
 
-As an optional step, we define the NULL object. In this case, rather then the reserved word `NULL`, the NULL object is a data.frame with 0 rows and predefined column. 
+As an optional step, we define the NULL object. In this case, rather then the
+reserved word `NULL`, the NULL object is a data.frame with 0 rows and predefined
+column.
 
 ```{r Repository-Transient-implementation, echo=TRUE, results='markup'}
 TransientRepository <- R6::R6Class(
   classname = "Repository", inherit = R6P::AbstractRepository, public = list(
-    initialize = function() {private$cars <- collections::dict()},
-    add = function(key, value){private$cars$set(key, value); invisible(self)},
-    del = function(key){private$cars$remove(key); invisible(self)},
-    get = function(key){return(private$cars$get(key, default = private$NULL_car))}
+    initialize = function() {
+      private$cars <- collections::dict()
+    },
+    add = function(key, value) {
+      private$cars$set(key, value)
+      invisible(self)
+    },
+    del = function(key) {
+      private$cars$remove(key)
+      invisible(self)
+    },
+    get = function(key) {
+      return(private$cars$get(key, default = private$NULL_car))
+    }
   ), private = list(
-    NULL_car = cbind(uid  = NA_character_, datasets::mtcars)[0,],
+    NULL_car = cbind(uid = NA_character_, datasets::mtcars)[0, ],
     cars = NULL
-  ))
+  )
+)
 ```
 
 Adding customised operations is also possible via the R6 `set` function. The
 following example, adds a query that returns all the objects in the database
 
 ```{r Repository-Transient-implementation-addon, echo=TRUE, results='markup'}
-TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
-  result <- private$cars$values() %>% dplyr::bind_rows()
-  if(nrow(result) == 0) return(private$NULL_car) else return(result)
+TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function() {
+  result <- private$cars$values() |> dplyr::bind_rows()
+  if (nrow(result) == 0) {
+    return(private$NULL_car)
+  } else {
+    return(result)
+  }
 })
 ```
 
@@ -117,7 +140,7 @@ In this example, we use the `mtcars` dataset with a `uid` column that uniquely
 identifies the different cars in the **Repository**:
 
 ```{r, echo=TRUE, results='markup'}
-mtcars <- datasets::mtcars %>% tibble::rownames_to_column("uid")
+mtcars <- datasets::mtcars |> tibble::rownames_to_column("uid")
 head(mtcars, 2)
 ```
 
@@ -146,41 +169,50 @@ repository$get(key = "Mazda RX4")
 
 ### Example: Persistent Storage Implementation with [`DBI`](https://dbi.r-dbi.org/)
 
-First, we define the class constructor, `initialize`, to establish an SQLite database.
+First, we define the class constructor, `initialize`, to establish an SQLite
+database.
 
-Second, we define the `add`, `del` and `get` functions that operate on the dictionary.
+Second, we define the `add`, `del` and `get` functions that operate on the
+dictionary.
 
-As an optional step, we define the NULL object. In this case, rather then the reserved word `NULL`, the NULL object is a data.frame with 0 rows and predefined column. 
+As an optional step, we define the NULL object. In this case, rather then the
+reserved word `NULL`, the NULL object is a data.frame with 0 rows and predefined
+column.
 
 ```{r Repository-Persistent-implementation, echo=TRUE}
 PersistentRepository <- R6::R6Class(
   classname = "Repository", inherit = AbstractRepository, public = list(
     #' @param immediate (`logical`) Should queries be committed immediately?
-    initialize = function(immediate = TRUE){
+    initialize = function(immediate = TRUE) {
       private$immediate <- immediate
       private$conn <- DBI::dbConnect(RSQLite::SQLite(), dbname = ":memory:")
       DBI::dbCreateTable(private$conn, "mtcars", private$NULL_car)
     },
-    add = function(key, value){
-      car <- private$NULL_car %>% tibble::add_row(value)
+    add = function(key, value) {
+      car <- private$NULL_car |> tibble::add_row(value)
       self$del(key = key)
       DBI::dbAppendTable(private$conn, "mtcars", car)
       invisible(self)
     },
-    del = function(key){
+    del = function(key) {
       statement <- paste0("DELETE FROM mtcars WHERE uid = '", key, "'")
       DBI::dbExecute(private$conn, statement, immediate = private$immediate)
       invisible(self)
     },
-    get = function(key){
+    get = function(key) {
       statement <- paste0("SELECT * FROM mtcars WHERE uid = '", key, "'")
       result <- DBI::dbGetQuery(private$conn, statement)
-      if(nrow(result) == 0) return(private$NULL_car) else return(result)
+      if (nrow(result) == 0) {
+        return(private$NULL_car)
+      } else {
+        return(result)
+      }
     }
   ), private = list(
-    NULL_car = cbind(uid  = NA_character_, datasets::mtcars)[0,],
+    NULL_car = cbind(uid = NA_character_, datasets::mtcars)[0, ],
     immediate = NULL,
-    conn = NULL)
+    conn = NULL
+  )
 )
 ```
 
@@ -188,10 +220,14 @@ Adding customised operations is also possible via the R6 `set` function. The
 following example, adds a query that returns all the objects in the database
 
 ```{r Repository-Persistent-implementation-addon, echo=TRUE}
-PersistentRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
+PersistentRepository$set("public", "get_all_cars", overwrite = TRUE, function() {
   statement <- "SELECT * FROM mtcars"
   result <- DBI::dbGetQuery(private$conn, statement)
-  if(nrow(result) == 0) return(private$NULL_car) else return(result)
+  if (nrow(result) == 0) {
+    return(private$NULL_car)
+  } else {
+    return(result)
+  }
 })
 ```
 
@@ -199,7 +235,7 @@ In this example, we use the `mtcars` dataset with a `uid` column that uniquely
 identifies the different cars in the **Repository**:
 
 ```{r, echo=TRUE, results='markup'}
-mtcars <- datasets::mtcars %>% tibble::rownames_to_column("uid")
+mtcars <- datasets::mtcars |> tibble::rownames_to_column("uid")
 head(mtcars, 2)
 ```
 

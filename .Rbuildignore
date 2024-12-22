@@ -2,6 +2,7 @@
 ^\..*/
 ^\.Rproj\.user$
 .*_cache/
+^\.github$
 ^data-raw/
 ^inst/snippets/
 ^revdep/
@@ -16,16 +17,10 @@
 ^CRAN-RELEASE$
 ^README\.Rmd$
 ^LICENSE\.md$
-^vignettes/_common.R$
-^vignettes/references.bib$
-
-# Docker
-^docker-compose\.yml$
-^R/utils-DockerCompose\.R$
 
 # pkgdown$
 ^docs$
 ^pkgdown$
 
-
-
+# cran
+^CRAN-SUBMISSION$

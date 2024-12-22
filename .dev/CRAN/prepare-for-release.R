@@ -6,6 +6,14 @@ Sys.setenv(`_R_DEPENDS_ONLY` = "true")
 remotes::install_cran(c("devtools", "urlchecker", "rhub", "revdepcheck"))
 # remotes::install_github("r-lib/revdepcheck@master")
 
+# Printing Code -----------------------------------------------------------
+# Lint the package
+(report = lintr::lint_package(show_progress = TRUE))
+styler::style_pkg(
+    filetype = c("R", "Rprofile", "Rmd", "Rmarkdown", "Rnw", "qmd")[c(1,3)],
+    exclude_dirs = c("packrat", "renv", ".dev", ".git", ".github", ".Rproj.user", "docs", "inst"),
+    include_roxygen_examples = TRUE,
+)
 
 # Steps -------------------------------------------------------------------
 # devtools::build_readme()

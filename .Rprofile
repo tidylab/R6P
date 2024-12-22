@@ -1,71 +1,22 @@
 assign(".Rprofile", new.env(), envir = globalenv())
 
 # .First ------------------------------------------------------------------
-.First <- function(){
-    try(if(testthat::is_testing()) return())
-    try(readRenviron(".Renviron"), silent = TRUE)
+.First <- function() {
+    try(if (testthat::is_testing()) {
+        return()
+    }, silent = TRUE)
+    if (file.exists(".Renviron")) readRenviron(".Renviron")
+
 
     # Package Management System
-    Date <- as.character(read.dcf("DESCRIPTION", "Date"));
-    URL <- if(is.na(Date)) "https://cran.rstudio.com/" else paste0("https://mran.microsoft.com/snapshot/", Date)
-    options(repos = URL)
-}
+    r_version_date <- gsub(".*\\((\\d{4}-\\d{2}-\\d{2}).*", "\\1", R.Version()$version.string)
+    r_package_date <- as.character(read.dcf("DESCRIPTION", "Date"))
+    r_cran_date <- ifelse(is.na(r_package_date), r_version_date, r_package_date)
+    options(repos = c(CRAN = paste0("https://packagemanager.rstudio.com/cran/", r_cran_date)))
 
-# .Last -------------------------------------------------------------------
-.Last <- function(){
-    try(if(testthat::is_testing()) return())
-    try(system('docker-compose down'), silent = TRUE)
-}
-
-# Docker ------------------------------------------------------------------
-.Rprofile$docker$browse_url <- function(service){
-    path_script <- tempfile("system-", fileext = ".R")
-    job_name <- paste("Testing", as.character(read.dcf('DESCRIPTION', 'Package')), "in a Docker Container")
-    define_service <- paste0("service = c(", paste0(paste0("'",service,"'"), collapse = ", "),")")
-    define_service <- if(is.null(service)) "service = NULL" else define_service
-    writeLines(c(
-        "source('./R/utils-DockerCompose.R')",
-        define_service,
-        "DockerCompose$new()$browse_url(service)"), path_script)
-    .Rprofile$utils$run_script(path_script, job_name)
-}
-
-.Rprofile$docker$start <- function(service = NULL){
-    path_script <- tempfile("system-", fileext = ".R")
-    job_name <- paste("Testing", as.character(read.dcf('DESCRIPTION', 'Package')), "in a Docker Container")
-    define_service <- paste0("service <- c(", paste0(paste0("'",service,"'"), collapse = ", "),")")
-    define_service <- if(is.null(service)) "service = NULL" else define_service
-    writeLines(c(
-        "source('./R/utils-DockerCompose.R')",
-        define_service,
-        "DockerCompose$new()$start(service)"), path_script)
-    .Rprofile$utils$run_script(path_script, job_name)
-}
-
-.Rprofile$docker$stop <- function(){
-    path_script <- tempfile("system-", fileext = ".R")
-    job_name <- paste("Testing", as.character(read.dcf('DESCRIPTION', 'Package')), "in a Docker Container")
-    writeLines(c("source('./R/utils-DockerCompose.R'); DockerCompose$new()$stop()"), path_script)
-    .Rprofile$utils$run_script(path_script, job_name)
-}
-
-.Rprofile$docker$restart <- function(service = NULL){
-    path_script <- tempfile("system-", fileext = ".R")
-    job_name <- paste("Testing", as.character(read.dcf('DESCRIPTION', 'Package')), "in a Docker Container")
-    define_service <- paste0("service <- c(", paste0(paste0("'",service,"'"), collapse = ", "),")")
-    define_service <- if(is.null(service)) "service = NULL" else define_service
-    writeLines(c(
-        "source('./R/utils-DockerCompose.R')",
-        define_service,
-        "DockerCompose$new()$restart(service)"), path_script)
-    .Rprofile$utils$run_script(path_script, job_name)
-}
-
-.Rprofile$docker$reset <- function(){
-    path_script <- tempfile("system-", fileext = ".R")
-    job_name <- paste("Testing", as.character(read.dcf('DESCRIPTION', 'Package')), "in a Docker Container")
-    writeLines(c("source('./R/utils-DockerCompose.R'); DockerCompose$new()$reset()"), path_script)
-    .Rprofile$utils$run_script(path_script, job_name)
+    # Options
+    Sys.setenv(`_R_S3_METHOD_REGISTRATION_NOTE_OVERWRITES_` = "false")
+    Sys.setenv(`_R_CHECK_SYSTEM_CLOCK_` = 0)
 }
 
 # pkgdown -----------------------------------------------------------------
@@ -124,3 +75,9 @@ assign(".Rprofile", new.env(), envir = globalenv())
     invisible()
 }
 
+# .Last -------------------------------------------------------------------
+.Last <- function() {
+    try(if (testthat::is_testing()) {
+        return()
+    })
+}

@@ -1,0 +1,52 @@
+---
+title: "The Repository Pattern"
+editor_options: 
+  markdown: 
+    wrap: 80
+---
+
+```{r, include = FALSE}
+source(file.path(usethis::proj_get(), "vignettes", "_common.R"))
+```
+
+<!-- One line about what the function does -->
+
+With ***Repository***, in-memory objects do not need to know whether there is a
+database present or absent, they need no SQL interface code, and certainly no
+knowledge of the database schema.
+
+## How It Works
+
+-   **Repository** isolates domain objects from details of the database access
+    code;
+-   **Repository** concentrates code of query construction; and
+-   **Repository** helps to minimize duplicate query logic.
+
+In R, the simplest form of **Repository** encapsulates `data.frame` entries
+persisted in a data store and the operations performed over them, providing a
+more object-oriented view of the persistence layer. From the caller point of
+view, the location (locally or remotely), the technology and the interface of
+the data store are obscured.
+
+## When to Use It
+
+-   In situations with multiple data sources.
+
+-   In situations where the real data store, the one that is used in production,
+    is remote. This allows you to implement a **Repository** mock with identical
+    queries that runs locally. Then, the mock could be used during development
+    and testing. The mock itself may comprise a sample of the real data store or
+    just fake data.
+
+-   In situations where the real data store doesn't exist. Implementing a mock
+    **Repository** allows you to defer immature decisions about the database
+    technology and/or defer its deployment. In this way, the temporary solution
+    allows you to focus the development effort on the core functionality of the
+    application.
+
+-   In situations where using SQL queries can be represented by meaningful
+    names. For example
+    `Repository$get_efficient_cars() = SELECT * FROM mtcars WHERE mpg > 20`
+
+-   When building [stateless
+    microservices](https://www.oreilly.com/library/view/software-architects-handbook/9781788624060/c47a09b6-91f9-4322-a6d4-9bc1604b1bdf.xhtml).

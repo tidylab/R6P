@@ -36,16 +36,16 @@ knitr::opts_chunk$set(
 knitr::knit_hooks$set(
     error = function(x, options) {
         paste('\n\n<div class="alert alert-danger">',
-              x %>%
-                  stringr::str_replace_all('^.*:', '**Caution:**') %>%
+              x |>
+                  stringr::str_replace_all('^.*:', '**Caution:**') |>
                   stringr::str_replace_all('#> ', '\n'),
               '</div>', sep = '\n')
     },
     warning = function(x, options) {
         paste('\n\n<div class="alert alert-warning">',
-              x %>%
-                  stringr::str_replace_all('##', '\n') %>%
-                  stringr::str_replace_all('^#>\ Warning:', '**Note:**') %>%
+              x |>
+                  stringr::str_replace_all('##', '\n') |>
+                  stringr::str_replace_all('^#>\ Warning:', '**Note:**') |>
                   stringr::str_remove_all("#>"),
               '</div>', sep = '\n')
     },
