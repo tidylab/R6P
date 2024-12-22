@@ -27,11 +27,13 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, any::devtools
+          extra-packages: any::rcmdcheck, any::roxygen2
           needs: check
 
       - name: Document the package
-        run: Rscript -e 'devtools::document()'
+        run: |
+         roxygen2::roxygenise()
+        shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
         with:
