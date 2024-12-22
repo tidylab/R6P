@@ -16,7 +16,8 @@ source(file.path(usethis::proj_get(), "vignettes", "_common.R"))
 
 <!-- Details -->
 
-```{r child=file.path(usethis::proj_get(), "vignettes", "details", "_NullObject.Rmd")}
+```{r, echo=FALSE, results='asis'}
+cat(knitr::knit_child('./vignettes/details/_NullObject.Rmd', quiet = TRUE))
 ```
 
 ## Example: Null ggplot2

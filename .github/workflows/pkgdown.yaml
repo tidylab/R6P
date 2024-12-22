@@ -42,6 +42,7 @@ jobs:
             any::roxygen2,
             any::covr,
             any::usethis,
+            any::pkgload,
             local::.,
           needs: website
 
@@ -49,6 +50,7 @@ jobs:
         run: |
           roxygen2::roxygenise()
           rmarkdown::render("README.Rmd", output_format = "md_document")
+          pkgload::load_all()
           pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
           covr::codecov(type = "all")
         shell: Rscript {0}

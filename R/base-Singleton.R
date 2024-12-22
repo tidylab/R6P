@@ -28,7 +28,7 @@
 #'
 #' # The two objects are equal and located at the same address; thus, they are the same object.
 #'
-#' # When we make a change in any of the class instances, the rest of the instances are changed as well.
+#' # When we make a change in any of the class instances, the rest are changed as well.
 #'
 #' # How many times has the counter been increased?
 #' counter_A$count
