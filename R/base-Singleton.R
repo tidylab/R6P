@@ -1,6 +1,6 @@
 #' @title Singleton Pattern
 #' @name Singleton
-#' @includeRmd vignettes/details/Singleton.Rmd
+#' @includeRmd vignettes/details/_Singleton.Rmd
 #' @examples
 #' # See more examples at <https://tidylab.github.io/R6P/articles>
 #' address <- function(x) sub("<environment: (.*)>", "\\1", capture.output(x))
