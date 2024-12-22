@@ -11,7 +11,7 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
-source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+source(file.path(usethis::proj_get(), "vignettes", "_common.R"))
 ```
 
 <!-- Details -->
@@ -22,8 +22,10 @@ source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
 ## Example: Null ggplot2
 
 ```{r, echo=TRUE, eval=FALSE}
-geom_null <- function(...){
-  ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void()
+geom_null <- function(...) {
+  ggplot2::ggplot() +
+    ggplot2::geom_blank() +
+    ggplot2::theme_void()
 }
 ```
 
@@ -31,15 +33,18 @@ geom_null <- function(...){
     failing](https://en.wikipedia.org/wiki/Graceful_exit) strategy.
 
 ```{r, echo=TRUE, eval=FALSE}
-fig <- 
-  tryCatch({
-    stopifnot(runif(1) > 0.05) # simulate 5% chance for the subroutine to fail
-    
-    mtcars |> 
-      ggplot2::ggplot(ggplot::aes(x = mpg, y = hp)) + 
-      ggplot2::geom_point()
-  }, 
-  error = function(e) return(geom_null()) # if subroutine has failed, return null
+fig <-
+  tryCatch(
+    {
+      stopifnot(runif(1) > 0.05) # simulate 5% chance for the subroutine to fail
+
+      mtcars |>
+        ggplot2::ggplot(ggplot::aes(x = mpg, y = hp)) +
+        ggplot2::geom_point()
+    },
+    error = function(e) {
+      return(geom_null())
+    } # if subroutine has failed, return null
   )
 
 plot(fig)
@@ -50,30 +55,31 @@ plot(fig)
     a ggplot object.
 
 ```{r, echo=TRUE, eval=FALSE}
-if(exists("user_input")){
-  ggplot2::ggplot(user_input, ggplot::aes(x = mpg, y = hp)) + ggplot2::geom_point()
+if (exists("user_input")) {
+  ggplot2::ggplot(user_input, ggplot::aes(x = mpg, y = hp)) +
+    ggplot2::geom_point()
 } else {
-  geom_null() + geom_text(aes(0,0), label = "choose an entry from the list")
+  geom_null() + geom_text(aes(0, 0), label = "choose an entry from the list")
 }
 ```
 
 ## Example: Null mtcars Car
 
 ```{r, echo=TRUE}
-NullCar <- function() mtcars[0,]
+NullCar <- function() mtcars[0, ]
 print(NullCar())
 
 # The Null Car and the NULL value are not the same
 identical(NullCar(), NULL)
 
-# Binding mtcars with the Null Car returns mtcars 
+# Binding mtcars with the Null Car returns mtcars
 identical(rbind(mtcars, NullCar()), mtcars)
 ```
 
 ## Example: Null Value Object
 
 ```{r, echo=TRUE}
-Person <- function(given = NA_character_, family = NA_character_){
+Person <- function(given = NA_character_, family = NA_character_) {
   tibble::tibble(given = given, family = family) |> tidyr::drop_na(given)
 }
 

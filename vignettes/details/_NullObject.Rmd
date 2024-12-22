@@ -6,7 +6,7 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
-source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+source(file.path(usethis::proj_get(), "vignettes", "_common.R"))
 ```
 
 ```{r, error=TRUE}
@@ -56,25 +56,27 @@ variables types, with no rows.
     an error:
 
 ```{r, echo = TRUE, eval = TRUE}
-# Simulate a database that is 5% likely to fail 
-read_mtcars <- function() if(runif(1) < 0.05) stop() else return(mtcars)
+# Simulate a database that is 5% likely to fail
+read_mtcars <- function() if (runif(1) < 0.05) stop() else return(mtcars)
 
 # mtcars null object constructor
-NullCar <- function() mtcars[0,]
+NullCar <- function() mtcars[0, ]
 
-# How does the null car object look like? 
+# How does the null car object look like?
 NullCar()
 
 # Subroutine with gracefully failing strategy
 set.seed(1814)
 cars <- tryCatch(
   # Try reading the mtcars dataset
-  read_mtcars(), 
+  read_mtcars(),
   # If there is an error, return the Null Car object
-  error = function(e) return(NullCar()) 
+  error = function(e) {
+    return(NullCar())
+  }
 )
 
-# Notice: Whether the subroutine fails or succeeds, it returns a tibble with 
+# Notice: Whether the subroutine fails or succeeds, it returns a tibble with
 # the same structure.
 colnames(cars)
 ```
@@ -82,14 +84,17 @@ colnames(cars)
 -   In Shiny dashboards
 
 ```{r, echo = TRUE, eval = FALSE}
-geom_null <- function(...){
-  ggplot2::ggplot() + ggplot2::geom_blank() + ggplot2::theme_void()
+geom_null <- function(...) {
+  ggplot2::ggplot() +
+    ggplot2::geom_blank() +
+    ggplot2::theme_void()
 }
 
-if(exists("user_input")){
-  ggplot2::ggplot(user_input, ggplot::aes(x = mpg, y = hp)) + ggplot2::geom_point()
+if (exists("user_input")) {
+  ggplot2::ggplot(user_input, ggplot::aes(x = mpg, y = hp)) +
+    ggplot2::geom_point()
 } else {
-  geom_null() + geom_text(aes(0,0), label = "choose an entry from the list")
+  geom_null() + geom_text(aes(0, 0), label = "choose an entry from the list")
 }
 ```
 
@@ -97,11 +102,11 @@ if(exists("user_input")){
 
 ```{r, echo = TRUE, eval = FALSE}
 classes <- function(x) sapply(x, class)
-    
+
 test_that("mtcars follows a certain table structure", {
-    # Compare column names
-    expect_identical(colnames(mtcars), colnames(NullCar()))
-    # Compare variable types
-    expect_identical(classes(mtcars), classes(NullCar()))
+  # Compare column names
+  expect_identical(colnames(mtcars), colnames(NullCar()))
+  # Compare variable types
+  expect_identical(classes(mtcars), classes(NullCar()))
 })
 ```

@@ -11,13 +11,12 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
-source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+source(file.path(usethis::proj_get(), "vignettes", "_common.R"))
 ```
 
 <!-- Details -->
 
 ```{r child=file.path(usethis::proj_get(), "vignettes", "details", "Repository.Rmd")}
-
 ```
 
 ## Implementations
@@ -27,7 +26,10 @@ The code of the abstract base class of **Repository** is
 ```{r}
 path_snippet <- usethis::proj_path("R", "object_relational-Repository.R")
 snippet <- readLines(path_snippet)
-snippet <- snippet |> discard_comments() |> discard_null() |> discard_empty_lines()
+snippet <- snippet |>
+  discard_comments() |>
+  discard_null() |>
+  discard_empty_lines()
 ```
 
 ```{r, code = snippet, eval = FALSE, echo = TRUE}
@@ -98,23 +100,38 @@ column.
 ```{r Repository-Transient-implementation, echo=TRUE, results='markup'}
 TransientRepository <- R6::R6Class(
   classname = "Repository", inherit = R6P::AbstractRepository, public = list(
-    initialize = function() {private$cars <- collections::dict()},
-    add = function(key, value){private$cars$set(key, value); invisible(self)},
-    del = function(key){private$cars$remove(key); invisible(self)},
-    get = function(key){return(private$cars$get(key, default = private$NULL_car))}
+    initialize = function() {
+      private$cars <- collections::dict()
+    },
+    add = function(key, value) {
+      private$cars$set(key, value)
+      invisible(self)
+    },
+    del = function(key) {
+      private$cars$remove(key)
+      invisible(self)
+    },
+    get = function(key) {
+      return(private$cars$get(key, default = private$NULL_car))
+    }
   ), private = list(
-    NULL_car = cbind(uid  = NA_character_, datasets::mtcars)[0,],
+    NULL_car = cbind(uid = NA_character_, datasets::mtcars)[0, ],
     cars = NULL
-  ))
+  )
+)
 ```
 
 Adding customised operations is also possible via the R6 `set` function. The
 following example, adds a query that returns all the objects in the database
 
 ```{r Repository-Transient-implementation-addon, echo=TRUE, results='markup'}
-TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
+TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function() {
   result <- private$cars$values() |> dplyr::bind_rows()
-  if(nrow(result) == 0) return(private$NULL_car) else return(result)
+  if (nrow(result) == 0) {
+    return(private$NULL_car)
+  } else {
+    return(result)
+  }
 })
 ```
 
@@ -165,31 +182,36 @@ column.
 PersistentRepository <- R6::R6Class(
   classname = "Repository", inherit = AbstractRepository, public = list(
     #' @param immediate (`logical`) Should queries be committed immediately?
-    initialize = function(immediate = TRUE){
+    initialize = function(immediate = TRUE) {
       private$immediate <- immediate
       private$conn <- DBI::dbConnect(RSQLite::SQLite(), dbname = ":memory:")
       DBI::dbCreateTable(private$conn, "mtcars", private$NULL_car)
     },
-    add = function(key, value){
+    add = function(key, value) {
       car <- private$NULL_car |> tibble::add_row(value)
       self$del(key = key)
       DBI::dbAppendTable(private$conn, "mtcars", car)
       invisible(self)
     },
-    del = function(key){
+    del = function(key) {
       statement <- paste0("DELETE FROM mtcars WHERE uid = '", key, "'")
       DBI::dbExecute(private$conn, statement, immediate = private$immediate)
       invisible(self)
     },
-    get = function(key){
+    get = function(key) {
       statement <- paste0("SELECT * FROM mtcars WHERE uid = '", key, "'")
       result <- DBI::dbGetQuery(private$conn, statement)
-      if(nrow(result) == 0) return(private$NULL_car) else return(result)
+      if (nrow(result) == 0) {
+        return(private$NULL_car)
+      } else {
+        return(result)
+      }
     }
   ), private = list(
-    NULL_car = cbind(uid  = NA_character_, datasets::mtcars)[0,],
+    NULL_car = cbind(uid = NA_character_, datasets::mtcars)[0, ],
     immediate = NULL,
-    conn = NULL)
+    conn = NULL
+  )
 )
 ```
 
@@ -197,10 +219,14 @@ Adding customised operations is also possible via the R6 `set` function. The
 following example, adds a query that returns all the objects in the database
 
 ```{r Repository-Persistent-implementation-addon, echo=TRUE}
-PersistentRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
+PersistentRepository$set("public", "get_all_cars", overwrite = TRUE, function() {
   statement <- "SELECT * FROM mtcars"
   result <- DBI::dbGetQuery(private$conn, statement)
-  if(nrow(result) == 0) return(private$NULL_car) else return(result)
+  if (nrow(result) == 0) {
+    return(private$NULL_car)
+  } else {
+    return(result)
+  }
 })
 ```
 

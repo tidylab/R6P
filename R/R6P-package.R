@@ -7,7 +7,7 @@ NULL
 
 # Missing Packages Workaround
 .workaround <- function() {
-    R6::R6Class
-    collections::queue
-    dplyr::.data
+  R6::R6Class
+  collections::queue
+  dplyr::.data
 }

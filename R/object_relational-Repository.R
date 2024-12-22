@@ -20,22 +20,37 @@
 #' # predefined column.
 #'
 #' TransientRepository <- R6::R6Class(
-#'     classname = "Repository", inherit = R6P::AbstractRepository, public = list(
-#'         initialize = function() {private$cars <- collections::dict()},
-#'         add = function(key, value){private$cars$set(key, value); invisible(self)},
-#'         del = function(key){private$cars$remove(key); invisible(self)},
-#'         get = function(key){return(private$cars$get(key, default = private$NULL_car))}
-#'     ), private = list(
-#'         NULL_car = cbind(uid  = NA_character_, datasets::mtcars)[0,],
-#'         cars = NULL
-#' ))
+#'   classname = "Repository", inherit = R6P::AbstractRepository, public = list(
+#'     initialize = function() {
+#'       private$cars <- collections::dict()
+#'     },
+#'     add = function(key, value) {
+#'       private$cars$set(key, value)
+#'       invisible(self)
+#'     },
+#'     del = function(key) {
+#'       private$cars$remove(key)
+#'       invisible(self)
+#'     },
+#'     get = function(key) {
+#'       return(private$cars$get(key, default = private$NULL_car))
+#'     }
+#'   ), private = list(
+#'     NULL_car = cbind(uid = NA_character_, datasets::mtcars)[0, ],
+#'     cars = NULL
+#'   )
+#' )
 #'
 #' # Adding customised operations is also possible via the R6 set function.
 #' # The following example, adds a query that returns all the objects in the database
 #'
-#' TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function(){
-#'     result <- private$cars$values() |> dplyr::bind_rows()
-#'     if(nrow(result) == 0) return(private$NULL_car) else return(result)
+#' TransientRepository$set("public", "get_all_cars", overwrite = TRUE, function() {
+#'   result <- private$cars$values() |> dplyr::bind_rows()
+#'   if (nrow(result) == 0) {
+#'     return(private$NULL_car)
+#'   } else {
+#'     return(result)
+#'   }
 #' })
 #'
 #' # In this example, we use the mtcars dataset with a uid column that uniquely
@@ -76,13 +91,13 @@ NULL
 #' @export
 # nocov start
 AbstractRepository <- R6::R6Class("Repository", inherit = Singleton, cloneable = FALSE, public = list(
-    #' @description Instantiate an object
-    initialize = function() exceptions$not_implemented_error(),
-    #' @description Add an element to the Repository.
-    add = function(key, value) exceptions$not_implemented_error(),
-    #' @description Delete an element from the Repository.
-    del = function(key) exceptions$not_implemented_error(),
-    #' @description Retrieve an element from the Repository.
-    get = function(key) exceptions$not_implemented_error()
+  #' @description Instantiate an object
+  initialize = function() exceptions$not_implemented_error(),
+  #' @description Add an element to the Repository.
+  add = function(key, value) exceptions$not_implemented_error(),
+  #' @description Delete an element from the Repository.
+  del = function(key) exceptions$not_implemented_error(),
+  #' @description Retrieve an element from the Repository.
+  get = function(key) exceptions$not_implemented_error()
 ))
 # nocov end

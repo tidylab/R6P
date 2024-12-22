@@ -21,29 +21,28 @@
 #'
 #' # A 'Minister' is a 'Person' with a ministry title. We capture that information
 #' # in a new Value Object named 'Minister'.
-#
 #' # The Minister constructor requires two inputs:
 #' # 1. (`Person`) Members of parliament
 #' # 2. (`character`) Ministry titles
-#' Minister <- function(member = Person(), title = NA_character_){
-#'     stopifnot(is.Person(member), is.character(title))
-#'     stopifnot(nrow(member) == length(title) | all(is.na(title)))
+#' Minister <- function(member = Person(), title = NA_character_) {
+#'   stopifnot(is.Person(member), is.character(title))
+#'   stopifnot(nrow(member) == length(title) | all(is.na(title)))
 #'
-#'     member |> dplyr::mutate(title = title)
-#'}
+#'   member |> dplyr::mutate(title = title)
+#' }
 #'
 #' # Given one or more parliament members
 #' # When appoint_random_ministries is called
 #' # Then the parliament members are appointed to an office.
-#' appoint_random_ministries <- function(member = Person()){
-#'     positions <- c(
-#'         "Arts, Culture and Heritage", "Finance", "Corrections",
-#'         "Racing", "Sport and Recreation", "Housing", "Energy and Resources",
-#'         "Education", "Public Service", "Disability Issues", "Environment",
-#'         "Justice", "Immigration", "Defence", "Internal Affairs", "Transport"
-#'     )
+#' appoint_random_ministries <- function(member = Person()) {
+#'   positions <- c(
+#'     "Arts, Culture and Heritage", "Finance", "Corrections",
+#'     "Racing", "Sport and Recreation", "Housing", "Energy and Resources",
+#'     "Education", "Public Service", "Disability Issues", "Environment",
+#'     "Justice", "Immigration", "Defence", "Internal Affairs", "Transport"
+#'   )
 #'
-#'    Minister(member = member, title = sample(positions, size = nrow(member)))
+#'   Minister(member = member, title = sample(positions, size = nrow(member)))
 #' }
 #'
 #' # Listing New Zealand elected officials in 2020, we instantiate a Person Object,
@@ -51,23 +50,20 @@
 #' set.seed(2020)
 #'
 #' parliament_members <- Person(
-#'     given = c("Jacinda", "Grant",     "Kelvin", "Megan", "Chris",   "Carmel"),
-#'     family = c("Ardern", "Robertson", "Davis",  "Woods", "Hipkins", "Sepuloni")
+#'   given = c("Jacinda", "Grant", "Kelvin", "Megan", "Chris", "Carmel"),
+#'   family = c("Ardern", "Robertson", "Davis", "Woods", "Hipkins", "Sepuloni")
 #' )
 #'
 #' parliament_members
 #'
 #' appoint_random_ministries(member = parliament_members)
-ValueObject <- function(
-        given = NA_character_,
-        family = NA_character_
-){
-    stopifnot(is.character(given), is.character(family))
-    stopifnot(length(given) == length(family)    | all(is.na(family)))
+ValueObject <- function(given = NA_character_,
+                        family = NA_character_) {
+  stopifnot(is.character(given), is.character(family))
+  stopifnot(length(given) == length(family) | all(is.na(family)))
 
-    tibble::tibble(
-        given = given |> stringr::str_to_title(),
-        family = family |> stringr::str_to_title()
-    ) |> tidyr::drop_na(given)
+  tibble::tibble(
+    given = given |> stringr::str_to_title(),
+    family = family |> stringr::str_to_title()
+  ) |> tidyr::drop_na(given)
 }
-

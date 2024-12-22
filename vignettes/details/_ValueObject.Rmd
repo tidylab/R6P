@@ -6,7 +6,7 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
-source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+source(file.path(usethis::proj_get(), "vignettes", "_common.R"))
 NA_POSIXct_ <- .POSIXct(NA_real_, tz = "UTC")
 is.POSIXct <- function(x) inherits(x, "POSIXct")
 ```
@@ -47,10 +47,10 @@ than numbers. A **Value Object** captures these attribute as `tibble` columns
 and type checks:
 
 ```{r, echo=TRUE}
-Person <- function(given = NA_character_, family = NA_character_){
+Person <- function(given = NA_character_, family = NA_character_) {
   stopifnot(is.character(given), is.character(family))
   stopifnot(length(given) == length(family))
-  
+
   return(
     tibble::tibble(given = given, family = family)
     |> tidyr::drop_na(given)
@@ -127,14 +127,14 @@ Person to other Person-based concepts:
 
 ```{r, echo = TRUE, eval = TRUE}
 # A Passenger is a Person with a flight booking reference
-Passenger <- function(person = Person(), booking_reference = NA_character_){
+Passenger <- function(person = Person(), booking_reference = NA_character_) {
   stopifnot(all(colnames(person) %in% colnames(Person())))
   stopifnot(is.character(booking_reference))
-  
+
   return(
-    person 
+    person
     |> tibble::add_column(booking_reference = booking_reference)
-    |> tidyr::drop_na(booking_reference)
+      |> tidyr::drop_na(booking_reference)
   )
 }
 
@@ -145,12 +145,12 @@ print(passenger)
 
 ```{r, echo = TRUE, eval = TRUE}
 # A Diner is a Person that may have dinner reservation
-Diner <- function(person = Person(), reservation_time = NA_POSIXct_){
+Diner <- function(person = Person(), reservation_time = NA_POSIXct_) {
   stopifnot(all(colnames(person) %in% colnames(Person())))
   stopifnot(is.POSIXct(reservation_time))
-  
+
   return(
-    person 
+    person
     |> tibble::add_column(reservation_time = reservation_time)
   )
 }
@@ -179,19 +179,21 @@ print(diner)
 Audience <- Person
 
 ## Without a Value Object
-clean_audience_data <- function(data) 
+clean_audience_data <- function(data) {
   dplyr::mutate(.data = data, given = stringr::str_to_title(given))
+}
 
 ## With a Value Object
-clean_audience_data <- function(attendees = Audience()) 
+clean_audience_data <- function(attendees = Audience()) {
   dplyr::mutate(.data = attendees, given = stringr::str_to_title(given))
+}
 ```
 
 -   In [pipes and filters](https://en.wikipedia.org/wiki/Pipeline_(software))
     architecture.
 
 ```{r, warning=TRUE}
-warning("**Value Objects** do not need to have unit-tests. This is because of two reasons: 
-(1) **Value Objects** are often called by other functions that are being tested. That means, **Value Objects** are implicitly tested. 
+warning("**Value Objects** do not need to have unit-tests. This is because of two reasons:
+(1) **Value Objects** are often called by other functions that are being tested. That means, **Value Objects** are implicitly tested.
 (2) **Value Objects** are data types similarly to 'data.frame' or 'list'. As such, they need no testing")
 ```

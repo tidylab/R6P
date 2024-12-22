@@ -8,6 +8,4 @@
 #'
 #' colnames(NullObject())
 #' nrow(NullObject())
-NullObject <- function() tibble::tibble(given = NA_character_, family = NA_character_)[0,]
-
-
+NullObject <- function() tibble::tibble(given = NA_character_, family = NA_character_)[0, ]

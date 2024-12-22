@@ -11,13 +11,12 @@ editor_options:
 ---
 
 ```{r, include = FALSE}
-source(file.path(usethis::proj_get(), "vignettes",  "_common.R"))
+source(file.path(usethis::proj_get(), "vignettes", "_common.R"))
 ```
 
 <!-- Details -->
 
 ```{r child=file.path(usethis::proj_get(), "vignettes", "details", "_ValueObject.Rmd")}
-
 ```
 
 <!-- Example -->
@@ -41,14 +40,14 @@ First, we implement the input type. `Person()` is the constructor of the
 
 ```{r, echo=TRUE}
 #' @title Person Value Object Constructor
-#' @description A Person encapsulates the information that constitute an individual 
+#' @description A Person encapsulates the information that constitute an individual
 #' @param given (`character`) Individual first name.
 #' @param family (`character`) Individual last name.
 #' @return (`Person`) Person value object.
-Person <- function(given = NA_character_, family = NA_character_){
+Person <- function(given = NA_character_, family = NA_character_) {
   stopifnot(is.character(given), is.character(family))
   stopifnot(length(given) == length(family))
-  
+
   return(
     tibble::tibble(given = given, family = family)
     |> tidyr::drop_na(given)
@@ -73,14 +72,14 @@ Second, we implement the output type. `Minister()` is the constructor of the
 
 ```{r, echo=TRUE}
 #' @title Minister Value Object Constructor
-#' @decription A 'Minister' is a 'Person' with a ministry title. 
+#' @decription A 'Minister' is a 'Person' with a ministry title.
 #' @param Person (`Person`) A member of parliament.
 #' @param title (`character`) A string with one or more ministry titles.
 #' @return (`Minister`) Minister value object.
-Minister <- function(member = Person(), title = NA_character_){
+Minister <- function(member = Person(), title = NA_character_) {
   stopifnot(is.Person(member), is.character(title))
   stopifnot(nrow(member) == length(title) | all(is.na(title)))
-  
+
   member |> dplyr::mutate(title = title)
 }
 ```
@@ -95,14 +94,14 @@ Third, we write a function that transforms **Person** into **Minister**.
 #' Then the parliament members are appointed to an office.
 #' @param memeber (`Person`) A Person value object.
 #' @return (`Minister`) Minister value object.
-appoint_random_ministries <- function(member = Person()){
+appoint_random_ministries <- function(member = Person()) {
   positions <- c(
     "Arts, Culture and Heritage", "Finance", "Corrections",
     "Racing", "Sport and Recreation", "Housing", "Energy and Resources",
     "Education", "Public Service", "Disability Issues", "Environment",
     "Justice", "Immigration", "Defence", "Internal Affairs", "Transport"
   )
-  
+
   Minister(member = member, title = sample(positions, size = nrow(member)))
 }
 ```
@@ -115,8 +114,8 @@ Finally, we pair parliament members with ministries
 set.seed(2020)
 
 parliament_members <- Person(
-  given = c("Jacinda", "Grant",     "Kelvin", "Megan", "Chris",   "Carmel"),
-  family = c("Ardern", "Robertson", "Davis",  "Woods", "Hipkins", "Sepuloni")
+  given = c("Jacinda", "Grant", "Kelvin", "Megan", "Chris", "Carmel"),
+  family = c("Ardern", "Robertson", "Davis", "Woods", "Hipkins", "Sepuloni")
 )
 
 parliament_members
